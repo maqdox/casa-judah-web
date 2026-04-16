@@ -1,0 +1,52 @@
+{
+  "navigation": {
+    "rooms": "Habitaciones",
+    "experiences": "Experiencias",
+    "policies": "Políticas",
+    "bookNow": "Reservar"
+  },
+  "home": {
+    "heroTitle": "Simplicidad Elevada",
+    "heroSubtitle": "El encuentro perfecto entre la tierra y el lujo orgánico",
+    "bookCTA": "Reservar Ahora",
+    "introTitle": "Un Santuario de Calma",
+    "introText": "Casa Judah es más que un destino — es un sentimiento. Un lugar donde el tiempo se detiene, la naturaleza habla y cada detalle ha sido cuidado para ofrecerte una experiencia auténtica envuelta en elegancia.",
+    "roomsTitle": "Alojamiento",
+    "roomsText": "Espacios diseñados para el descanso absoluto. Texturas naturales, vistas panorámicas y una quietud que solo se encuentra lejos del mundo.",
+    "roomsCTA": "Explorar Suites",
+    "experiencesTitle": "La Granja",
+    "experiencesText": "Adéntrate en el ritmo del buen vivir. Animales, jardines orgánicos y una conexión genuina con la tierra.",
+    "experiencesCTA": "Descubrir Más",
+    "amenitiesTitle": "Bienestar",
+    "amenitiesText": "Piscina soleada, áreas privadas de descanso y espacios diseñados para elevar tu serenidad.",
+    "finalCtaTitle": "Tu Escape Comienza Aquí",
+    "finalCtaText": "Reserva tu experiencia en Casa Judah y descubre lo que significa vivir con intención.",
+    "reserveNow": "Reservar Ahora"
+  },
+  "experiences": {
+    "headerTitle": "Experiencia en la Granja",
+    "headerSubtitle": "Reconecta con la naturaleza, abraza un ritmo pausado y ríndete ante nuestra genuina hospitalidad.",
+    "section1Title": "Estilo de Vida Orgánico",
+    "section1Text": "En Casa Judah, creemos en el ritmo de las estaciones. Únete a nuestras caminatas guiadas por la granja para aprender sobre métodos de cultivo orgánico, cosechar tus propias hierbas y descubrir el verdadero significado del comedor de la granja a la mesa.",
+    "section2Title": "Nuestros Animales",
+    "section2Text": "Conoce a los residentes de la granja. Desde nuestros tiernos caballos hasta las aves de corral, nuestros animales son parte de la familia. Los huéspedes son bienvenidos a participar alimentándolos por las mañanas.",
+    "section3Title": "Deleite Culinario",
+    "section3Text": "Prueba la esencia de la tierra. Nuestra cocina prepara majestuosos platillos de temporada usando ingredientes cien por ciento cultivados a pocos metros de tu mesa."
+  },
+  "roomsPage": {
+    "title": "Nuestras Instalaciones",
+    "subtitle": "Descubre tu escape perfecto. Cada espacio ha sido fabricado cuidadosamente para armonizar con el imponente entorno natural.",
+    "bookBtn": "Reservar",
+    "pricePerNight": "por noche"
+  },
+  "policies": {
+    "title": "Políticas y Reglas del Hotel",
+    "subtitle": "Por favor revisa nuestros lineamientos para asegurar tu estadía pacífica.",
+    "g1": "Reglas Generales",
+    "g1t": "El Check-in comienza a las 3:00 PM y el Check-out se realiza a más tardar a las 11:00 AM. Por respeto al balance orgánico, las horas de silencio total aplican desde las 10:00 PM.",
+    "g2": "Política de No Fumar",
+    "g2t": "Fumar es estrictamente prohibido adentro de cualquier cabaña y área común interna. Si tienes necesidad, podrás ubicar amplias zonas abiertas delimitadas afuera de las instalaciones.",
+    "g3": "Políticas de Cancelación",
+    "g3t": "Ofrecemos reembolso del 100% al cancelar tu estadía con 14 días o más de anticipación al momento de tu Check-in programado. Hasta 7 días antes se retornará el 50%. En plazos menores no ofrecemos reembolso de dinero."
+  }
+}

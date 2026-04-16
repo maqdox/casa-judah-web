@@ -1,0 +1,142 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.pageTitle {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  color: var(--color-dark-brown);
+  font-weight: 400;
+  margin-bottom: 0.2rem;
+}
+
+.subtitle {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.addBtn {
+  background-color: var(--color-dark-brown);
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  font-family: var(--font-sans);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.addBtn:hover {
+  background-color: var(--color-olive);
+}
+
+.roomList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* --- Editor Row --- */
+.roomCard {
+  background-color: var(--color-white);
+  border: 1px solid #eaeaea;
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  display: flex;
+  overflow: hidden;
+  height: 250px;
+}
+
+.roomImage {
+  width: 300px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  padding: 1rem;
+}
+
+.statusBadge {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 0.3rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 50px;
+  color: var(--color-dark-brown);
+  text-transform: uppercase;
+}
+
+.roomEditor {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.row {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1;
+}
+
+.fieldGroup label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #777;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.fieldGroup input {
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+  background-color: #fafafa;
+}
+
+.fieldGroup input:focus {
+  border-color: var(--color-olive);
+  background-color: #fff;
+}
+
+.saveBtn {
+  align-self: flex-end;
+  padding: 0.8rem 2rem;
+  background-color: #f1f1f1;
+  color: #333;
+  border: 1px solid #ddd;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.saveBtn:hover {
+  background-color: var(--color-dark-brown);
+  border-color: var(--color-dark-brown);
+  color: white;
+}
+
+.saveBtn.saving {
+  opacity: 0.7;
+  background-color: var(--color-olive);
+  color: white;
+}

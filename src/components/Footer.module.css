@@ -1,0 +1,64 @@
+/* ===================================================
+   FOOTER — Minimal, refined
+   =================================================== */
+.footer {
+  background-color: var(--color-dark-brown);
+  color: rgba(247, 231, 206, 0.7);
+  padding: 5rem 2rem 3rem;
+  text-align: center;
+  margin-top: auto;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-bottom: 4rem;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.brand h3 {
+  color: var(--color-champagne);
+  font-weight: 400;
+  letter-spacing: 3px;
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+}
+
+.brand p {
+  color: rgba(247, 231, 206, 0.5);
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.links a {
+  color: rgba(247, 231, 206, 0.6);
+  font-size: 0.78rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+}
+
+.links a:hover {
+  color: var(--color-champagne);
+}
+
+.copyright {
+  font-size: 0.75rem;
+  color: rgba(247, 231, 206, 0.3);
+  letter-spacing: 1px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 2.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+}

@@ -1,0 +1,40 @@
+.cursorDot,
+.cursorRing {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  border-radius: 50%;
+  transform: translate3d(calc(var(--x, 0) * 1px - 50%), calc(var(--y, 0) * 1px - 50%), 0);
+  transition: opacity 0.3s ease;
+  mix-blend-mode: difference;
+}
+
+.cursorDot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-champagne, #fcfaf5);
+}
+
+.cursorRing {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--color-champagne, #fcfaf5);
+  transition: transform 0.15s ease-out, width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
+  /* The slow translation comes from the CSS transition targeting transform! */
+}
+
+/* When hovering over links */
+.cursorHover .cursorRing {
+  width: 60px;
+  height: 60px;
+  background-color: rgba(252, 250, 245, 0.1);
+  border-color: rgba(252, 250, 245, 0.4);
+}
+
+@media (max-width: 768px), (pointer: coarse) {
+  .cursorDot, .cursorRing {
+    display: none !important;
+  }
+}

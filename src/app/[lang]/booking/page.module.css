@@ -1,0 +1,199 @@
+.container {
+  padding: 4rem 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.header h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.header p {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: var(--color-text);
+  font-style: italic;
+}
+
+.formContainer {
+  background-color: var(--color-white);
+  padding: 3rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sectionTitle {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  color: var(--color-olive);
+  border-bottom: 1px solid var(--color-beige-dark);
+  padding-bottom: 0.5rem;
+  margin-top: 1rem;
+}
+
+.row {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.row > div {
+  flex: 1;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.phoneInputWrapper {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.phoneInputWrapper select {
+  flex: 0 0 115px; /* Ensures the dropdown doesn't collapse */
+}
+
+.phoneInputWrapper input {
+  flex: 1;
+}
+
+.formGroup label {
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.formGroup input,
+.formGroup select {
+  padding: 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  background-color: #fafafa;
+}
+
+.formGroup input:focus,
+.formGroup select:focus {
+  outline: none;
+  border-color: var(--color-olive);
+  background-color: var(--color-white);
+}
+
+.helperText {
+  font-size: 0.85rem;
+  color: #666;
+  font-style: italic;
+}
+
+.pricePreview {
+  background-color: var(--color-champagne);
+  padding: 1.5rem;
+  border-radius: var(--radius-sm);
+  text-align: center;
+  font-size: 1.2rem;
+  color: var(--color-dark-brown);
+}
+
+.checkboxGroup {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-top: 1rem;
+}
+
+.checkboxGroup input {
+  margin-top: 0.3rem;
+}
+
+.checkboxGroup label {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #4a4a4a;
+}
+
+.submitButton {
+  margin-top: 2rem;
+  padding: 1.2rem;
+  background-color: var(--color-dark-brown);
+  color: var(--color-white);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border-radius: var(--radius-sm);
+  font-weight: bold;
+  font-size: 1.1rem;
+  border: none;
+  transition: background-color 0.3s;
+}
+
+.submitButton:hover:not(:disabled) {
+  background-color: var(--color-olive);
+}
+
+.submitButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.error {
+  background-color: #ffebee;
+  color: var(--color-error);
+  padding: 1rem;
+  border-radius: var(--radius-sm);
+  border-left: 4px solid var(--color-error);
+}
+
+.financialSummary {
+  background-color: var(--color-beige);
+  padding: 2rem;
+  border-radius: var(--radius-sm);
+  margin-top: 1rem;
+  border: 1px solid var(--color-beige-dark);
+}
+
+.summaryTitle {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  color: var(--color-dark-brown);
+  border-bottom: 1px solid var(--color-olive);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  color: #4a4a4a;
+  font-size: 1.05rem;
+}
+
+.summaryTotal {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #ccc;
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: var(--color-dark-brown);
+}
+
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column;
+  }
+}

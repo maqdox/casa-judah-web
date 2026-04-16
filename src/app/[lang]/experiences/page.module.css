@@ -1,0 +1,64 @@
+.container {
+  padding: 4rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 5rem;
+}
+
+.header h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.header p {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: var(--color-text);
+  font-style: italic;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  margin-bottom: 6rem;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .section {
+    flex-direction: row;
+    height: 400px;
+  }
+  .reverse {
+    flex-direction: row-reverse;
+  }
+}
+
+.textContent {
+  flex: 1;
+  padding: 2rem;
+}
+
+.textContent h2 {
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-olive);
+}
+
+.textContent p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #444;
+}
+
+.imageContent {
+  flex: 1;
+  position: relative;
+  width: 100%;
+  min-height: 450px;
+}

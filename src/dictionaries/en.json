@@ -1,0 +1,52 @@
+{
+  "navigation": {
+    "rooms": "Rooms",
+    "experiences": "Experiences",
+    "policies": "Policies",
+    "bookNow": "Book Now"
+  },
+  "home": {
+    "heroTitle": "Elevated Simplicity",
+    "heroSubtitle": "Where the earth meets organic luxury",
+    "bookCTA": "Reserve Now",
+    "introTitle": "A Sanctuary of Calm",
+    "introText": "Casa Judah is more than a destination — it's a feeling. A place where time slows, nature speaks, and every detail has been curated to offer you an authentic experience wrapped in elegance.",
+    "roomsTitle": "Accommodation",
+    "roomsText": "Spaces designed for absolute rest. Natural textures, panoramic views, and a quietude found only far from the world.",
+    "roomsCTA": "Explore Suites",
+    "experiencesTitle": "The Farm",
+    "experiencesText": "Step into the rhythm of slow living. Animals, organic gardens, and a genuine connection to the land.",
+    "experiencesCTA": "Discover More",
+    "amenitiesTitle": "Wellness",
+    "amenitiesText": "Sun-drenched pool, private lounging areas, and spaces designed to elevate your serenity.",
+    "finalCtaTitle": "Your Escape Begins Here",
+    "finalCtaText": "Reserve your experience at Casa Judah and discover what it means to live with intention.",
+    "reserveNow": "Reserve Now"
+  },
+  "experiences": {
+    "headerTitle": "The Farm Experience",
+    "headerSubtitle": "Reconnect with nature, embrace the slow pace, and indulge in genuine hospitality.",
+    "section1Title": "Organic Lifestyle",
+    "section1Text": "At Casa Judah, we believe in the rhythm of the seasons. Join our guided farm walks to learn about our organic cultivation methods, harvest your own herbs, and discover the true meaning of farm-to-table dining.",
+    "section2Title": "Our Animals",
+    "section2Text": "Meet the residents of the farm. From our gentle horses to the free-roaming poultry, our animals are part of the Casa Judah family. Guests are welcome to participate in morning feedings and learn about sustainable animal husbandry within our pastoral grounds.",
+    "section3Title": "Culinary Delight",
+    "section3Text": "Taste the essence of the land. Our kitchen prepares seasonal dishes using ingredients sourced directly from our gardens and local artisans. Enjoy wine tasting at sunset overlooking the estate and dine under the warm, expansive sky."
+  },
+  "roomsPage": {
+    "title": "Our Accommodations",
+    "subtitle": "Discover your perfect retreat. Each space is intentionally crafted to harmonize with the surroundings.",
+    "bookBtn": "Book Room",
+    "pricePerNight": "per night"
+  },
+  "policies": {
+    "title": "Policies & House Rules",
+    "subtitle": "Please review our guidelines to ensure a peaceful stay for everyone.",
+    "g1": "General Rules",
+    "g1t": "Check-in from 3:00 PM, Check-out by 11:00 AM. Quiet hours are strictly from 10:00 PM to 7:00 AM to preserve the calm environment.",
+    "g2": "No Smoking Policy",
+    "g2t": "Smoking is strictly prohibited inside the rooms and common indoor areas. Designated smoking zones are available outside.",
+    "g3": "Cancellation Policy",
+    "g3t": "Full refund for cancellations made up to 14 days prior to check-in. 50% refund for cancellations up to 7 days before. No refunds for cancellations within 7 days."
+  }
+}

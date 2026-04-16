@@ -1,0 +1,155 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Guest {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  phone     String?
+  createdAt DateTime @default(now())
+
+  reservations Reservation[]
+}
+
+model Room {
+  id          String   @id @default(uuid())
+  contentName String   @unique
+  description String
+  basePrice   Float
+  capacity    Int      @default(2)
+  imageUrls   String   // Stored as string format (comma separated or JSON)
+  status      String   @default("AVAILABLE")
+  featured    Boolean  @default(false)
+  sortOrder   Int      @default(0)
+  desc_es     String?
+  desc_en     String?
+
+  reservations   Reservation[]
+  dateBlocks     DateBlock[]
+  seasonalPrices SeasonalPrice[]
+}
+
+model Reservation {
+  id             String   @id @default(uuid())
+  guestId        String
+  roomId         String
+  checkInDate    DateTime
+  checkOutDate   DateTime
+  status         String   @default("PENDING") // PENDING, CONFIRMED, CANCELLED
+  totalPrice     Float
+  rulesAccepted  Boolean  @default(true)
+  createdAt      DateTime @default(now())
+
+  guest   Guest    @relation(fields: [guestId], references: [id])
+  room    Room     @relation(fields: [roomId], references: [id])
+  payment Payment?
+}
+
+model Payment {
+  id            String   @id @default(uuid())
+  reservationId String   @unique
+  amount        Float
+  paymentMethod String   // "full_card", "partial_card", "bank_transfer", "hotel", "payment_link"
+  status        String   @default("PENDING") // PENDING, COMPLETED, FAILED
+
+  reservation Reservation @relation(fields: [reservationId], references: [id])
+}
+
+model DateBlock {
+  id        String   @id @default(uuid())
+  roomId    String
+  startDate DateTime
+  endDate   DateTime
+  reason    String   // "MAINTENANCE", "BOOKING", "HIGH_SEASON"
+
+  room Room @relation(fields: [roomId], references: [id])
+}
+
+model SiteContent {
+  id        String   @id @default(uuid())
+  section   String   // "hero", "intro", "experiences", "amenities", "finalCta"
+  key       String   // "title_es", "title_en", "subtitle_es", "image"
+  value     String   // The actual content (text or media URL)
+  sortOrder Int      @default(0)
+  updatedAt DateTime @updatedAt
+
+  @@unique([section, key])
+}
+
+model MediaItem {
+  id          String   @id @default(uuid())
+  filename    String
+  url         String
+  altText     String?
+  category    String   @default("general") // "hero", "rooms", "experiences", "gallery"
+  mimeType    String   @default("image/jpeg")
+  sizeBytes   Int      @default(0)
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  uploadedAt  DateTime @default(now())
+}
+
+model Experience {
+  id          String   @id @default(uuid())
+  title_es    String
+  title_en    String
+  desc_es     String
+  desc_en     String
+  imageUrl    String
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  updatedAt   DateTime @updatedAt
+}
+
+model Amenity {
+  id          String   @id @default(uuid())
+  title_es    String
+  title_en    String
+  desc_es     String
+  desc_en     String
+  imageUrl    String
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  updatedAt   DateTime @updatedAt
+}
+
+model GalleryImage {
+  id          String   @id @default(uuid())
+  mediaItemId String
+  caption_es  String?
+  caption_en  String?
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+}
+
+model SiteSetting {
+  id    String @id @default(uuid())
+  key   String @unique  // "activeTheme", "checkInTime", "checkOutTime"
+  value String
+}
+
+model SeasonalPrice {
+  id        String   @id @default(uuid())
+  roomId    String
+  name      String   // "High Season", "Holiday", "Low Season"
+  multiplier Float   @default(1.0) // 1.5 = 50% more
+  startDate DateTime
+  endDate   DateTime
+  isActive  Boolean  @default(true)
+
+  room Room @relation(fields: [roomId], references: [id])
+}
+
+model AdminUser {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+}
