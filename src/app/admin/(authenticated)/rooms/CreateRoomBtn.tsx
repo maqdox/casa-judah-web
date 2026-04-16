@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { createRoom } from '../../actions';
 import pageStyles from './page.module.css';
 import modalStyles from './modal.module.css';
@@ -14,6 +14,40 @@ export default function CreateRoomBtn() {
   const [basePrice, setBasePrice] = useState(100);
   const [capacity, setCapacity] = useState(2);
   const [imageUrls, setImageUrls] = useState('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Compress image to Base64 to bypass Vercel Storage limits
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const MAX_WIDTH = 1200; // Limit width to prevent DB bloat
+        let width = img.width;
+        let height = img.height;
+
+        if (width > MAX_WIDTH) {
+          height *= MAX_WIDTH / width;
+          width = MAX_WIDTH;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx?.drawImage(img, 0, 0, width, height);
+        
+        // Export as JPEG with 80% quality (great for Base64)
+        const base64String = canvas.toDataURL('image/jpeg', 0.8);
+        setImageUrls(base64String);
+      };
+      img.src = event.target?.result as string;
+    };
+    reader.readAsDataURL(file);
+  };
 
   const handleCreate = async () => {
     setIsCreating(true);
@@ -80,13 +114,19 @@ export default function CreateRoomBtn() {
               </div>
 
               <div className={modalStyles.fieldGroup}>
-                <label>URL de Imagen Principal</label>
-                <input 
-                  type="text" 
-                  value={imageUrls} 
-                  onChange={e => setImageUrls(e.target.value)} 
-                  placeholder="Ej: /media/foto.jpg"
-                />
+                <label>Fotografía Principal (Sube desde tu dispositivo)</label>
+                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                  <input 
+                    type="file" 
+                    accept="image/*"
+                    ref={fileInputRef}
+                    onChange={handleImageUpload} 
+                    style={{ flex: 1, padding: '0.6rem' }}
+                  />
+                  {imageUrls && (
+                    <div style={{ width: '50px', height: '50px', backgroundImage: `url(${imageUrls})`, backgroundSize: 'cover', borderRadius: '4px' }} />
+                  )}
+                </div>
               </div>
 
               <button 
