@@ -26,13 +26,34 @@ export async function updateSetting(key: string, value: string) {
 }
 
 // ROOMS
-export async function updateRoom(id: string, data: { contentName: string, basePrice: number, capacity: number }) {
+export async function createRoom() {
+  const count = await prisma.room.count();
+  const newRoom = await prisma.room.create({
+    data: {
+      contentName: `Nueva Habitación ${count + 1}`,
+      description: 'Describe esta habitación...',
+      basePrice: 100,
+      capacity: 2,
+      imageUrls: '/exterior.jpg',
+      status: 'UNAVAILABLE',
+      sortOrder: count + 1
+    }
+  });
+  
+  revalidatePath('/admin/rooms');
+  revalidatePath('/[lang]/rooms', 'page');
+  return newRoom.id;
+}
+
+export async function updateRoom(id: string, data: { contentName: string, basePrice: number, capacity: number, imageUrls: string, status: string }) {
   await prisma.room.update({
     where: { id },
     data: {
       contentName: data.contentName,
       basePrice: data.basePrice,
-      capacity: data.capacity
+      capacity: data.capacity,
+      imageUrls: data.imageUrls,
+      status: data.status
     }
   });
   revalidatePath('/admin/rooms');

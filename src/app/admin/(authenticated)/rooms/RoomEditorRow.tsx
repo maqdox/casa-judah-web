@@ -9,6 +9,7 @@ export default function RoomEditorRow({ room }: { room: any }) {
   const [basePrice, setBasePrice] = useState(room.basePrice);
   const [capacity, setCapacity] = useState(room.capacity);
   const [imageUrls, setImageUrls] = useState(room.imageUrls);
+  const [status, setStatus] = useState(room.status);
   const [isSaving, setIsSaving] = useState(false);
 
   const handleSave = async () => {
@@ -17,16 +18,36 @@ export default function RoomEditorRow({ room }: { room: any }) {
       contentName,
       basePrice: Number(basePrice),
       capacity: Number(capacity),
-      imageUrls
+      imageUrls,
+      status
     });
     setIsSaving(false);
+  };
+  
+  const toggleStatus = async () => {
+    const newStatus = status === 'AVAILABLE' ? 'UNAVAILABLE' : 'AVAILABLE';
+    setStatus(newStatus);
+    // Instant save status toggle to DB for UX
+    await updateRoom(room.id, {
+      contentName,
+      basePrice: Number(basePrice),
+      capacity: Number(capacity),
+      imageUrls,
+      status: newStatus
+    });
   };
 
   return (
     <div className={styles.roomCard}>
       {/* Visual Image Preview */}
-      <div className={styles.roomImage} style={{ backgroundImage: `url('${room.imageUrls.split(',')[0]}')` }}>
-        <span className={styles.statusBadge}>{room.status}</span>
+      <div className={styles.roomImage} style={{ backgroundImage: `url('${imageUrls.split(',')[0]}')` }}>
+        <button 
+          onClick={toggleStatus} 
+          className={`${styles.statusBadge} ${status === 'AVAILABLE' ? styles.available : styles.unavailable}`}
+          title="Clic para cambiar de estado"
+        >
+          {status} ⟳
+        </button>
       </div>
 
       {/* Editor Fields */}

@@ -1,6 +1,9 @@
 import { prisma } from '@/lib/prisma';
 import styles from './page.module.css';
 import RoomEditorRow from './RoomEditorRow';
+import CreateRoomBtn from './CreateRoomBtn';
+
+export const dynamic = 'force-dynamic';
 
 export default async function RoomsPage() {
   const rooms = await prisma.room.findMany({
@@ -14,7 +17,7 @@ export default async function RoomsPage() {
           <h1 className={styles.pageTitle}>Habitaciones</h1>
           <p className={styles.subtitle}>Configura el nombre, precio por noche y capacidad de tus unidades.</p>
         </div>
-        <button className={styles.addBtn}>+ Añadir Habitación</button>
+        <CreateRoomBtn />
       </div>
 
       <div className={styles.roomList}>

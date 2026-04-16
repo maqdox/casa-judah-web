@@ -71,6 +71,26 @@
   border-radius: 50px;
   color: var(--color-dark-brown);
   text-transform: uppercase;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.statusBadge:hover {
+  transform: scale(1.05);
+}
+
+.available {
+  background-color: #d1fae5;
+  color: #065f46;
+  border-color: #34d399;
+}
+
+.unavailable {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border-color: #f87171;
 }
 
 .roomEditor {
