@@ -26,15 +26,15 @@ export async function updateSetting(key: string, value: string) {
 }
 
 // ROOMS
-export async function createRoom() {
+export async function createRoom(data: { contentName: string, basePrice: number, capacity: number, imageUrls: string }) {
   const count = await prisma.room.count();
   const newRoom = await prisma.room.create({
     data: {
-      contentName: `Nueva Habitación ${count + 1}`,
-      description: 'Describe esta habitación...',
-      basePrice: 100,
-      capacity: 2,
-      imageUrls: '/exterior.jpg',
+      contentName: data.contentName,
+      description: 'Ingresa una descripción...',
+      basePrice: data.basePrice,
+      capacity: data.capacity,
+      imageUrls: data.imageUrls || '/exterior.jpg',
       status: 'UNAVAILABLE',
       sortOrder: count + 1
     }
