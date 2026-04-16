@@ -8,6 +8,7 @@ export default function RoomEditorRow({ room }: { room: any }) {
   const [contentName, setContentName] = useState(room.contentName);
   const [basePrice, setBasePrice] = useState(room.basePrice);
   const [capacity, setCapacity] = useState(room.capacity);
+  const [imageUrls, setImageUrls] = useState(room.imageUrls);
   const [isSaving, setIsSaving] = useState(false);
 
   const handleSave = async () => {
@@ -15,7 +16,8 @@ export default function RoomEditorRow({ room }: { room: any }) {
     await updateRoom(room.id, {
       contentName,
       basePrice: Number(basePrice),
-      capacity: Number(capacity)
+      capacity: Number(capacity),
+      imageUrls
     });
     setIsSaving(false);
   };
@@ -56,6 +58,16 @@ export default function RoomEditorRow({ room }: { room: any }) {
               onChange={(e) => setCapacity(e.target.value)} 
             />
           </div>
+        </div>
+
+        <div className={styles.fieldGroup}>
+          <label>URL de Imagen Principal</label>
+          <input 
+            type="text" 
+            value={imageUrls} 
+            onChange={(e) => setImageUrls(e.target.value)} 
+            placeholder="Ej: /exterior.jpg"
+          />
         </div>
 
         <button 
