@@ -2,12 +2,13 @@
 
 import { useState, Suspense } from 'react';
 import { createReservation } from '../../actions';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import PhoneInput from '@/components/PhoneInput';
 import styles from './page.module.css';
 
 function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const initialRoomId = searchParams.get('roomId') || '';
 
   const [roomId, setRoomId] = useState(initialRoomId);
@@ -33,7 +34,8 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
     
     try {
       const formData = new FormData(e.currentTarget);
-      await createReservation(formData);
+      const resId = await createReservation(formData);
+      router.push(`/${lang}/booking/success?resId=${resId}`);
     } catch (err: any) {
       setError(err.message || 'An unexpected error occurred.');
       setLoading(false);

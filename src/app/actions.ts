@@ -1,7 +1,7 @@
 'use server'
 
 import { prisma } from '@/lib/prisma';
-import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 import nodemailer from 'nodemailer';
 
 export async function createReservation(formData: FormData) {
@@ -128,5 +128,8 @@ export async function createReservation(formData: FormData) {
     }
   }
 
-  redirect(`/booking/success?resId=${reservation.id}`);
+  revalidatePath('/admin/reservations');
+  revalidatePath('/admin');
+  
+  return reservation.id;
 }

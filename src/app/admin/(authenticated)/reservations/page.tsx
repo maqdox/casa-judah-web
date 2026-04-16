@@ -2,6 +2,8 @@ import { prisma } from '@/lib/prisma';
 import styles from './page.module.css';
 import { updateReservationStatus } from '../../actions';
 
+export const dynamic = 'force-dynamic';
+
 export default async function ReservationsPage() {
   const reservations = await prisma.reservation.findMany({
     include: {

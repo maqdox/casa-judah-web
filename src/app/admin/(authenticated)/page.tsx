@@ -1,6 +1,8 @@
 import { prisma } from '@/lib/prisma';
 import styles from './page.module.css';
 
+export const dynamic = 'force-dynamic';
+
 export default async function AdminDashboard() {
   const [totalRooms, totalReservations, pendingReservations] = await Promise.all([
     prisma.room.count(),
