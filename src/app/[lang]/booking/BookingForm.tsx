@@ -19,11 +19,15 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
 
   const selectedRoom = rooms.find(r => r.id === roomId);
   
+  let subtotal = 0;
+  let tax = 0;
   let totalPrice = 0;
   if (selectedRoom && checkIn && checkOut) {
     const days = Math.ceil((new Date(checkOut).getTime() - new Date(checkIn).getTime()) / (1000 * 3600 * 24));
     if (days > 0) {
-      totalPrice = days * selectedRoom.basePrice;
+      subtotal = days * selectedRoom.basePrice;
+      tax = subtotal * 0.15;
+      totalPrice = subtotal + tax;
     }
   }
 
@@ -65,6 +69,8 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
     nightsLabel: "noches",
     cleaning: "Gastos de Limpieza",
     included: "Incluido",
+    subtotalLabel: "Subtotal",
+    taxLabel: "Impuesto (15%)",
     total: "Total a Pagar:",
     rules: "Acepto las Reglas de la Casa, incluyendo la política estricta de no fumar y cancelaciones.",
     submit: "Confirmar Reservación",
@@ -92,6 +98,8 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
     nightsLabel: "nights",
     cleaning: "Cleaning & Resort Fees",
     included: "Included",
+    subtotalLabel: "Subtotal",
+    taxLabel: "Tax (15%)",
     total: "Total to Pay:",
     rules: "I agree to the House Rules, including the strict no-smoking policy, and understand the cancellation terms.",
     submit: "Confirm Reservation",
@@ -121,7 +129,7 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
           <option value="">{t.selectRoom}</option>
           {rooms.map(room => (
             <option key={room.id} value={room.id}>
-              {room.contentName} - ${room.basePrice}/{t.night}
+              {room.contentName} - L {room.basePrice}/{t.night}
             </option>
           ))}
         </select>
@@ -160,8 +168,13 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
           <div className={styles.summaryTitle}>{t.summaryTitle}</div>
           
           <div className={styles.summaryRow}>
-            <span>{selectedRoom.contentName} (${selectedRoom.basePrice} x {Math.ceil((new Date(checkOut).getTime() - new Date(checkIn).getTime()) / (1000 * 3600 * 24))} {t.nightsLabel})</span>
-            <span>${totalPrice.toFixed(2)}</span>
+            <span>{selectedRoom.contentName} (L {selectedRoom.basePrice} x {Math.ceil((new Date(checkOut).getTime() - new Date(checkIn).getTime()) / (1000 * 3600 * 24))} {t.nightsLabel})</span>
+            <span>L {subtotal.toFixed(2)}</span>
+          </div>
+
+          <div className={styles.summaryRow}>
+            <span>{t.taxLabel}</span>
+            <span>L {tax.toFixed(2)}</span>
           </div>
           
           <div className={styles.summaryRow}>
@@ -171,7 +184,7 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
           
           <div className={styles.summaryTotal}>
             <span>{t.total}</span>
-            <span>${totalPrice.toFixed(2)}</span>
+            <span>L {totalPrice.toFixed(2)}</span>
           </div>
         </div>
       )}

@@ -43,7 +43,7 @@ export default async function RoomsPage({ params }: { params: Promise<{ lang: st
                 <p className={styles.description}>{room.description}</p>
                 <div className={styles.details}>
                   <span>{lang === 'es' ? 'Hasta' : 'Up to'} {room.capacity} {lang === 'es' ? 'Huéspedes' : 'Guests'}</span>
-                  <span className={styles.price}>${room.basePrice.toFixed(2)} {t.pricePerNight}</span>
+                  <span className={styles.price}>L {room.basePrice.toFixed(2)} {t.pricePerNight}</span>
                 </div>
                 <Link href={`/${lang}/booking?roomId=${room.id}`} className={styles.bookButton}>{t.bookBtn}</Link>
               </div>

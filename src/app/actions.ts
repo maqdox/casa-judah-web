@@ -42,7 +42,9 @@ export async function createReservation(formData: FormData) {
   const days = Math.ceil(daysMs / (1000 * 60 * 60 * 24));
   if (days <= 0) throw new Error('Invalid dates.');
 
-  const totalPrice = days * room.basePrice;
+  const subtotal = days * room.basePrice;
+  const tax = subtotal * 0.15;
+  const totalPrice = subtotal + tax;
 
   const reservation = await prisma.$transaction(async (tx) => {
     let guest = await tx.guest.findUnique({ where: { email } });
@@ -109,7 +111,9 @@ export async function createReservation(formData: FormData) {
                 <p><strong>Alojamiento:</strong> ${room.contentName}</p>
                 <p><strong>Check-in:</strong> ${checkIn.toLocaleDateString()}</p>
                 <p><strong>Check-out:</strong> ${checkOut.toLocaleDateString()}</p>
-                <p><strong>Total:</strong> $${totalPrice.toFixed(2)} USD</p>
+                <p><strong>Subtotal:</strong> L ${subtotal.toFixed(2)}</p>
+                <p><strong>Impuestos (15%):</strong> L ${tax.toFixed(2)}</p>
+                <p><strong>Total:</strong> L ${totalPrice.toFixed(2)}</p>
                 <p><strong>Método Acordado:</strong> ${paymentMethod.replace('_', ' ').toUpperCase()}</p>
               </div>
 

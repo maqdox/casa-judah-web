@@ -95,7 +95,7 @@ export default function RoomEditorRow({ room }: { room: any }) {
         
         <div className={styles.row}>
           <div className={styles.fieldGroup}>
-            <label>Precio Base ($ USD)</label>
+            <label>Precio Base (Lempiras L)</label>
             <input 
               type="number" 
               value={basePrice} 

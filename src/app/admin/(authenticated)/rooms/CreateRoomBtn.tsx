@@ -95,7 +95,7 @@ export default function CreateRoomBtn() {
 
               <div className={modalStyles.row}>
                 <div className={modalStyles.fieldGroup}>
-                  <label>Precio Base ($ USD)</label>
+                  <label>Precio Base (Lempiras L)</label>
                   <input 
                     type="number" 
                     value={basePrice} 
