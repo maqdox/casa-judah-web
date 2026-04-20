@@ -55,7 +55,7 @@ img {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-serif);
-  color: var(--color-tabaco);
+  color: var(--color-dark-brown);
   font-weight: 400;
   margin: 0 0 1rem 0;
   line-height: 1.2;
@@ -98,6 +98,6 @@ button {
 
 /* ─── Selection ─── */
 ::selection {
-  background-color: var(--color-champagne);
-  color: var(--color-dark-brown);
+  background-color: var(--color-arena);
+  color: var(--color-tabaco);
 }
