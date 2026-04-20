@@ -7,11 +7,11 @@ import { getDictionary } from "@/dictionaries";
 import { prisma } from "@/lib/prisma";
 
 const THEME_MAP: Record<string, { primary: string, accent: string }> = {
-  'verde_olivo': { primary: '#4F5A3E', accent: '#D5BD9B' },
-  'terracota': { primary: '#8B4D3B', accent: '#D5BD9B' },
-  'marron_medio': { primary: '#7E644B', accent: '#D5BD9B' },
-  'cafe_profundo': { primary: '#5D3518', accent: '#D5BD9B' },
-  'negro': { primary: '#000000', accent: '#D5BD9B' },
+  'verde_olivo': { primary: '#4E583E', accent: '#D6BE9B' },
+  'terracota': { primary: '#804639', accent: '#D6BE9B' },
+  'marron_medio': { primary: '#A88E6D', accent: '#D6BE9B' },
+  'cafe_profundo': { primary: '#5A4334', accent: '#D6BE9B' },
+  'negro': { primary: '#000000', accent: '#D6BE9B' },
 };
 
 const inter = Inter({ subsets: ["latin"], variable: '--font-inter' });
@@ -39,6 +39,7 @@ export default async function RootLayout({
   return (
     <html lang={lang}>
       <head>
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <style dangerouslySetInnerHTML={{__html: `
           :root {
             --color-dark-brown: ${activeColors.primary};
