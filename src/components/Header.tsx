@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import TorchLogo from './TorchLogo';
+import BrandLogo from './BrandLogo';
 import styles from './Header.module.css';
 
 export default function Header({ dict, lang }: { dict: any, lang: string }) {
@@ -47,8 +47,8 @@ export default function Header({ dict, lang }: { dict: any, lang: string }) {
         </nav>
         <div className={styles.logo}>
           <Link href={`/${lang}`}>
-            <TorchLogo />
-            <span>CASA JUDAH</span>
+            <BrandLogo type="monogram" className={styles.mobileLogo} />
+            <BrandLogo type="full" className={styles.desktopLogo} />
           </Link>
         </div>
         <div className={styles.actions}>

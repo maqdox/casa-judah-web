@@ -4,16 +4,16 @@
    =================================================== */
 
 :root {
-  /* Earthy Luxury Color Palette */
+  /* Official Branding Colors (Organic Luxury) */
+  --color-arena: #D6BE9B;
+  --color-tabaco: #5A4334;
+  --color-piedra: #6F7D8C;
+  --color-dorado: #A88E6D;
+  
   --color-olive: #556B2F;
-  --color-olive-light: #7B8F42;
   --color-beige: #FAF8F4;
-  --color-beige-dark: #EDE9E1;
-  --color-champagne: #F7E7CE;
-  --color-brown: #8B4513;
-  --color-dark-brown: #2C2218;
   --color-white: #FFFFFF;
-  --color-text: #3A352F;
+  --color-text: var(--color-tabaco);
   --color-error: #8C2121;
   --color-success: #2F6B38;
 
@@ -55,7 +55,7 @@ img {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-serif);
-  color: var(--color-dark-brown);
+  color: var(--color-tabaco);
   font-weight: 400;
   margin: 0 0 1rem 0;
   line-height: 1.2;
