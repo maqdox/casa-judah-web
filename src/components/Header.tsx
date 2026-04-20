@@ -14,15 +14,13 @@ export default function Header({ dict, lang }: { dict: any, lang: string }) {
   const isHome = pathname === `/${lang}` || pathname === `/${lang}/`;
 
   useEffect(() => {
-    // Scroll listener ...
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
     
     window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Init
+    handleScroll();
     
-    // Ensure the current language is saved into the cookie
     document.cookie = `NEXT_LOCALE=${lang}; path=/; max-age=31536000`;
     
     return () => window.removeEventListener('scroll', handleScroll);
@@ -47,8 +45,7 @@ export default function Header({ dict, lang }: { dict: any, lang: string }) {
         </nav>
         <div className={styles.logo}>
           <Link href={`/${lang}`}>
-            <BrandLogo type="monogram" className={styles.mobileLogo} />
-            <BrandLogo type="full" className={styles.desktopLogo} />
+            <BrandLogo scrolled={isSolid} className={styles.mainLogo} />
           </Link>
         </div>
         <div className={styles.actions}>

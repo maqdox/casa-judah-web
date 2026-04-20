@@ -35,10 +35,22 @@
   overflow: hidden;
   box-shadow: var(--shadow-sm);
   flex-direction: column;
-  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.5s ease;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.5s ease, filter 0.5s ease;
   scroll-snap-align: center;
-  scroll-margin: 20px;
+  scroll-margin: 80px;
+  position: relative;
 }
+
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.05);
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+  z-index: 5;
+}
+
 
 .card:hover {
   transform: translateY(-5px);
@@ -46,14 +58,25 @@
 }
 
 .cardFocus {
-  transform: scale(1.02);
+  transform: scale(1.03);
   box-shadow: var(--shadow-lg);
-  border: 1px solid var(--color-beige-dark);
+  border: 1px solid var(--color-arena);
+  z-index: 10;
+}
+
+.cardFocus::after {
+  opacity: 0;
+}
+
+
+.card:not(.cardFocus) .imageWrapper {
+  filter: grayscale(0.2) contrast(0.9);
 }
 
 .cardFocus img {
-  filter: brightness(1.1);
+  filter: brightness(1.05) contrast(1.05);
 }
+
 
 @media (min-width: 768px) {
   .card {
