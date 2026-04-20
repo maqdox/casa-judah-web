@@ -41,7 +41,7 @@ export default function CreateRoomBtn() {
           const ctx = canvas.getContext('2d');
           ctx?.drawImage(img, 0, 0, width, height);
           
-          const base64String = canvas.toDataURL('image/jpeg', 0.8);
+          const base64String = canvas.toDataURL('image/jpeg', 0.6); // 60% quality
           setImageUrls(prev => [...prev, base64String]);
         };
         img.src = event.target?.result as string;
@@ -60,7 +60,7 @@ export default function CreateRoomBtn() {
       contentName: contentName || 'Nueva Habitación',
       basePrice: Number(basePrice) || 0,
       capacity: Number(capacity) || 1,
-      imageUrls: imageUrls.join(',')
+      imageUrls: imageUrls.join('|')
     });
     setIsCreating(false);
     setIsOpen(false);

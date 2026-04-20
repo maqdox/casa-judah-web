@@ -8,7 +8,7 @@ export default function RoomEditorRow({ room }: { room: any }) {
   const [contentName, setContentName] = useState(room.contentName);
   const [basePrice, setBasePrice] = useState(room.basePrice);
   const [capacity, setCapacity] = useState(room.capacity);
-  const [imageUrls, setImageUrls] = useState<string[]>(room.imageUrls ? room.imageUrls.split(',') : []);
+  const [imageUrls, setImageUrls] = useState<string[]>(room.imageUrls ? room.imageUrls.split('|') : []);
   const [status, setStatus] = useState(room.status);
   const [isSaving, setIsSaving] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -37,7 +37,7 @@ export default function RoomEditorRow({ room }: { room: any }) {
           const ctx = canvas.getContext('2d');
           ctx?.drawImage(img, 0, 0, width, height);
           
-          const base64String = canvas.toDataURL('image/jpeg', 0.8);
+          const base64String = canvas.toDataURL('image/jpeg', 0.6); // Higher compression (60%)
           setImageUrls(prev => [...prev, base64String]);
         };
         img.src = event.target?.result as string;
@@ -56,7 +56,7 @@ export default function RoomEditorRow({ room }: { room: any }) {
       contentName,
       basePrice: Number(basePrice),
       capacity: Number(capacity),
-      imageUrls: imageUrls.join(','),
+      imageUrls: imageUrls.join('|'),
       status
     });
     setIsSaving(false);
@@ -70,7 +70,7 @@ export default function RoomEditorRow({ room }: { room: any }) {
       contentName,
       basePrice: Number(basePrice),
       capacity: Number(capacity),
-      imageUrls: imageUrls.join(','),
+      imageUrls: imageUrls.join('|'),
       status: newStatus
     });
   };

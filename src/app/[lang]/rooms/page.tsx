@@ -25,7 +25,7 @@ export default async function RoomsPage({ params }: { params: Promise<{ lang: st
       
       <div className={styles.grid}>
         {rooms.map((room) => {
-          const images = room.imageUrls.split(',');
+          const images = room.imageUrls.split('|');
           const mainImage = images[0] || '/placeholder.webp';
 
           return (
