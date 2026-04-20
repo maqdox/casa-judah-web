@@ -8,6 +8,7 @@ import { getDictionary } from '@/dictionaries';
 
 export const revalidate = 0;
 
+// Force revalidation for layout updates
 export default async function RoomsPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = (await params) as { lang: 'en' | 'es' };
   const dict = await getDictionary(lang);

@@ -73,14 +73,12 @@ export default function RoomCard({ room, lang, dict }: RoomCardProps) {
         <h2>{room.contentName}</h2>
         
         <div className={styles.descriptionArea}>
-          <p className={styles.introText}>{intro}</p>
-          {amenities.length > 0 && (
-            <ul className={styles.amenityList}>
-              {amenities.map((amenity, i) => (
-                <li key={i}>{amenity}</li>
-              ))}
-            </ul>
-          )}
+          <ul className={styles.amenityList}>
+            <li>{intro}</li>
+            {amenities.map((amenity, i) => (
+              <li key={i}>{amenity}</li>
+            ))}
+          </ul>
         </div>
 
         <div className={styles.details}>

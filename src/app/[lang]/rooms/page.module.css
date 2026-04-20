@@ -45,7 +45,7 @@
 @media (min-width: 768px) {
   .card {
     flex-direction: row;
-    height: 400px;
+    min-height: 400px;
   }
 }
 
@@ -123,16 +123,17 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
 }
 
 .amenityList li {
-  font-size: 0.9rem;
-  color: #666;
+  font-size: 1rem;
+  color: #555;
   position: relative;
-  padding-left: 1.2rem;
+  padding-left: 1.5rem;
+  line-height: 1.4;
 }
 
 .amenityList li::before {
@@ -141,6 +142,7 @@
   left: 0;
   color: var(--color-olive);
   font-weight: bold;
+  font-size: 1.2rem;
 }
 
 .details {
