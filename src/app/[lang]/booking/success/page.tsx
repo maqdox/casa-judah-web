@@ -43,7 +43,7 @@ export default async function SuccessPage({
         <p style={{ margin: '0.5rem 0' }}><strong>{lang === 'es' ? 'Habitación:' : 'Room:'}</strong> {reservation.room.contentName}</p>
         <p style={{ margin: '0.5rem 0' }}><strong>Check-in:</strong> {reservation.checkInDate.toLocaleDateString()}</p>
         <p style={{ margin: '0.5rem 0' }}><strong>Check-out:</strong> {reservation.checkOutDate.toLocaleDateString()}</p>
-        <p style={{ margin: '0.5rem 0' }}><strong>{lang === 'es' ? 'Total:' : 'Total Price:'}</strong> L {reservation.totalPrice.toFixed(2)}</p>
+        <p style={{ margin: '0.5rem 0' }}><strong>{lang === 'es' ? 'Total:' : 'Total Price:'}</strong> L {new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(reservation.totalPrice)}</p>
         <br/>
         <p style={{ margin: '0.5rem 0' }}><strong>{lang === 'es' ? 'Estado del Pago:' : 'Payment Status:'}</strong> {reservation.payment?.status}</p>
         <p style={{ margin: '0.5rem 0' }}><strong>{lang === 'es' ? 'Método:' : 'Method:'}</strong> {reservation.payment?.paymentMethod.replace('_', ' ')}</p>

@@ -83,7 +83,7 @@ export default function RoomCard({ room, lang, dict }: RoomCardProps) {
 
         <div className={styles.details}>
           <span>{lang === 'es' ? 'Hasta' : 'Up to'} {room.capacity} {lang === 'es' ? 'Huéspedes' : 'Guests'}</span>
-          <span className={styles.price}>L {room.basePrice.toFixed(2)} {t.pricePerNight}</span>
+          <span className={styles.price}>L {new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(room.basePrice)} {t.pricePerNight}</span>
         </div>
         
         <Link href={`/${lang}/booking?roomId=${room.id}`} className={styles.bookButton}>

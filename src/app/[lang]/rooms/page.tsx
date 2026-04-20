@@ -2,7 +2,7 @@ import { prisma } from '@/lib/prisma';
 import styles from './page.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
-import RoomCard from './RoomCard';
+import RoomGalleryCard from './RoomGalleryCard';
 
 import { getDictionary } from '@/dictionaries';
 
@@ -27,7 +27,7 @@ export default async function RoomsPage({ params }: { params: Promise<{ lang: st
       
       <div className={styles.grid}>
         {rooms.map((room) => (
-          <RoomCard key={room.id} room={room} lang={lang} dict={dict} />
+          <RoomGalleryCard key={room.id} room={room} lang={lang} dict={dict} />
         ))}
       </div>
     </main>

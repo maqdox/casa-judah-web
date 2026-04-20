@@ -111,9 +111,9 @@ export async function createReservation(formData: FormData) {
                 <p><strong>Alojamiento:</strong> ${room.contentName}</p>
                 <p><strong>Check-in:</strong> ${checkIn.toLocaleDateString()}</p>
                 <p><strong>Check-out:</strong> ${checkOut.toLocaleDateString()}</p>
-                <p><strong>Subtotal:</strong> L ${subtotal.toFixed(2)}</p>
-                <p><strong>Impuestos (15%):</strong> L ${tax.toFixed(2)}</p>
-                <p><strong>Total:</strong> L ${totalPrice.toFixed(2)}</p>
+                <p><strong>Subtotal:</strong> L ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(subtotal)}</p>
+                <p><strong>Impuestos (15%):</strong> L ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(tax)}</p>
+                <p><strong>Total:</strong> L ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(totalPrice)}</p>
                 <p><strong>Método Acordado:</strong> ${paymentMethod.replace('_', ' ').toUpperCase()}</p>
               </div>
 

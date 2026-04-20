@@ -129,7 +129,7 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
           <option value="">{t.selectRoom}</option>
           {rooms.map(room => (
             <option key={room.id} value={room.id}>
-              {room.contentName} - L {room.basePrice}/{t.night}
+              {room.contentName} - L {new Intl.NumberFormat('en-US').format(room.basePrice)}/{t.night}
             </option>
           ))}
         </select>
@@ -168,13 +168,13 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
           <div className={styles.summaryTitle}>{t.summaryTitle}</div>
           
           <div className={styles.summaryRow}>
-            <span>{selectedRoom.contentName} (L {selectedRoom.basePrice} x {Math.ceil((new Date(checkOut).getTime() - new Date(checkIn).getTime()) / (1000 * 3600 * 24))} {t.nightsLabel})</span>
-            <span>L {subtotal.toFixed(2)}</span>
+            <span>{selectedRoom.contentName} (L {new Intl.NumberFormat('en-US').format(selectedRoom.basePrice)} x {Math.ceil((new Date(checkOut).getTime() - new Date(checkIn).getTime()) / (1000 * 3600 * 24))} {t.nightsLabel})</span>
+            <span>L {new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(subtotal)}</span>
           </div>
 
           <div className={styles.summaryRow}>
             <span>{t.taxLabel}</span>
-            <span>L {tax.toFixed(2)}</span>
+            <span>L {new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(tax)}</span>
           </div>
           
           <div className={styles.summaryRow}>
@@ -184,7 +184,7 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
           
           <div className={styles.summaryTotal}>
             <span>{t.total}</span>
-            <span>L {totalPrice.toFixed(2)}</span>
+            <span>L {new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(totalPrice)}</span>
           </div>
         </div>
       )}
