@@ -23,7 +23,7 @@ export default function RoomEditorRow({ room }: { room: any }) {
         const img = new Image();
         img.onload = () => {
           const canvas = document.createElement('canvas');
-          const MAX_WIDTH = 1200;
+          const MAX_WIDTH = 1000;
           let width = img.width;
           let height = img.height;
 
@@ -37,7 +37,7 @@ export default function RoomEditorRow({ room }: { room: any }) {
           const ctx = canvas.getContext('2d');
           ctx?.drawImage(img, 0, 0, width, height);
           
-          const base64String = canvas.toDataURL('image/jpeg', 0.6); // Higher compression (60%)
+          const base64String = canvas.toDataURL('image/jpeg', 0.5); // 50% quality to fit more photos
           setImageUrls(prev => [...prev, base64String]);
         };
         img.src = event.target?.result as string;
@@ -147,6 +147,9 @@ export default function RoomEditorRow({ room }: { room: any }) {
             
             {imageUrls.length > 0 && imageUrls.some(u => u.startsWith('data:')) && (
                <span style={{color: 'green', fontSize: '0.8rem'}}>📸 Imágenes nuevas listas para guardar</span>
+            )}
+            {imageUrls.length >= 8 && (
+               <span style={{color: 'orange', fontSize: '0.8rem'}}>⚠️ Has llegado al límite sugerido de fotos (8) para asegurar el guardado.</span>
             )}
           </div>
         </div>

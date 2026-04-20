@@ -27,7 +27,7 @@ export default function CreateRoomBtn() {
         const img = new Image();
         img.onload = () => {
           const canvas = document.createElement('canvas');
-          const MAX_WIDTH = 1200;
+          const MAX_WIDTH = 1000;
           let width = img.width;
           let height = img.height;
 
@@ -41,7 +41,7 @@ export default function CreateRoomBtn() {
           const ctx = canvas.getContext('2d');
           ctx?.drawImage(img, 0, 0, width, height);
           
-          const base64String = canvas.toDataURL('image/jpeg', 0.6); // 60% quality
+          const base64String = canvas.toDataURL('image/jpeg', 0.5); // 50% quality
           setImageUrls(prev => [...prev, base64String]);
         };
         img.src = event.target?.result as string;
