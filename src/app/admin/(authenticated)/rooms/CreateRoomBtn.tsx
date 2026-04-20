@@ -13,40 +13,45 @@ export default function CreateRoomBtn() {
   const [contentName, setContentName] = useState('');
   const [basePrice, setBasePrice] = useState(100);
   const [capacity, setCapacity] = useState(2);
-  const [imageUrls, setImageUrls] = useState('');
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Compress image to Base64 to bypass Vercel Storage limits
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
 
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const img = new Image();
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        const MAX_WIDTH = 1200; // Limit width to prevent DB bloat
-        let width = img.width;
-        let height = img.height;
+    files.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const MAX_WIDTH = 1200;
+          let width = img.width;
+          let height = img.height;
 
-        if (width > MAX_WIDTH) {
-          height *= MAX_WIDTH / width;
-          width = MAX_WIDTH;
-        }
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
 
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext('2d');
-        ctx?.drawImage(img, 0, 0, width, height);
-        
-        // Export as JPEG with 80% quality (great for Base64)
-        const base64String = canvas.toDataURL('image/jpeg', 0.8);
-        setImageUrls(base64String);
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx?.drawImage(img, 0, 0, width, height);
+          
+          const base64String = canvas.toDataURL('image/jpeg', 0.8);
+          setImageUrls(prev => [...prev, base64String]);
+        };
+        img.src = event.target?.result as string;
       };
-      img.src = event.target?.result as string;
-    };
-    reader.readAsDataURL(file);
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const removeImage = (index: number) => {
+    setImageUrls(prev => prev.filter((_, i) => i !== index));
   };
 
   const handleCreate = async () => {
@@ -55,7 +60,7 @@ export default function CreateRoomBtn() {
       contentName: contentName || 'Nueva Habitación',
       basePrice: Number(basePrice) || 0,
       capacity: Number(capacity) || 1,
-      imageUrls: imageUrls.trim()
+      imageUrls: imageUrls.join(',')
     });
     setIsCreating(false);
     setIsOpen(false);
@@ -63,7 +68,7 @@ export default function CreateRoomBtn() {
     setContentName('');
     setBasePrice(100);
     setCapacity(2);
-    setImageUrls('');
+    setImageUrls([]);
   };
 
   return (
@@ -114,18 +119,30 @@ export default function CreateRoomBtn() {
               </div>
 
               <div className={modalStyles.fieldGroup}>
-                <label>Fotografía Principal (Sube desde tu dispositivo)</label>
-                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                <label>Fotografías (Sube una o varias)</label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                   <input 
                     type="file" 
                     accept="image/*"
+                    multiple
                     ref={fileInputRef}
                     onChange={handleImageUpload} 
-                    style={{ flex: 1, padding: '0.6rem' }}
+                    style={{ padding: '0.6rem' }}
                   />
-                  {imageUrls && (
-                    <div style={{ width: '50px', height: '50px', backgroundImage: `url(${imageUrls})`, backgroundSize: 'cover', borderRadius: '4px' }} />
-                  )}
+                  
+                  <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                    {imageUrls.map((url, idx) => (
+                      <div key={idx} style={{ position: 'relative', width: '60px', height: '60px' }}>
+                        <img src={url} alt="Room" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '4px' }} />
+                        <button 
+                          onClick={() => removeImage(idx)}
+                          style={{ position: 'absolute', top: '-5px', right: '-5px', background: 'red', color: 'white', border: 'none', borderRadius: '50%', width: '18px', height: '18px', cursor: 'pointer', fontSize: '10px' }}
+                        >
+                          ×
+                        </button>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
 
