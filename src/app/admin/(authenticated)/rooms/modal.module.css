@@ -21,6 +21,8 @@
   box-shadow: 0 15px 35px rgba(0,0,0,0.15);
   padding: 3rem;
   position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
   animation: slideUp 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
