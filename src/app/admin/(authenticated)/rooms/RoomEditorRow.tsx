@@ -10,6 +10,8 @@ export default function RoomEditorRow({ room }: { room: any }) {
   const [capacity, setCapacity] = useState(room.capacity);
   const [imageUrls, setImageUrls] = useState<string[]>(room.imageUrls ? room.imageUrls.split('|') : []);
   const [status, setStatus] = useState(room.status);
+  const [descEs, setDescEs] = useState(room.desc_es || room.description || '');
+  const [descEn, setDescEn] = useState(room.desc_en || '');
   const [isSaving, setIsSaving] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -57,7 +59,9 @@ export default function RoomEditorRow({ room }: { room: any }) {
       basePrice: Number(basePrice),
       capacity: Number(capacity),
       imageUrls: imageUrls.join('|'),
-      status
+      status,
+      desc_es: descEs,
+      desc_en: descEn
     });
     setIsSaving(false);
   };
@@ -71,7 +75,9 @@ export default function RoomEditorRow({ room }: { room: any }) {
       basePrice: Number(basePrice),
       capacity: Number(capacity),
       imageUrls: imageUrls.join('|'),
-      status: newStatus
+      status: newStatus,
+      desc_es: descEs,
+      desc_en: descEn
     });
   };
 
@@ -99,6 +105,26 @@ export default function RoomEditorRow({ room }: { room: any }) {
           />
         </div>
         
+        <div className={styles.fieldGroup}>
+          <label>Descripción (Español)</label>
+          <textarea 
+            value={descEs} 
+            onChange={(e) => setDescEs(e.target.value)} 
+            rows={3}
+            style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #ddd' }}
+          />
+        </div>
+
+        <div className={styles.fieldGroup}>
+          <label>Description (English)</label>
+          <textarea 
+            value={descEn} 
+            onChange={(e) => setDescEn(e.target.value)} 
+            rows={3}
+            style={{ width: '100%', padding: '0.5rem', borderRadius: '4px', border: '1px solid #ddd' }}
+          />
+        </div>
+
         <div className={styles.row}>
           <div className={styles.fieldGroup}>
             <label>Precio Base (Lempiras L)</label>

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import TorchLogo from './TorchLogo';
 import styles from './Header.module.css';
 
 export default function Header({ dict, lang }: { dict: any, lang: string }) {
@@ -45,7 +46,10 @@ export default function Header({ dict, lang }: { dict: any, lang: string }) {
           <Link href={`/${lang}/policies`}>{dict.policies}</Link>
         </nav>
         <div className={styles.logo}>
-          <Link href={`/${lang}`}>CASA JUDAH</Link>
+          <Link href={`/${lang}`}>
+            <TorchLogo />
+            <span>CASA JUDAH</span>
+          </Link>
         </div>
         <div className={styles.actions}>
           <a href="#" onClick={switchLanguage} className={styles.langBtn}>{lang === 'es' ? 'EN' : 'ES'}</a>

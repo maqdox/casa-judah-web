@@ -11,32 +11,53 @@ interface RoomCardProps {
   dict: any;
 }
 
-export default function RoomCard({ room, lang, dict }: RoomCardProps) {
+export default function RoomGalleryCard({ room, lang, dict }: RoomCardProps) {
   const images = room.imageUrls.split('|').filter(Boolean);
   const [currentIdx, setCurrentIdx] = useState(0);
+  const [isInFocus, setIsInFocus] = useState(false);
   const t = dict.roomsPage;
 
-  // Auto-slide effect
+  // Detect when card is in focus (centered on screen)
   useEffect(() => {
-    if (images.length <= 1) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInFocus(entry.isIntersecting && entry.intersectionRatio > 0.5);
+      },
+      { threshold: [0, 0.5, 1.0], rootMargin: "-10% 0px -10% 0px" }
+    );
+
+    const card = document.getElementById(`room-${room.id}`);
+    if (card) observer.observe(card);
+
+    return () => observer.disconnect();
+  }, [room.id]);
+
+  // Auto-slide effect ONLY when in focus
+  useEffect(() => {
+    if (images.length <= 1 || !isInFocus) return;
     const timer = setInterval(() => {
       setCurrentIdx((prev) => (prev + 1) % images.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, [images.length]);
+  }, [images.length, isInFocus]);
 
   // Parse description for bullets
   const parseDescription = (desc: string) => {
+    if (!desc) return { intro: '', amenities: [] };
     const parts = desc.split('Incluye:');
     const intro = parts[0].trim();
     const amenities = parts[1] ? parts[1].split(',').map(a => a.trim()).filter(Boolean) : [];
     return { intro, amenities };
   };
 
-  const { intro, amenities } = parseDescription(room.description);
+  const rawDescription = lang === 'es' ? (room.desc_es || room.description) : (room.desc_en || room.description);
+  const { intro, amenities } = parseDescription(rawDescription);
 
   return (
-    <article className={styles.card}>
+    <article 
+      id={`room-${room.id}`} 
+      className={`${styles.card} ${isInFocus ? styles.cardFocus : ''}`}
+    >
       {/* Gallery Section */}
       <div className={`${styles.imageWrapper} luxury-frame`}>
         {images.map((img: string, idx: number) => (

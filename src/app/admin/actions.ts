@@ -45,7 +45,7 @@ export async function createRoom(data: { contentName: string, basePrice: number,
   return newRoom.id;
 }
 
-export async function updateRoom(id: string, data: { contentName: string, basePrice: number, capacity: number, imageUrls: string, status: string }) {
+export async function updateRoom(id: string, data: { contentName: string, basePrice: number, capacity: number, imageUrls: string, status: string, desc_es?: string, desc_en?: string }) {
   await prisma.room.update({
     where: { id },
     data: {
@@ -53,7 +53,9 @@ export async function updateRoom(id: string, data: { contentName: string, basePr
       basePrice: data.basePrice,
       capacity: data.capacity,
       imageUrls: data.imageUrls,
-      status: data.status
+      status: data.status,
+      desc_es: data.desc_es,
+      desc_en: data.desc_en
     }
   });
   revalidatePath('/admin/rooms');
