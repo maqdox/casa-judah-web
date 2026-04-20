@@ -39,7 +39,7 @@ export default function RoomCard({ room, lang, dict }: RoomCardProps) {
     <article className={styles.card}>
       {/* Gallery Section */}
       <div className={`${styles.imageWrapper} luxury-frame`}>
-        {images.map((img, idx) => (
+        {images.map((img: string, idx: number) => (
           <div 
             key={idx} 
             className={`${styles.slide} ${idx === currentIdx ? styles.active : ''}`}
@@ -57,7 +57,7 @@ export default function RoomCard({ room, lang, dict }: RoomCardProps) {
         {/* Navigation Dots */}
         {images.length > 1 && (
           <div className={styles.dots}>
-            {images.map((_, idx) => (
+            {images.map((_: any, idx: number) => (
               <button 
                 key={idx} 
                 className={`${styles.dot} ${idx === currentIdx ? styles.dotActive : ''}`}
