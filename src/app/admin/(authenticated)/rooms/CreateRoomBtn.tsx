@@ -11,8 +11,8 @@ export default function CreateRoomBtn() {
 
   // Form states
   const [contentName, setContentName] = useState('');
-  const [basePrice, setBasePrice] = useState(100);
-  const [capacity, setCapacity] = useState(2);
+  const [basePrice, setBasePrice] = useState<string>('100');
+  const [capacity, setCapacity] = useState<string>('2');
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -66,8 +66,8 @@ export default function CreateRoomBtn() {
     setIsOpen(false);
     // Reset Form
     setContentName('');
-    setBasePrice(100);
-    setCapacity(2);
+    setBasePrice('100');
+    setCapacity('2');
     setImageUrls([]);
   };
 
@@ -104,7 +104,7 @@ export default function CreateRoomBtn() {
                   <input 
                     type="number" 
                     value={basePrice} 
-                    onChange={e => setBasePrice(Number(e.target.value))} 
+                    onChange={e => setBasePrice(e.target.value)} 
                   />
                 </div>
                 
@@ -113,7 +113,7 @@ export default function CreateRoomBtn() {
                   <input 
                     type="number" 
                     value={capacity} 
-                    onChange={e => setCapacity(Number(e.target.value))} 
+                    onChange={e => setCapacity(e.target.value)} 
                   />
                 </div>
               </div>

@@ -8,7 +8,11 @@ export default async function ReservationsPage() {
   const reservations = await prisma.reservation.findMany({
     include: {
       guest: true,
-      room: true,
+      room: {
+        select: {
+          contentName: true
+        }
+      },
       payment: true,
     },
     orderBy: { createdAt: 'desc' }

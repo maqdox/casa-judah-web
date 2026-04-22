@@ -6,8 +6,8 @@ import styles from './page.module.css';
 
 export default function RoomEditorRow({ room }: { room: any }) {
   const [contentName, setContentName] = useState(room.contentName);
-  const [basePrice, setBasePrice] = useState(room.basePrice);
-  const [capacity, setCapacity] = useState(room.capacity);
+  const [basePrice, setBasePrice] = useState<string>(String(room.basePrice));
+  const [capacity, setCapacity] = useState<string>(String(room.capacity));
   const [imageUrls, setImageUrls] = useState<string[]>(room.imageUrls ? room.imageUrls.split('|') : []);
   const [status, setStatus] = useState(room.status);
   const [descEs, setDescEs] = useState(room.desc_es || room.description || '');

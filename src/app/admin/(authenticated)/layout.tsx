@@ -2,14 +2,32 @@ import Link from 'next/link';
 import { cookies } from 'next/headers';
 import styles from './layout.module.css';
 
+import { prisma } from '@/lib/prisma';
+
+const THEME_MAP: Record<string, { primary: string, accent: string }> = {
+  'verde_olivo': { primary: '#4E583E', accent: '#D6BE9B' },
+  'terracota': { primary: '#804639', accent: '#D6BE9B' },
+  'marron_medio': { primary: '#A88E6D', accent: '#D6BE9B' },
+  'cafe_profundo': { primary: '#5A4334', accent: '#D6BE9B' },
+  'negro': { primary: '#000000', accent: '#D6BE9B' },
+};
+
 async function logoutAction() {
   'use server'
   ;(await cookies()).delete('casa_admin_auth');
 }
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+  const themeSetting = await prisma.siteSetting.findUnique({ where: { key: 'activeTheme' } });
+  const themeKey = themeSetting?.value || 'verde_olivo';
+  const activeColors = THEME_MAP[themeKey] || THEME_MAP['verde_olivo'];
+
   return (
-    <div className={styles.adminLayout}>
+    <div className={styles.adminLayout} style={{
+      '--color-dark-brown': activeColors.primary,
+      '--color-olive': activeColors.primary,
+      '--color-accent': activeColors.accent,
+    } as React.CSSProperties}>
       <aside className={styles.sidebar}>
         <div className={styles.brand}>
           <h2>Casa Judah</h2>
