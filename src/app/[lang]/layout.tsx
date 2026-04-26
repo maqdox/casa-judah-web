@@ -3,6 +3,7 @@ import { Inter, Playfair_Display } from "next/font/google";
 import "../globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ScrollToTop from "@/components/ScrollToTop";
 import { getDictionary } from "@/dictionaries";
 import { prisma } from "@/lib/prisma";
 import { headers } from 'next/headers';
@@ -62,6 +63,7 @@ export default async function RootLayout({
         {!isV2 && <Header dict={dict.navigation} lang={lang} />}
         {children}
         {!isV2 && <Footer />}
+        <ScrollToTop />
       </body>
     </html>
   );
