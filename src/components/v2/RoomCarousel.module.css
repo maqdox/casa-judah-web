@@ -1,0 +1,88 @@
+.wrapper {
+  position: relative;
+}
+
+.scrollRow {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding-right: 4rem;
+  padding-bottom: 1rem;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollRow::-webkit-scrollbar {
+  display: none;
+}
+
+.card {
+  flex: 0 0 320px;
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.3s;
+}
+
+.card:hover {
+  opacity: 0.85;
+}
+
+.cardImage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.cardImage img {
+  transition: transform 1s ease;
+}
+
+.card:hover .cardImage img {
+  transform: scale(1.04);
+}
+
+.cardInfo {
+  text-align: center;
+}
+
+.cardName {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  color: #2c2c2c;
+}
+
+/* Arrows */
+.arrows {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+
+.arrow {
+  width: 44px;
+  height: 44px;
+  border: 1px solid #ccc;
+  background: #fff;
+  color: #2c2c2c;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.arrow:hover {
+  background: #2c2c2c;
+  color: #fff;
+  border-color: #2c2c2c;
+}
+
+@media (max-width: 768px) {
+  .card {
+    flex: 0 0 260px;
+  }
+}

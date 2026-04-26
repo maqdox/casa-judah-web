@@ -1,162 +1,176 @@
+/* ═══════════════════════════════════════
+   HeaderV2 — Coco Hotel style header
+   ═══════════════════════════════════════ */
+
 .header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 1000;
-  padding: 1.5rem 0;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  background: transparent;
-}
-
-.scrolled {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  padding: 1rem 0;
-  box-shadow: 0 1px 0 rgba(0,0,0,0.05);
-}
-
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 1.4rem 2.5rem;
+  transition: all 0.35s ease;
+  background: transparent;
 }
 
-.left, .right {
+.solid {
+  background: rgba(247, 245, 240, 0.97);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+}
+
+/* Left */
+.left {
+  flex: 1;
+}
+
+.bookLink {
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity 0.2s;
+}
+
+.bookLink:hover {
+  opacity: 0.7;
+}
+
+.solid .bookLink {
+  color: #2c2c2c;
+}
+
+/* Center */
+.center {
+  flex: 0;
+}
+
+.logo {
+  height: 40px;
+}
+
+/* Right */
+.right {
   flex: 1;
   display: flex;
   align-items: center;
-}
-
-.center {
-  flex: 0;
-  display: flex;
-  justify-content: center;
-}
-
-.right {
   justify-content: flex-end;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
-.menuToggle {
+.langLink {
+  font-size: 0.85rem;
+  color: #fff;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.langLink:hover {
+  opacity: 0.7;
+}
+
+.solid .langLink {
+  color: #2c2c2c;
+}
+
+/* Burger */
+.burger {
   background: none;
   border: none;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+  width: 26px;
+  height: 18px;
+  position: relative;
   cursor: pointer;
   padding: 0;
 }
 
-.menuLabel {
-  font-size: 0.8rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  font-weight: 500;
-  color: var(--color-tabaco);
-}
-
-.hamburger {
-  width: 24px;
-  height: 14px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.hamburger span {
+.burger span {
   display: block;
-  width: 100%;
-  height: 1px;
-  background-color: var(--color-tabaco);
-  transition: all 0.3s;
-}
-
-.hamburger.open span:nth-child(1) {
-  transform: translateY(6px) rotate(45deg);
-}
-
-.hamburger.open span:nth-child(2) {
-  transform: translateY(-7px) rotate(-45deg);
-}
-
-.langBtn {
-  font-size: 0.8rem;
-  letter-spacing: 0.05em;
-  color: var(--color-tabaco);
-  font-weight: 500;
-}
-
-.bookBtn {
-  font-size: 0.8rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 0.6rem 1.2rem;
-  border: 1px solid var(--color-tabaco);
-  border-radius: 0;
-  transition: all 0.3s;
-  color: var(--color-tabaco);
-}
-
-.bookBtn:hover {
-  background-color: var(--color-tabaco);
-  color: white;
-}
-
-/* Overlay Menu */
-.overlay {
-  position: fixed;
-  top: 0;
+  position: absolute;
   left: 0;
   width: 100%;
-  height: 100vh;
+  height: 1.5px;
   background: #fff;
+  transition: all 0.35s ease;
+}
+
+.solid .burger span {
+  background: #2c2c2c;
+}
+
+.burger span:first-child {
+  top: 3px;
+}
+
+.burger span:last-child {
+  bottom: 3px;
+}
+
+.burgerOpen span:first-child {
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+  background: #2c2c2c !important;
+}
+
+.burgerOpen span:last-child {
+  bottom: 50%;
+  transform: translateY(50%) rotate(-45deg);
+  background: #2c2c2c !important;
+}
+
+/* ─── Overlay ─── */
+.overlay {
+  position: fixed;
+  inset: 0;
   z-index: 999;
+  background: #f7f5f0;
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: translateY(-100%);
-  transition: transform 0.6s cubic-bezier(0.7, 0, 0.3, 1);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
 }
 
-.overlayOpen {
-  transform: translateY(0);
+.overlayVisible {
+  opacity: 1;
+  pointer-events: auto;
 }
 
-.overlayContent {
+.overlayNav {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  gap: 1.8rem;
 }
 
-.overlayContent a {
-  font-family: var(--font-playfair);
-  font-size: 3rem;
-  color: var(--color-tabaco);
+.overlayNav a {
+  font-family: var(--font-serif);
+  font-size: 2.4rem;
+  font-weight: 400;
+  color: #2c2c2c;
   text-decoration: none;
-  transition: all 0.3s;
+  transition: opacity 0.25s;
 }
 
-.overlayContent a:hover {
-  opacity: 0.6;
-  transform: scale(1.05);
+.overlayNav a:hover {
+  opacity: 0.5;
 }
 
 @media (max-width: 768px) {
-  .menuLabel {
-    display: none;
+  .header {
+    padding: 1rem 1.2rem;
   }
-  .overlayContent a {
-    font-size: 2rem;
+
+  .bookLink {
+    font-size: 0.78rem;
   }
-  .bookBtn {
-    padding: 0.5rem 1rem;
-    font-size: 0.7rem;
+
+  .overlayNav a {
+    font-size: 1.8rem;
   }
 }

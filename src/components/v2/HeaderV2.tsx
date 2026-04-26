@@ -9,18 +9,22 @@ import styles from './HeaderV2.module.css';
 export default function HeaderV2({ dict, lang }: { dict: any, lang: string }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const pathname = usePathname();
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const switchLanguage = (e: React.MouseEvent) => {
+  // Lock body scroll when menu is open
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [menuOpen]);
+
+  const switchLang = (e: React.MouseEvent) => {
     e.preventDefault();
     const newLang = lang === 'es' ? 'en' : 'es';
     document.cookie = `NEXT_LOCALE=${newLang}; path=/; max-age=31536000`;
@@ -28,43 +32,57 @@ export default function HeaderV2({ dict, lang }: { dict: any, lang: string }) {
   };
 
   return (
-    <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
-      <div className={styles.container}>
+    <>
+      <header className={`${styles.header} ${scrolled ? styles.solid : ''}`}>
+        {/* Left: Book button */}
         <div className={styles.left}>
-          <button className={styles.menuToggle} onClick={() => setMenuOpen(!menuOpen)}>
-            <div className={`${styles.hamburger} ${menuOpen ? styles.open : ''}`}>
-              <span></span>
-              <span></span>
-            </div>
-            <span className={styles.menuLabel}>{dict.menu || 'MENU'}</span>
-          </button>
-        </div>
-
-        <div className={styles.center}>
-          <Link href={`/${lang}/v2`}>
-            <BrandLogo scrolled={true} className={styles.logo} />
-          </Link>
-        </div>
-
-        <div className={styles.right}>
-          <a href="#" onClick={switchLanguage} className={styles.langBtn}>
-            {lang === 'es' ? 'EN' : 'ES'}
-          </a>
-          <Link href={`/${lang}/booking`} className={styles.bookBtn}>
+          <Link href={`/${lang}/booking`} className={styles.bookLink}>
             {dict.bookNow}
           </Link>
         </div>
-      </div>
 
-      {/* Overlay Menu */}
-      <nav className={`${styles.overlay} ${menuOpen ? styles.overlayOpen : ''}`}>
-        <div className={styles.overlayContent}>
-          <Link href={`/${lang}/v2`} onClick={() => setMenuOpen(false)}>{dict.home || 'Inicio'}</Link>
-          <Link href={`/${lang}/rooms`} onClick={() => setMenuOpen(false)}>{dict.rooms}</Link>
-          <Link href={`/${lang}/experiences`} onClick={() => setMenuOpen(false)}>{dict.experiences}</Link>
-          <Link href={`/${lang}/policies`} onClick={() => setMenuOpen(false)}>{dict.policies}</Link>
+        {/* Center: Logo */}
+        <div className={styles.center}>
+          <Link href={`/${lang}/v2`}>
+            <BrandLogo scrolled={scrolled} className={styles.logo} />
+          </Link>
         </div>
-      </nav>
-    </header>
+
+        {/* Right: Lang + Hamburger */}
+        <div className={styles.right}>
+          <a href="#" onClick={switchLang} className={styles.langLink}>
+            {lang === 'es' ? 'En' : 'Es'}
+          </a>
+          <button 
+            className={`${styles.burger} ${menuOpen ? styles.burgerOpen : ''}`} 
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Menu"
+          >
+            <span /><span />
+          </button>
+        </div>
+      </header>
+
+      {/* Full-screen overlay nav */}
+      <div className={`${styles.overlay} ${menuOpen ? styles.overlayVisible : ''}`}>
+        <nav className={styles.overlayNav}>
+          <Link href={`/${lang}/v2`} onClick={() => setMenuOpen(false)}>
+            {dict.home || 'Inicio'}
+          </Link>
+          <Link href={`/${lang}/rooms`} onClick={() => setMenuOpen(false)}>
+            {dict.rooms}
+          </Link>
+          <Link href={`/${lang}/experiences`} onClick={() => setMenuOpen(false)}>
+            {dict.experiences}
+          </Link>
+          <Link href={`/${lang}/policies`} onClick={() => setMenuOpen(false)}>
+            {dict.policies}
+          </Link>
+          <Link href={`/${lang}/booking`} onClick={() => setMenuOpen(false)}>
+            {dict.bookNow}
+          </Link>
+        </nav>
+      </div>
+    </>
   );
 }
