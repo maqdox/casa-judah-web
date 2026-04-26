@@ -1,0 +1,57 @@
+.container { display: flex; flex-direction: column; gap: 1.5rem; }
+.pageTitle { font-family: var(--font-serif); font-size: 2rem; color: var(--color-dark-brown); font-weight: 400; margin-bottom: 0.2rem; }
+.subtitle { color: #666; font-size: 0.95rem; }
+.empty { color: #888; font-style: italic; padding: 2rem; text-align: center; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 1.5rem; }
+
+.card {
+  background: #fff; border-radius: 8px; padding: 1.5rem;
+  border: 1px solid #eaeaea; box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+.cardHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+
+.fieldGroup { margin-bottom: 0.8rem; }
+.fieldGroup label { display: block; font-size: 0.75rem; font-weight: 600; color: #555; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.3rem; }
+.fieldGroup input, .fieldGroup textarea {
+  width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;
+  font-size: 0.9rem; font-family: inherit;
+}
+.fieldGroup textarea { resize: vertical; }
+
+.statusBadge {
+  padding: 0.3rem 0.7rem; border-radius: 20px; font-size: 0.75rem;
+  font-weight: 600; border: none; cursor: pointer;
+}
+.active { background: #d4edda; color: #155724; }
+.inactive { background: #f8d7da; color: #721c24; }
+
+.deleteBtn { background: none; border: none; font-size: 1.2rem; cursor: pointer; opacity: 0.5; transition: opacity 0.2s; }
+.deleteBtn:hover { opacity: 1; }
+
+.saveBtn {
+  width: 100%; padding: 0.6rem; background: var(--color-dark-brown, #4E583E); color: #fff;
+  border: none; border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-weight: 600;
+  transition: opacity 0.2s;
+}
+.saveBtn:hover { opacity: 0.85; }
+.saveBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.addBtn {
+  padding: 0.7rem 1.5rem; background: var(--color-dark-brown, #4E583E); color: #fff;
+  border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; font-weight: 600;
+  align-self: flex-start; transition: opacity 0.2s;
+}
+.addBtn:hover { opacity: 0.85; }
+
+.createCard {
+  background: #fff; border-radius: 8px; padding: 1.5rem;
+  border: 1px solid #eaeaea;
+}
+.createCard h3 { margin: 0 0 1rem; font-size: 1.1rem; color: var(--color-dark-brown); }
+.createRow { display: grid; grid-template-columns: 1fr 1fr auto; gap: 1rem; align-items: end; }
+
+.cancelBtn {
+  padding: 0.6rem 1.2rem; background: #eee; color: #333;
+  border: none; border-radius: 4px; cursor: pointer; font-size: 0.85rem;
+}

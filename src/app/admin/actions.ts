@@ -128,3 +128,54 @@ export async function uploadMedia(data: FormData) {
 
   revalidatePath('/admin/media');
 }
+
+// AMENITIES
+export async function createAmenity(data: { title_es: string, title_en: string, desc_es: string, desc_en: string, price: number }) {
+  const count = await prisma.amenity.count();
+  await prisma.amenity.create({
+    data: {
+      ...data,
+      imageUrl: '/exterior.jpg',
+      sortOrder: count + 1,
+    }
+  });
+  revalidatePath('/admin/amenities');
+}
+
+export async function updateAmenity(id: string, data: { title_es?: string, title_en?: string, desc_es?: string, desc_en?: string, price?: number, isActive?: boolean }) {
+  await prisma.amenity.update({ where: { id }, data });
+  revalidatePath('/admin/amenities');
+}
+
+export async function deleteAmenity(id: string) {
+  await prisma.amenityReservation.deleteMany({ where: { amenityId: id } });
+  await prisma.amenity.delete({ where: { id } });
+  revalidatePath('/admin/amenities');
+  revalidatePath('/admin/reservations');
+}
+
+// AMENITY RESERVATIONS
+export async function createAmenityReservation(data: {
+  amenityId: string, guestName: string, guestPhone?: string, guestEmail?: string,
+  date: string, timeSlot: string, guests: number, totalPrice: number, notes?: string
+}) {
+  await prisma.amenityReservation.create({
+    data: {
+      amenityId: data.amenityId,
+      guestName: data.guestName,
+      guestPhone: data.guestPhone || null,
+      guestEmail: data.guestEmail || null,
+      date: new Date(data.date),
+      timeSlot: data.timeSlot,
+      guests: data.guests,
+      totalPrice: data.totalPrice,
+      notes: data.notes || null,
+    }
+  });
+  revalidatePath('/admin/reservations');
+}
+
+export async function updateAmenityReservationStatus(id: string, status: string) {
+  await prisma.amenityReservation.update({ where: { id }, data: { status } });
+  revalidatePath('/admin/reservations');
+}

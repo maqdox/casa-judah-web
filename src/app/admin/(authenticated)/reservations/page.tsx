@@ -1,83 +1,77 @@
 import { prisma } from '@/lib/prisma';
 import styles from './page.module.css';
-import { updateReservationStatus } from '../../actions';
+import ReservationFilters from './ReservationFilters';
 
 export const dynamic = 'force-dynamic';
 
 export default async function ReservationsPage() {
-  const reservations = await prisma.reservation.findMany({
+  // Fetch room reservations
+  const roomReservations = await prisma.reservation.findMany({
     include: {
       guest: true,
-      room: {
-        select: {
-          contentName: true
-        }
-      },
+      room: { select: { contentName: true } },
       payment: true,
     },
     orderBy: { createdAt: 'desc' }
   });
 
+  // Fetch amenity reservations
+  const amenityReservations = await prisma.amenityReservation.findMany({
+    include: { amenity: { select: { title_es: true } } },
+    orderBy: { createdAt: 'desc' }
+  });
+
+  // Normalize into a unified format
+  const unified = [
+    ...roomReservations.map(r => ({
+      id: r.id,
+      type: 'room' as const,
+      guestName: r.guest.name,
+      guestEmail: r.guest.email,
+      guestPhone: r.guest.phone || '',
+      itemName: r.room.contentName,
+      dateStart: r.checkInDate.toISOString(),
+      dateEnd: r.checkOutDate.toISOString(),
+      timeSlot: '',
+      guests: 0,
+      totalPrice: r.totalPrice,
+      paymentMethod: r.payment?.paymentMethod?.replace('_', ' ').toUpperCase() || 'N/A',
+      status: r.status,
+      createdAt: r.createdAt.toISOString(),
+      notes: '',
+    })),
+    ...amenityReservations.map(a => ({
+      id: a.id,
+      type: 'amenity' as const,
+      guestName: a.guestName,
+      guestEmail: a.guestEmail || '',
+      guestPhone: a.guestPhone || '',
+      itemName: a.amenity.title_es,
+      dateStart: a.date.toISOString(),
+      dateEnd: '',
+      timeSlot: a.timeSlot,
+      guests: a.guests,
+      totalPrice: a.totalPrice,
+      paymentMethod: '',
+      status: a.status,
+      createdAt: a.createdAt.toISOString(),
+      notes: a.notes || '',
+    })),
+  ];
+
+  // Fetch amenities for the "create amenity reservation" form
+  const amenities = await prisma.amenity.findMany({
+    where: { isActive: true },
+    select: { id: true, title_es: true, price: true },
+    orderBy: { sortOrder: 'asc' },
+  });
+
   return (
     <div className={styles.container}>
       <h1 className={styles.pageTitle}>Gestión de Reservaciones</h1>
-      <p className={styles.subtitle}>Supervisa todos los ingresos, ingresos y estatus de los huéspedes.</p>
+      <p className={styles.subtitle}>Supervisa todas las reservaciones de habitaciones y amenidades.</p>
 
-      <div className={styles.card}>
-        <div className={styles.tableWrapper}>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Huésped</th>
-                <th>Habitación</th>
-                <th>Fechas</th>
-                <th>Total</th>
-                <th>Método de Pago</th>
-                <th>Estado</th>
-                <th>Acción</th>
-              </tr>
-            </thead>
-            <tbody>
-              {reservations.length === 0 ? (
-                <tr><td colSpan={8} className={styles.empty}>No hay reservaciones todavía.</td></tr>
-              ) : reservations.map((res) => (
-                <tr key={res.id}>
-                  <td className={styles.muted}>#{res.id.split('-')[0]}</td>
-                  <td>
-                    <strong>{res.guest.name}</strong><br/>
-                    <span className={styles.mutedText}>{res.guest.email}</span><br/>
-                    <span className={styles.mutedText}>{res.guest.phone}</span>
-                  </td>
-                  <td>{res.room.contentName}</td>
-                  <td>
-                    {res.checkInDate.toLocaleDateString()} <br/>a<br/> 
-                    {res.checkOutDate.toLocaleDateString()}
-                  </td>
-                  <td>${res.totalPrice.toFixed(2)}</td>
-                  <td>{res.payment?.paymentMethod.replace('_', ' ').toUpperCase() || 'N/A'}</td>
-                  <td>
-                    <span className={`${styles.badge} ${styles[res.status.toLowerCase()]}`}>
-                      {res.status}
-                    </span>
-                  </td>
-                  <td>
-                    <form action={async () => {
-                      'use server';
-                      const newStatus = res.status === 'PENDING' ? 'CONFIRMED' : 'PENDING';
-                      await updateReservationStatus(res.id, newStatus);
-                    }}>
-                      <button type="submit" className={styles.actionBtn}>
-                        {res.status === 'PENDING' ? 'Confirmar' : 'Marcar Pendiente'}
-                      </button>
-                    </form>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <ReservationFilters data={unified} amenities={amenities} />
     </div>
   );
 }

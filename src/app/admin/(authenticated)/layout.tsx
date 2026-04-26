@@ -38,6 +38,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           <Link href="/admin" className={styles.navLink}>📊 Dashboard</Link>
           <Link href="/admin/reservations" className={styles.navLink}>📅 Reservaciones</Link>
           <Link href="/admin/rooms" className={styles.navLink}>🛏️ Habitaciones</Link>
+          <Link href="/admin/amenities" className={styles.navLink}>🏊 Amenidades</Link>
           <Link href="/admin/content" className={styles.navLink}>✍️ Contenido</Link>
           <Link href="/admin/media" className={styles.navLink}>🖼️ Media</Link>
           <Link href="/admin/settings" className={styles.navLink}>⚙️ Ajustes & Tema</Link>

@@ -110,10 +110,29 @@ model Amenity {
   desc_es   String
   desc_en   String
   imageUrl  String
+  price     Float    @default(0)
   isActive  Boolean  @default(true)
   sortOrder Int      @default(0)
   updatedAt DateTime @updatedAt
+  reservations AmenityReservation[]
 }
+
+model AmenityReservation {
+  id         String   @id @default(uuid())
+  amenityId  String
+  guestName  String
+  guestPhone String?
+  guestEmail String?
+  date       DateTime
+  timeSlot   String
+  guests     Int      @default(1)
+  totalPrice Float
+  status     String   @default("CONFIRMED")
+  notes      String?
+  createdAt  DateTime @default(now())
+  amenity    Amenity  @relation(fields: [amenityId], references: [id])
+}
+
 
 model GalleryImage {
   id          String  @id @default(uuid())
