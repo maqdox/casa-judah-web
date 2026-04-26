@@ -1,0 +1,257 @@
+.v2Wrapper {
+  background-color: #fff;
+  color: var(--color-tabaco);
+  font-family: var(--font-inter), sans-serif;
+}
+
+.hero {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  color: white;
+  max-width: 800px;
+  padding: 0 2rem;
+}
+
+.heroLabel {
+  display: block;
+  font-size: 0.75rem;
+  letter-spacing: 0.4em;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.heroContent h1 {
+  font-family: var(--font-playfair);
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 300;
+  line-height: 1.1;
+  margin-bottom: 2rem;
+  letter-spacing: -0.02em;
+}
+
+.heroContent p {
+  font-size: 1.1rem;
+  max-width: 500px;
+  margin: 0 auto 3rem;
+  line-height: 1.6;
+  opacity: 0.8;
+}
+
+.heroActions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem;
+}
+
+.mainCta {
+  padding: 1.2rem 3rem;
+  border: 1px solid white;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.8rem;
+  transition: all 0.3s;
+}
+
+.mainCta:hover {
+  background: white;
+  color: #000;
+}
+
+.scrollIndicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.scrollIndicator span {
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  opacity: 0.7;
+}
+
+.line {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(to bottom, white, transparent);
+}
+
+/* Story Section */
+.story {
+  padding: 12rem 2rem;
+  background-color: #fff;
+}
+
+.storyContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.storyHeading {
+  font-family: var(--font-playfair);
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 300;
+  line-height: 1.2;
+}
+
+.storyBody p {
+  font-size: 1.25rem;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  color: #444;
+}
+
+.textLink {
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--color-tabaco);
+  border-bottom: 1px solid var(--color-tabaco);
+  padding-bottom: 4px;
+}
+
+/* Grid Showcase */
+.gridShowcase {
+  padding: 4rem 2rem 12rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8rem;
+}
+
+.gridItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.offset {
+  margin-top: 15rem;
+}
+
+.imageBox {
+  position: relative;
+  aspect-ratio: 4/5;
+  overflow: hidden;
+}
+
+.imageBox img {
+  transition: transform 1.5s cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+.gridItem:hover .imageBox img {
+  transform: scale(1.05);
+}
+
+.itemInfo h3 {
+  font-family: var(--font-playfair);
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.itemInfo p {
+  line-height: 1.6;
+  color: #666;
+  margin-bottom: 1.5rem;
+  max-width: 400px;
+}
+
+.minimalBtn {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  color: var(--color-tabaco);
+}
+
+/* Quote Section */
+.quoteSection {
+  padding: 15rem 2rem;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.quoteBox {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.quoteBox blockquote {
+  font-family: var(--font-playfair);
+  font-style: italic;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  line-height: 1.4;
+  margin-bottom: 2rem;
+  color: #222;
+}
+
+.quoteBox cite {
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+/* Final Invite */
+.finalInvite {
+  padding: 15rem 2rem;
+  text-align: center;
+}
+
+.finalContent h2 {
+  font-family: var(--font-playfair);
+  font-size: clamp(2rem, 6vw, 4rem);
+  margin-bottom: 2rem;
+}
+
+.finalContent p {
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto 3rem;
+  line-height: 1.6;
+}
+
+.elevatedBtn {
+  padding: 1.2rem 4rem;
+  background-color: var(--color-tabaco);
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.8rem;
+  transition: all 0.3s;
+}
+
+.elevatedBtn:hover {
+  background-color: #000;
+  transform: translateY(-5px);
+}
+
+@media (max-width: 1024px) {
+  .gridShowcase {
+    grid-template-columns: 1fr;
+    gap: 4rem;
+  }
+  .offset {
+    margin-top: 0;
+  }
+  .storyContent {
+    grid-template-columns: 1fr;
+  }
+}

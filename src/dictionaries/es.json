@@ -3,7 +3,9 @@
     "rooms": "Habitaciones",
     "experiences": "Experiencias",
     "policies": "Políticas",
-    "bookNow": "Reservar"
+    "bookNow": "Reservar",
+    "menu": "MENÚ",
+    "home": "Inicio"
   },
   "home": {
     "heroTitle": "Simplicidad Elevada",

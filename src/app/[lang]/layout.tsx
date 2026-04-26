@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { getDictionary } from "@/dictionaries";
 import { prisma } from "@/lib/prisma";
+import { headers } from 'next/headers';
 
 const THEME_MAP: Record<string, { primary: string, accent: string }> = {
   'verde_olivo': { primary: '#4E583E', accent: '#D6BE9B' },
@@ -32,6 +33,10 @@ export default async function RootLayout({
   const { lang } = (await params) as { lang: 'en' | 'es' };
   const dict = await getDictionary(lang);
   
+  const headerList = await headers();
+  const pathname = headerList.get('x-pathname') || '';
+  const isV2 = pathname.includes('/v2');
+
   const themeSetting = await prisma.siteSetting.findUnique({ where: { key: 'activeTheme' } });
   const themeKey = themeSetting?.value || 'verde_olivo';
   const activeColors = THEME_MAP[themeKey] || THEME_MAP['verde_olivo'];
@@ -54,9 +59,9 @@ export default async function RootLayout({
         `}} />
       </head>
       <body className={`${inter.variable} ${playfair.variable}`}>
-        <Header dict={dict.navigation} lang={lang} />
+        {!isV2 && <Header dict={dict.navigation} lang={lang} />}
         {children}
-        <Footer />
+        {!isV2 && <Footer />}
       </body>
     </html>
   );

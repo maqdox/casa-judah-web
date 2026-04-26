@@ -3,7 +3,9 @@
     "rooms": "Rooms",
     "experiences": "Experiences",
     "policies": "Policies",
-    "bookNow": "Book Now"
+    "bookNow": "Book Now",
+    "menu": "MENU",
+    "home": "Home"
   },
   "home": {
     "heroTitle": "Elevated Simplicity",
