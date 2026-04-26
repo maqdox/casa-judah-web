@@ -51,7 +51,7 @@
 .cardName {
   font-family: var(--font-serif);
   font-size: 1.1rem;
-  color: #2c2c2c;
+  color: #fff;
 }
 
 /* Arrows */
@@ -64,9 +64,9 @@
 .arrow {
   width: 44px;
   height: 44px;
-  border: 1px solid #ccc;
-  background: #fff;
-  color: #2c2c2c;
+  border: 1px solid rgba(255,255,255,0.3);
+  background: transparent;
+  color: #fff;
   font-size: 1.1rem;
   cursor: pointer;
   display: flex;
@@ -76,9 +76,9 @@
 }
 
 .arrow:hover {
-  background: #2c2c2c;
-  color: #fff;
-  border-color: #2c2c2c;
+  background: #fff;
+  color: #2B3A42;
+  border-color: #fff;
 }
 
 @media (max-width: 768px) {

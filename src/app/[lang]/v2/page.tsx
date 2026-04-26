@@ -92,8 +92,8 @@ export default async function HomeV2({ params }: { params: Promise<{ lang: strin
       </section>
 
       {/* ═══ BREAKFAST / EXPERIENCE ═══ */}
-      <section className={styles.splitSection}>
-        <div className={styles.splitText}>
+      <section className={styles.splitSectionAlt}>
+        <div className={styles.splitTextAlt}>
           <h3>{isEs ? 'Desayuno en Casa Judah' : 'Breakfast at Casa Judah'}</h3>
           <p>
             {isEs 

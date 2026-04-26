@@ -1,6 +1,7 @@
 /* ═══════════════════════════════════════════════
    V2 — Coco Hotel Inspired Design
-   Clean, editorial, boutique-hotel aesthetic
+   Colorful, editorial, boutique-hotel aesthetic
+   Rich warm color blocking per section
    ═══════════════════════════════════════════════ */
 
 .page {
@@ -19,7 +20,11 @@
 .heroOverlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.25);
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.10) 0%,
+    rgba(0,0,0,0.35) 100%
+  );
   z-index: 1;
 }
 
@@ -48,10 +53,11 @@
   max-width: 450px;
 }
 
-/* ─── WELCOME ─── */
+/* ─── WELCOME — Warm terracotta/clay ─── */
 .welcome {
   padding: 6rem 2rem;
-  background-color: #f7f5f0;
+  background-color: #C2775E;
+  color: #fff;
 }
 
 .welcomeInner {
@@ -65,27 +71,27 @@
   font-size: 2rem;
   font-weight: 400;
   margin-bottom: 1.5rem;
-  color: #2c2c2c;
+  color: #fff;
 }
 
 .welcomeInner p {
   font-size: 1.05rem;
   line-height: 1.8;
   margin-bottom: 2rem;
-  color: #555;
+  color: rgba(255,255,255,0.88);
 }
 
 .link {
   display: inline-block;
   font-size: 0.9rem;
-  color: #2c2c2c;
+  color: #fff;
   text-decoration: underline;
   text-underline-offset: 4px;
   transition: opacity 0.3s;
 }
 
 .link:hover {
-  opacity: 0.6;
+  opacity: 0.7;
 }
 
 /* ─── SPLIT SECTION (image + text side by side) ─── */
@@ -100,12 +106,14 @@
   min-height: 500px;
 }
 
+/* First split: deep forest green text side */
 .splitText {
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 4rem 5rem;
-  background-color: #f7f5f0;
+  background-color: #3D5C3A;
+  color: #fff;
 }
 
 .splitText h3 {
@@ -113,42 +121,83 @@
   font-size: 1.6rem;
   font-weight: 400;
   margin-bottom: 1.5rem;
-  color: #2c2c2c;
+  color: #fff;
 }
 
 .splitText p {
   font-size: 0.95rem;
   line-height: 1.8;
-  color: #555;
+  color: rgba(255,255,255,0.85);
   margin-bottom: 2rem;
   max-width: 450px;
+}
+
+.splitText .link {
+  color: #fff;
 }
 
 .ctaBtn {
   display: inline-block;
   padding: 0.9rem 2.2rem;
-  background-color: #2c2c2c;
-  color: #fff;
+  background-color: #fff;
+  color: #3D5C3A;
   font-size: 0.8rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   border: none;
-  transition: background-color 0.3s;
+  transition: all 0.3s;
   align-self: flex-start;
+  font-weight: 600;
 }
 
 .ctaBtn:hover {
-  background-color: #000;
+  background-color: #f0ece4;
 }
 
-/* ─── ROOMS CAROUSEL SECTION ─── */
+/* Second split: warm sand/cream text side */
+.splitSectionAlt {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 500px;
+}
+
+.splitTextAlt {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4rem 5rem;
+  background-color: #E8D5B7;
+  color: #3A2D1F;
+}
+
+.splitTextAlt h3 {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-weight: 400;
+  margin-bottom: 1.5rem;
+  color: #3A2D1F;
+}
+
+.splitTextAlt p {
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: #5A4A3A;
+  margin-bottom: 2rem;
+  max-width: 450px;
+}
+
+.splitTextAlt .link {
+  color: #3A2D1F;
+}
+
+/* ─── ROOMS CAROUSEL SECTION — Deep blue/slate ─── */
 .roomsSection {
   padding: 5rem 0 5rem 4rem;
-  background-color: #fff;
+  background-color: #2B3A42;
   overflow: hidden;
 }
 
-/* ─── TWO COLUMN CARDS ─── */
+/* ─── TWO COLUMN CARDS — Alternating rich colors ─── */
 .twoColCards {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -157,12 +206,17 @@
 
 .colCard {
   padding: 3rem;
-  background-color: #f7f5f0;
-  border-bottom: 1px solid #e8e4dc;
+  border-bottom: none;
 }
 
 .colCard:first-child {
-  border-right: 1px solid #e8e4dc;
+  background-color: #8B6F4E;
+  color: #fff;
+}
+
+.colCard:last-child {
+  background-color: #556B4E;
+  color: #fff;
 }
 
 .colCardImage {
@@ -186,21 +240,25 @@
   font-size: 1.4rem;
   font-weight: 400;
   margin-bottom: 0.8rem;
-  color: #2c2c2c;
+  color: #fff;
 }
 
 .colCard p {
   font-size: 0.92rem;
   line-height: 1.7;
-  color: #666;
+  color: rgba(255,255,255,0.8);
   margin-bottom: 1rem;
 }
 
-/* ─── PHILOSOPHY / SUSTAINABILITY ─── */
+.colCard .link {
+  color: #fff;
+}
+
+/* ─── PHILOSOPHY / SUSTAINABILITY — Dusty rose ─── */
 .philosophy {
   padding: 6rem 2rem;
-  background-color: #f7f5f0;
-  border-top: 1px solid #e8e4dc;
+  background-color: #B88B8B;
+  color: #fff;
 }
 
 .philosophyInner {
@@ -214,14 +272,18 @@
   font-size: 1.6rem;
   font-weight: 400;
   margin-bottom: 1.5rem;
-  color: #2c2c2c;
+  color: #fff;
 }
 
 .philosophyInner p {
   font-size: 0.95rem;
   line-height: 1.8;
-  color: #555;
+  color: rgba(255,255,255,0.88);
   margin-bottom: 2rem;
+}
+
+.philosophyInner .link {
+  color: #fff;
 }
 
 /* ─── RESPONSIVE ─── */
@@ -236,7 +298,8 @@
     font-size: 2.2rem;
   }
 
-  .splitSection {
+  .splitSection,
+  .splitSectionAlt {
     grid-template-columns: 1fr;
   }
 
@@ -244,16 +307,13 @@
     min-height: 350px;
   }
 
-  .splitText {
+  .splitText,
+  .splitTextAlt {
     padding: 3rem 2rem;
   }
 
   .twoColCards {
     grid-template-columns: 1fr;
-  }
-
-  .colCard:first-child {
-    border-right: none;
   }
 
   .roomsSection {
