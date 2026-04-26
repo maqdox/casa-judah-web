@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════
-   HeaderV2 — Coco Hotel style header
+   HeaderV2 — Premium Farm Hotel style
+   Babylonstoren / Singita inspired
    ═══════════════════════════════════════ */
 
 .header {
@@ -11,47 +12,50 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.4rem 2.5rem;
-  transition: all 0.35s ease;
+  padding: 1.6rem 3rem;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   background: transparent;
 }
 
 .solid {
-  background: rgba(247, 245, 240, 0.97);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+  background: rgba(250, 248, 244, 0.97);
+  backdrop-filter: blur(12px);
+  padding: 1.1rem 3rem;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
 }
 
 /* Left */
-.left {
-  flex: 1;
-}
+.left { flex: 1; }
 
 .bookLink {
-  font-size: 0.85rem;
-  letter-spacing: 0.02em;
-  color: #fff;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  transition: opacity 0.2s;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.9);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+  padding-bottom: 2px;
+  transition: all 0.3s;
+  font-weight: 500;
 }
 
 .bookLink:hover {
-  opacity: 0.7;
+  border-color: rgba(255,255,255,0.8);
 }
 
 .solid .bookLink {
-  color: #2c2c2c;
+  color: #C8A97E;
+  border-color: #C8A97E;
+}
+
+.solid .bookLink:hover {
+  color: #3A2E26;
+  border-color: #3A2E26;
 }
 
 /* Center */
-.center {
-  flex: 0;
-}
-
-.logo {
-  height: 40px;
-}
+.center { flex: 0; }
+.logo { height: 42px; }
 
 /* Right */
 .right {
@@ -59,30 +63,28 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
 .langLink {
-  font-size: 0.85rem;
-  color: #fff;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.8);
   text-decoration: none;
-  transition: opacity 0.2s;
+  transition: opacity 0.3s;
+  font-weight: 500;
 }
 
-.langLink:hover {
-  opacity: 0.7;
-}
-
-.solid .langLink {
-  color: #2c2c2c;
-}
+.langLink:hover { opacity: 0.6; }
+.solid .langLink { color: #3A2E26; }
 
 /* Burger */
 .burger {
   background: none;
   border: none;
-  width: 26px;
-  height: 18px;
+  width: 28px;
+  height: 16px;
   position: relative;
   cursor: pointer;
   padding: 0;
@@ -93,33 +95,26 @@
   position: absolute;
   left: 0;
   width: 100%;
-  height: 1.5px;
-  background: #fff;
-  transition: all 0.35s ease;
+  height: 1px;
+  background: rgba(255,255,255,0.9);
+  transition: all 0.4s ease;
 }
 
-.solid .burger span {
-  background: #2c2c2c;
-}
+.solid .burger span { background: #3A2E26; }
 
-.burger span:first-child {
-  top: 3px;
-}
-
-.burger span:last-child {
-  bottom: 3px;
-}
+.burger span:first-child { top: 2px; }
+.burger span:last-child { bottom: 2px; }
 
 .burgerOpen span:first-child {
   top: 50%;
   transform: translateY(-50%) rotate(45deg);
-  background: #2c2c2c !important;
+  background: #3A2E26 !important;
 }
 
 .burgerOpen span:last-child {
   bottom: 50%;
   transform: translateY(50%) rotate(-45deg);
-  background: #2c2c2c !important;
+  background: #3A2E26 !important;
 }
 
 /* ─── Overlay ─── */
@@ -127,13 +122,13 @@
   position: fixed;
   inset: 0;
   z-index: 999;
-  background: #f7f5f0;
+  background: #FAF8F4;
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .overlayVisible {
@@ -145,32 +140,25 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.8rem;
+  gap: 2rem;
 }
 
 .overlayNav a {
-  font-family: var(--font-serif);
-  font-size: 2.4rem;
+  font-family: var(--font-playfair), serif;
+  font-size: 2.8rem;
   font-weight: 400;
-  color: #2c2c2c;
+  color: #3A2E26;
   text-decoration: none;
-  transition: opacity 0.25s;
+  transition: all 0.3s;
 }
 
 .overlayNav a:hover {
-  opacity: 0.5;
+  color: #C8A97E;
 }
 
 @media (max-width: 768px) {
-  .header {
-    padding: 1rem 1.2rem;
-  }
-
-  .bookLink {
-    font-size: 0.78rem;
-  }
-
-  .overlayNav a {
-    font-size: 1.8rem;
-  }
+  .header { padding: 1.2rem 1.5rem; }
+  .solid { padding: 0.9rem 1.5rem; }
+  .bookLink { font-size: 0.65rem; }
+  .overlayNav a { font-size: 2rem; }
 }

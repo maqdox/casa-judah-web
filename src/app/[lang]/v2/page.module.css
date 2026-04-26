@@ -1,19 +1,56 @@
-/* ═══════════════════════════════════════════════
-   V2 — Coco Hotel Inspired Design
-   Colorful, editorial, boutique-hotel aesthetic
-   Rich warm color blocking per section
-   ═══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════
+   V2 PREMIUM — Inspired by Babylonstoren + Singita
+   Warm cream, editorial serif, cinematic imagery
+   ═══════════════════════════════════════════════════ */
 
 .page {
-  background-color: #f7f5f0;
-  color: #2c2c2c;
-  font-family: var(--font-sans);
+  --cream: #FAF8F4;
+  --brown: #3A2E26;
+  --gold: #C8A97E;
+  --olive: #5A6B47;
+  --sand: #E8DFD0;
+  --serif: var(--font-playfair), 'Georgia', serif;
+  --sans: var(--font-inter), 'Helvetica Neue', sans-serif;
+
+  background-color: var(--cream);
+  color: var(--brown);
+  font-family: var(--sans);
 }
 
-/* ─── HERO ─── */
+/* ─── SHARED ─── */
+.sectionTag {
+  display: block;
+  font-size: 0.65rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.textCta {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border-bottom: 1px solid var(--gold);
+  padding-bottom: 3px;
+  transition: all 0.3s;
+  font-weight: 600;
+}
+
+.textCta:hover {
+  color: var(--brown);
+  border-color: var(--brown);
+}
+
+/* ─── 1. HERO ─── */
 .hero {
   position: relative;
-  height: 85vh;
+  height: 100vh;
+  min-height: 600px;
   overflow: hidden;
 }
 
@@ -21,302 +58,283 @@
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    to bottom,
-    rgba(0,0,0,0.10) 0%,
-    rgba(0,0,0,0.35) 100%
+    180deg,
+    rgba(0,0,0,0.1) 0%,
+    rgba(0,0,0,0.05) 40%,
+    rgba(0,0,0,0.45) 100%
   );
   z-index: 1;
 }
 
 .heroContent {
   position: absolute;
-  bottom: 6rem;
-  left: 4rem;
+  bottom: 8rem;
+  left: 0;
+  right: 0;
   z-index: 2;
+  text-align: center;
   color: #fff;
-  max-width: 600px;
+  padding: 0 2rem;
+}
+
+.heroTag {
+  font-size: 0.65rem;
+  letter-spacing: 0.4em;
+  opacity: 0.7;
+  display: block;
+  margin-bottom: 1.5rem;
 }
 
 .heroContent h1 {
-  font-family: var(--font-serif);
-  font-size: 3.5rem;
+  font-family: var(--serif);
+  font-size: clamp(2.8rem, 6vw, 5rem);
   font-weight: 400;
-  line-height: 1.15;
-  margin-bottom: 1rem;
+  line-height: 1.1;
+  margin-bottom: 1.2rem;
   color: #fff;
 }
 
 .heroContent p {
-  font-size: 1.05rem;
-  line-height: 1.7;
+  font-size: 1.1rem;
+  max-width: 500px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.6;
   opacity: 0.85;
-  max-width: 450px;
 }
 
-/* ─── WELCOME — Warm terracotta/clay ─── */
-.welcome {
-  padding: 6rem 2rem;
-  background-color: #C2775E;
-  color: #fff;
-}
-
-.welcomeInner {
-  max-width: 720px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.welcomeInner h2 {
-  font-family: var(--font-serif);
-  font-size: 2rem;
-  font-weight: 400;
-  margin-bottom: 1.5rem;
-  color: #fff;
-}
-
-.welcomeInner p {
-  font-size: 1.05rem;
-  line-height: 1.8;
-  margin-bottom: 2rem;
-  color: rgba(255,255,255,0.88);
-}
-
-.link {
+.heroBtn {
   display: inline-block;
-  font-size: 0.9rem;
+  padding: 1rem 3rem;
+  border: 1px solid rgba(255,255,255,0.6);
   color: #fff;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  transition: opacity 0.3s;
-}
-
-.link:hover {
-  opacity: 0.7;
-}
-
-/* ─── SPLIT SECTION (image + text side by side) ─── */
-.splitSection {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  min-height: 500px;
-}
-
-.splitImage {
-  position: relative;
-  min-height: 500px;
-}
-
-/* First split: deep forest green text side */
-.splitText {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 4rem 5rem;
-  background-color: #3D5C3A;
-  color: #fff;
-}
-
-.splitText h3 {
-  font-family: var(--font-serif);
-  font-size: 1.6rem;
-  font-weight: 400;
-  margin-bottom: 1.5rem;
-  color: #fff;
-}
-
-.splitText p {
-  font-size: 0.95rem;
-  line-height: 1.8;
-  color: rgba(255,255,255,0.85);
-  margin-bottom: 2rem;
-  max-width: 450px;
-}
-
-.splitText .link {
-  color: #fff;
-}
-
-.ctaBtn {
-  display: inline-block;
-  padding: 0.9rem 2.2rem;
-  background-color: #fff;
-  color: #3D5C3A;
-  font-size: 0.8rem;
-  letter-spacing: 0.08em;
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
-  border: none;
-  transition: all 0.3s;
-  align-self: flex-start;
-  font-weight: 600;
+  transition: all 0.4s;
+  font-weight: 500;
 }
 
-.ctaBtn:hover {
-  background-color: #f0ece4;
+.heroBtn:hover {
+  background: #fff;
+  color: var(--brown);
+  border-color: #fff;
 }
 
-/* Second split: warm sand/cream text side */
-.splitSectionAlt {
+/* ─── 2. WHO WE ARE ─── */
+.whoWeAre {
+  padding: 8rem 2rem;
+  text-align: center;
+  max-width: 750px;
+  margin: 0 auto;
+}
+
+.whoWeAre h2 {
+  font-family: var(--serif);
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 400;
+  line-height: 1.25;
+  margin-bottom: 2rem;
+}
+
+.whoWeAre p {
+  font-size: 1.05rem;
+  line-height: 1.9;
+  color: #6B5E52;
+  margin-bottom: 2rem;
+}
+
+/* ─── 3. FULL BLEED IMAGE ─── */
+.fullBleed {
+  position: relative;
+  height: 60vh;
+  min-height: 400px;
+}
+
+/* ─── 4 & 6. FEATURE BLOCK ─── */
+.featureBlock {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.2fr 1fr;
+  min-height: 600px;
+  background: var(--cream);
+}
+
+.featureReverse {
+  direction: rtl;
+}
+
+.featureReverse > * {
+  direction: ltr;
+}
+
+.featureImage {
+  position: relative;
   min-height: 500px;
 }
 
-.splitTextAlt {
+.featureText {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 4rem 5rem;
-  background-color: #E8D5B7;
-  color: #3A2D1F;
+  padding: 5rem 6rem;
 }
 
-.splitTextAlt h3 {
-  font-family: var(--font-serif);
-  font-size: 1.6rem;
+.featureText h2 {
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
   font-weight: 400;
+  line-height: 1.3;
   margin-bottom: 1.5rem;
-  color: #3A2D1F;
 }
 
-.splitTextAlt p {
+.featureText p {
   font-size: 0.95rem;
-  line-height: 1.8;
-  color: #5A4A3A;
+  line-height: 1.85;
+  color: #6B5E52;
   margin-bottom: 2rem;
-  max-width: 450px;
+  max-width: 420px;
 }
 
-.splitTextAlt .link {
-  color: #3A2D1F;
+.solidBtn {
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  background: var(--olive);
+  color: #fff;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  align-self: flex-start;
+  transition: all 0.4s;
+  font-weight: 500;
 }
 
-/* ─── ROOMS CAROUSEL SECTION — Deep blue/slate ─── */
+.solidBtn:hover {
+  background: var(--brown);
+}
+
+/* ─── 5. ROOMS SECTION ─── */
 .roomsSection {
-  padding: 5rem 0 5rem 4rem;
-  background-color: #2B3A42;
+  padding: 8rem 0 6rem;
+  background: #fff;
   overflow: hidden;
 }
 
-/* ─── TWO COLUMN CARDS — Alternating rich colors ─── */
-.twoColCards {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0;
+.roomsHeader {
+  max-width: 600px;
+  margin: 0 auto 4rem;
+  text-align: center;
+  padding: 0 2rem;
 }
 
-.colCard {
-  padding: 3rem;
-  border-bottom: none;
-}
-
-.colCard:first-child {
-  background-color: #8B6F4E;
-  color: #fff;
-}
-
-.colCard:last-child {
-  background-color: #556B4E;
-  color: #fff;
-}
-
-.colCardImage {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16/10;
-  margin-bottom: 1.5rem;
-  overflow: hidden;
-}
-
-.colCardImage img {
-  transition: transform 0.8s ease;
-}
-
-.colCard:hover .colCardImage img {
-  transform: scale(1.03);
-}
-
-.colCard h3 {
-  font-family: var(--font-serif);
-  font-size: 1.4rem;
+.roomsHeader h2 {
+  font-family: var(--serif);
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
   font-weight: 400;
-  margin-bottom: 0.8rem;
-  color: #fff;
-}
-
-.colCard p {
-  font-size: 0.92rem;
-  line-height: 1.7;
-  color: rgba(255,255,255,0.8);
   margin-bottom: 1rem;
 }
 
-.colCard .link {
-  color: #fff;
+.roomsHeader p {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #6B5E52;
 }
 
-/* ─── PHILOSOPHY / SUSTAINABILITY — Dusty rose ─── */
-.philosophy {
-  padding: 6rem 2rem;
-  background-color: #B88B8B;
-  color: #fff;
-}
-
-.philosophyInner {
-  max-width: 720px;
-  margin: 0 auto;
+/* ─── 7. QUOTE ─── */
+.quoteBlock {
+  padding: 8rem 2rem;
+  background: var(--cream);
   text-align: center;
+  border-top: 1px solid var(--sand);
+  border-bottom: 1px solid var(--sand);
 }
 
-.philosophyInner h2 {
-  font-family: var(--font-serif);
-  font-size: 1.6rem;
+.quoteBlock blockquote {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(1.3rem, 3vw, 2rem);
+  line-height: 1.5;
+  max-width: 800px;
+  margin: 0 auto;
+  color: var(--olive);
+  font-weight: 400;
+}
+
+/* ─── 8. FINAL CTA ─── */
+.finalCta {
+  position: relative;
+  height: 70vh;
+  min-height: 450px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.finalOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+.finalContent {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: #fff;
+  padding: 0 2rem;
+}
+
+.finalContent h2 {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 5vw, 3.5rem);
   font-weight: 400;
   margin-bottom: 1.5rem;
   color: #fff;
 }
 
-.philosophyInner p {
-  font-size: 0.95rem;
-  line-height: 1.8;
-  color: rgba(255,255,255,0.88);
-  margin-bottom: 2rem;
-}
-
-.philosophyInner .link {
-  color: #fff;
+.finalContent p {
+  font-size: 1.05rem;
+  max-width: 500px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.6;
+  opacity: 0.85;
 }
 
 /* ─── RESPONSIVE ─── */
 @media (max-width: 900px) {
   .heroContent {
-    bottom: 4rem;
-    left: 2rem;
-    right: 2rem;
+    bottom: 5rem;
   }
 
-  .heroContent h1 {
-    font-size: 2.2rem;
-  }
-
-  .splitSection,
-  .splitSectionAlt {
+  .featureBlock {
     grid-template-columns: 1fr;
   }
 
-  .splitImage {
+  .featureReverse {
+    direction: ltr;
+  }
+
+  .featureImage {
     min-height: 350px;
   }
 
-  .splitText,
-  .splitTextAlt {
-    padding: 3rem 2rem;
+  .featureText {
+    padding: 3.5rem 2rem;
   }
 
-  .twoColCards {
-    grid-template-columns: 1fr;
+  .whoWeAre {
+    padding: 5rem 2rem;
   }
 
   .roomsSection {
-    padding-left: 2rem;
+    padding: 5rem 0 4rem;
+  }
+
+  .roomsHeader {
+    margin-bottom: 2.5rem;
+  }
+
+  .quoteBlock {
+    padding: 5rem 2rem;
   }
 }
