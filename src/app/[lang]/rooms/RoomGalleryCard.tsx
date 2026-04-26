@@ -44,7 +44,9 @@ export default function RoomGalleryCard({ room, lang, dict }: RoomCardProps) {
   // Parse description for bullets
   const parseDescription = (desc: string) => {
     if (!desc) return { intro: '', amenities: [] };
-    const parts = desc.split('Incluye:');
+    // Support both Spanish and English keywords
+    const splitRegex = /Incluye:|Includes:/i;
+    const parts = desc.split(splitRegex);
     const intro = parts[0].trim();
     const amenities = parts[1] ? parts[1].split(',').map(a => a.trim()).filter(Boolean) : [];
     return { intro, amenities };
