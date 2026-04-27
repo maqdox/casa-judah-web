@@ -3,6 +3,7 @@
     "rooms": "Rooms",
     "experiences": "Experiences",
     "policies": "Policies",
+    "faqs": "FAQS",
     "bookNow": "Book Now",
     "menu": "MENU",
     "home": "Home"
@@ -75,5 +76,31 @@
     "g2t": "Smoking is strictly prohibited inside the rooms and common indoor areas. Designated smoking zones are available outside.",
     "g3": "Cancellation Policy",
     "g3t": "Full refund for cancellations made up to 14 days prior to check-in. 50% refund for cancellations up to 7 days before. No refunds for cancellations within 7 days."
+  },
+  "faqsPage": {
+    "title": "Frequently Asked Questions (FAQS)",
+    "subtitle": "Find answers to the most common questions to prepare for your visit.",
+    "items": [
+      {
+        "q": "Do you have Wi-Fi?",
+        "a": "Yes, we provide high-speed satellite Wi-Fi in the cabins and common areas so you can stay connected if you wish."
+      },
+      {
+        "q": "Are you Pet-Friendly?",
+        "a": "Yes, we love animals. Your pet is welcome; only certain coexistence and cleanliness rules apply to ensure the peace of all guests and farm animals."
+      },
+      {
+        "q": "Is breakfast included?",
+        "a": "Yes, all our cabin reservations include a traditional Honduran breakfast made with organic ingredients from our farm."
+      },
+      {
+        "q": "Can I visit just to use the pool without staying overnight?",
+        "a": "Yes, we offer Day Passes subject to availability. We recommend contacting us via WhatsApp beforehand to reserve your spot."
+      },
+      {
+        "q": "How far are you from downtown Catacamas?",
+        "a": "We are located approximately a 15-minute drive from downtown Catacamas, in a quiet and easily accessible countryside area."
+      }
+    ]
   }
 }

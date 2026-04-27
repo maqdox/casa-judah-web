@@ -12,7 +12,7 @@ export default function WhatsAppButton() {
     return () => { clearTimeout(timer); clearTimeout(pTimer); };
   }, []);
 
-  const phone = '50431861032';
+  const phone = '50498316555';
   const message = encodeURIComponent('¡Hola! Me gustaría obtener más información sobre Casa Judah 🌿');
   const url = `https://wa.me/${phone}?text=${message}`;
 

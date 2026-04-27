@@ -3,6 +3,7 @@
     "rooms": "Habitaciones",
     "experiences": "Experiencias",
     "policies": "Políticas",
+    "faqs": "FAQS",
     "bookNow": "Reservar",
     "menu": "MENÚ",
     "home": "Inicio"
@@ -75,5 +76,31 @@
     "g2t": "Fumar es estrictamente prohibido adentro de cualquier cabaña y área común interna. Si tienes necesidad, podrás ubicar amplias zonas abiertas delimitadas afuera de las instalaciones.",
     "g3": "Políticas de Cancelación",
     "g3t": "Ofrecemos reembolso del 100% al cancelar tu estadía con 14 días o más de anticipación al momento de tu Check-in programado. Hasta 7 días antes se retornará el 50%. En plazos menores no ofrecemos reembolso de dinero."
+  },
+  "faqsPage": {
+    "title": "Preguntas Frecuentes (FAQS)",
+    "subtitle": "Encuentra respuestas a las dudas más comunes para preparar tu visita.",
+    "items": [
+      {
+        "q": "¿Cuentan con servicio de Wi-Fi?",
+        "a": "Sí, contamos con Wi-Fi satelital de alta velocidad en las cabañas y áreas comunes para que puedas mantenerte conectado si lo deseas."
+      },
+      {
+        "q": "¿Aceptan mascotas (Pet-Friendly)?",
+        "a": "Sí, amamos a los animales. Tu mascota es bienvenida; solo aplican ciertas reglas de convivencia y limpieza para asegurar la paz de todos los huéspedes y animales de la granja."
+      },
+      {
+        "q": "¿El desayuno está incluido?",
+        "a": "Sí, todas nuestras reservas de cabañas incluyen un desayuno tradicional hondureño elaborado con ingredientes orgánicos de nuestra granja."
+      },
+      {
+        "q": "¿Puedo visitar solo para usar la piscina sin hospedarme?",
+        "a": "Sí, ofrecemos pases de día (Day Passes) sujetos a disponibilidad. Recomendamos contactarnos por WhatsApp previamente para reservar tu espacio."
+      },
+      {
+        "q": "¿A qué distancia se encuentran del centro de Catacamas?",
+        "a": "Estamos ubicados a aproximadamente 15 minutos en auto del centro de Catacamas, en una zona de campo tranquila y de fácil acceso."
+      }
+    ]
   }
 }

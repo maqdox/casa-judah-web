@@ -107,9 +107,6 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         </div>
       </section>
 
-      {/* 5.6. FAQ */}
-      <FAQ title={t.faqTitle} items={t.faqItems as any} />
-
       {/* 6. FINAL CTA — Conversion */}
       <section className={styles.finalCta}>
         <h2>{t.finalCtaTitle}</h2>

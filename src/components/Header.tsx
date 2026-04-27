@@ -41,6 +41,7 @@ export default function Header({ dict, lang }: { dict: any, lang: string }) {
         <nav className={styles.nav}>
           <Link href={`/${lang}/rooms`}>{dict.rooms}</Link>
           <Link href={`/${lang}/experiences`}>{dict.experiences}</Link>
+          <Link href={`/${lang}/faqs`}>{dict.faqs}</Link>
           <Link href={`/${lang}/policies`}>{dict.policies}</Link>
         </nav>
         <div className={styles.logo}>
