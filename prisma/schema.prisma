@@ -55,6 +55,7 @@ model Payment {
   amount        Float
   paymentMethod String
   status        String      @default("PENDING")
+  receiptUrl    String?
   reservation   Reservation @relation(fields: [reservationId], references: [id])
 }
 

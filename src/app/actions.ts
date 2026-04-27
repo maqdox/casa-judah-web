@@ -3,6 +3,7 @@
 import { prisma } from '@/lib/prisma';
 import { revalidatePath } from 'next/cache';
 import nodemailer from 'nodemailer';
+import { supabase } from '@/lib/supabase';
 
 export async function createReservation(formData: FormData) {
   const roomId = formData.get('roomId') as string;
@@ -68,12 +69,31 @@ export async function createReservation(formData: FormData) {
     if (paymentMethod === 'partial_card') paymentAmount = totalPrice / 2;
     if (paymentMethod === 'hotel') paymentAmount = 0;
 
+    let receiptUrl = null;
+    const receiptFile = formData.get('receipt') as File | null;
+    
+    if (receiptFile && receiptFile.size > 0) {
+      const bytes = await receiptFile.arrayBuffer();
+      const buffer = Buffer.from(bytes);
+      const ext = receiptFile.name.split('.').pop() || 'jpg';
+      const filename = `receipt_${res.id}_${Date.now()}.${ext}`;
+      
+      const { data, error } = await supabase.storage
+        .from('receipts')
+        .upload(filename, buffer, { contentType: receiptFile.type });
+        
+      if (data) {
+        receiptUrl = supabase.storage.from('receipts').getPublicUrl(data.path).data.publicUrl;
+      }
+    }
+
     await tx.payment.create({
       data: {
         reservationId: res.id,
         amount: paymentAmount,
         paymentMethod,
-        status: ['full_card', 'partial_card'].includes(paymentMethod) ? 'COMPLETED' : 'PENDING'
+        status: ['full_card', 'partial_card'].includes(paymentMethod) ? 'COMPLETED' : 'PENDING',
+        receiptUrl
       }
     });
 

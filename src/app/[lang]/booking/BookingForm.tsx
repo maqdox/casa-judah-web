@@ -14,6 +14,7 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
   const [roomId, setRoomId] = useState(initialRoomId);
   const [checkIn, setCheckIn] = useState('');
   const [checkOut, setCheckOut] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState('full_card');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -46,6 +47,15 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
 
       const resId = await createReservation(formData);
 
+      let whatsappMsgExtra = '';
+      if (method === 'payment_link') {
+        whatsappMsgExtra = `\nPor favor envíenme un *Link de Pago* para confirmar esta solicitud.`;
+      } else if (method === 'bank_transfer') {
+        whatsappMsgExtra = `\nHe adjuntado mi comprobante de transferencia en su sistema.`;
+      } else {
+        whatsappMsgExtra = `\nPor favor confírmenme disponibilidad.`;
+      }
+
       // Generar mensaje de WhatsApp
       const whatsappMessage = `*Nueva Solicitud de Reservación*\n\n` +
         `*ID:* #${resId.split('-')[0]}\n` +
@@ -54,8 +64,8 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
         `*Habitación:* ${selectedRoom?.contentName}\n` +
         `*Fechas:* ${checkInD} al ${checkOutD}\n` +
         `*Total:* L ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(totalPrice)}\n` +
-        `*Pago:* ${method}\n\n` +
-        `Por favor confírmenme disponibilidad.`;
+        `*Pago:* ${method}\n` +
+        whatsappMsgExtra;
 
       const whatsappUrl = `https://wa.me/50498316555?text=${encodeURIComponent(whatsappMessage)}`;
       window.open(whatsappUrl, '_blank');
@@ -174,7 +184,7 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
 
       <div className={styles.sectionTitle}>{t.section4}</div>
       <div className={styles.formGroup}>
-        <select name="paymentMethod" required>
+        <select name="paymentMethod" required value={paymentMethod} onChange={e => setPaymentMethod(e.target.value)}>
           <option value="full_card">{t.optFull}</option>
           <option value="partial_card">{t.optPart}</option>
           <option value="hotel">{t.optHotel}</option>
@@ -183,6 +193,14 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
         </select>
         <p className={styles.helperText}>{t.helper}</p>
       </div>
+
+      {paymentMethod === 'bank_transfer' && (
+        <div className={styles.formGroup} style={{ marginTop: '1rem', padding: '1rem', backgroundColor: 'rgba(0,0,0,0.03)', borderRadius: '8px' }}>
+          <label style={{ marginBottom: '0.5rem', display: 'block', fontWeight: 600 }}>Adjuntar Comprobante (Requerido)</label>
+          <input type="file" name="receipt" accept="image/png, image/jpeg, image/webp, application/pdf" required style={{ width: '100%' }} />
+          <p style={{ fontSize: '0.8rem', color: '#666', marginTop: '0.5rem' }}>Aceptamos JPG, PNG o PDF. Máximo 10MB.</p>
+        </div>
+      )}
 
       {totalPrice > 0 && selectedRoom && checkIn && checkOut && (
         <div className={styles.financialSummary}>

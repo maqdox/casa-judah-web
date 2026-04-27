@@ -17,6 +17,7 @@ interface UnifiedReservation {
   guests: number;
   totalPrice: number;
   paymentMethod: string;
+  receiptUrl: string | null;
   status: string;
   createdAt: string;
   notes: string;
@@ -222,7 +223,16 @@ export default function ReservationFilters({ data, amenities }: { data: UnifiedR
                     {r.dateEnd && <><br/><span className={styles.mutedText}>a {new Date(r.dateEnd).toLocaleDateString('es-HN')}</span></>}
                     {r.timeSlot && <><br/><span className={styles.mutedText}>{r.timeSlot}</span></>}
                   </td>
-                  <td>L {r.totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                  <td>
+                    L {r.totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                    {r.receiptUrl && (
+                      <div style={{ marginTop: '0.5rem' }}>
+                        <a href={r.receiptUrl} target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.75rem', color: '#0066cc', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                          📎 Ver Comprobante
+                        </a>
+                      </div>
+                    )}
+                  </td>
                   <td>
                     <span className={`${styles.badge} ${styles[r.status.toLowerCase()]}`}>
                       {r.status}
