@@ -45,6 +45,11 @@ export const metadata: Metadata = {
     description: 'Un santuario de calma en Olancho, Honduras.',
     images: ['/hero.jpg'],
   },
+  icons: {
+    icon: '/logo_dark_crop.png',
+    shortcut: '/logo_dark_crop.png',
+    apple: '/logo_dark_crop.png',
+  },
 };
 
 export default async function RootLayout({
