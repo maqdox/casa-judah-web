@@ -148,21 +148,71 @@
 }
 
 /* ─── Responsive ─── */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .header {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     padding: 1rem 1.5rem;
   }
   
   .nav {
-    display: none; /* Hide nav on mobile to prioritize logo and actions */
+    display: none;
   }
   
   .actions {
     gap: 1rem;
   }
+
+  .burgerIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2000;
+  }
+}
+
+@media (min-width: 1025px) {
+  .burgerIcon {
+    display: none;
+  }
+}
+
+/* ─── Mobile Menu Overlay ─── */
+.mobileMenu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--color-beige);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  z-index: 1500;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.mobileMenuOpen {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobileMenu a {
+  font-family: var(--font-sans);
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--color-dark-brown);
+  transition: color 0.3s ease;
+}
+
+.mobileMenu a:hover {
+  color: var(--color-olive);
 }
 
