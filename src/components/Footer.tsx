@@ -29,7 +29,7 @@ export default function Footer({ lang = 'es' }: FooterProps) {
         {/* Contact */}
         <div className={styles.col}>
           <h4>{isEs ? 'Contacto' : 'Contact'}</h4>
-          <a href="tel:+50431861032">+504 3186-1032</a>
+          <a href="tel:+50498316555">+504 9831-6555</a>
           <a href="mailto:info@casajudah.com">info@casajudah.com</a>
           <span>{isEs ? 'Catacamas, Olancho, Honduras' : 'Catacamas, Olancho, Honduras'}</span>
         </div>
