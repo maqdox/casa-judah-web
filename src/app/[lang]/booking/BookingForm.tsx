@@ -38,7 +38,28 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
     
     try {
       const formData = new FormData(e.currentTarget);
+      const name = formData.get('name') as string;
+      const phoneInput = formData.get('phone') as string;
+      const checkInD = formData.get('checkIn') as string;
+      const checkOutD = formData.get('checkOut') as string;
+      const method = formData.get('paymentMethod') as string;
+
       const resId = await createReservation(formData);
+
+      // Generar mensaje de WhatsApp
+      const whatsappMessage = `*Nueva Solicitud de Reservación*\n\n` +
+        `*ID:* #${resId.split('-')[0]}\n` +
+        `*Huésped:* ${name}\n` +
+        `*Teléfono:* ${phoneInput}\n` +
+        `*Habitación:* ${selectedRoom?.contentName}\n` +
+        `*Fechas:* ${checkInD} al ${checkOutD}\n` +
+        `*Total:* L ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(totalPrice)}\n` +
+        `*Pago:* ${method}\n\n` +
+        `Por favor confírmenme disponibilidad.`;
+
+      const whatsappUrl = `https://wa.me/50498316555?text=${encodeURIComponent(whatsappMessage)}`;
+      window.open(whatsappUrl, '_blank');
+
       router.push(`/${lang}/booking/success?resId=${resId}`);
     } catch (err: any) {
       setError(err.message || 'An unexpected error occurred.');
