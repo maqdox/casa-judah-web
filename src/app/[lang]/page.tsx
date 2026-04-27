@@ -96,7 +96,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         <p style={{ color: '#555', marginBottom: '2rem' }}>{t.locationText}</p>
         <div style={{ width: '100%', height: '400px', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.05)' }}>
           <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15440.098877142724!2d-85.88219!3d14.85191!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f7009001b97ad89%3A0x6b77ad92dc5ccb9!2sCasa%20Judah%20Farm%20Hotel!5e0!3m2!1sen!2shn!4v1700000000000!5m2!1sen!2shn" 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15440.098877142724!2d-85.7619285!3d14.7970367!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f6c6596269b0217%3A0x5e2fff1ae76e0c2e!2sCasa%20Judah%20Farm%20Hotel!5e0!3m2!1ses!2shn!4v1700000000000!5m2!1ses!2shn" 
             width="100%" 
             height="100%" 
             style={{ border: 0 }} 
