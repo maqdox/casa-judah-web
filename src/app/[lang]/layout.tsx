@@ -68,7 +68,6 @@ export default async function RootLayout({
   return (
     <html lang={lang}>
       <head>
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <style dangerouslySetInnerHTML={{__html: `
           :root {
             --color-dark-brown: ${activeColors.primary};
