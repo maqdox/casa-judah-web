@@ -1,6 +1,6 @@
 .footer {
-  background-color: #2E2520;
-  color: #B5A898;
+  background-color: var(--color-beige);
+  color: var(--color-text);
   padding: 5rem 3rem 2.5rem;
 }
 
@@ -11,7 +11,7 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 3rem;
   padding-bottom: 4rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .col {
@@ -24,19 +24,19 @@
   font-size: 0.6rem;
   text-transform: uppercase;
   letter-spacing: 0.25em;
-  color: #C8A97E;
+  color: var(--color-olive);
   margin-bottom: 0.6rem;
   font-weight: 600;
 }
 
 .col a {
   font-size: 0.88rem;
-  color: #B5A898;
+  color: var(--color-text);
   text-decoration: none;
   transition: color 0.3s;
 }
 
-.col a:hover { color: #fff; }
+.col a:hover { color: var(--color-olive); }
 
 .bottom {
   max-width: 1100px;
@@ -47,7 +47,7 @@
 
 .bottom span {
   font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.25);
+  color: rgba(0, 0, 0, 0.4);
   letter-spacing: 0.08em;
 }
 
