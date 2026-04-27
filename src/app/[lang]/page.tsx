@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { getDictionary } from "@/dictionaries";
 import { prisma } from "@/lib/prisma";
+import FAQ from '@/components/FAQ';
 
 export default async function Home({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = (await params) as { lang: 'en' | 'es' };
@@ -88,6 +89,26 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
           <p>{t.amenitiesText}</p>
         </div>
       </section>
+
+      {/* 5.5. LOCATION / MAP */}
+      <section className={styles.locationSection} style={{ padding: '4rem 2rem', textAlign: 'center', maxWidth: '1000px', margin: '0 auto' }}>
+        <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '2.2rem', color: 'var(--color-dark-brown)', marginBottom: '1rem', fontWeight: 400 }}>{t.locationTitle}</h2>
+        <p style={{ color: '#555', marginBottom: '2rem' }}>{t.locationText}</p>
+        <div style={{ width: '100%', height: '400px', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.05)' }}>
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15440.098877142724!2d-85.88219!3d14.85191!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f7009001b97ad89%3A0x6b77ad92dc5ccb9!2sCasa%20Judah%20Farm%20Hotel!5e0!3m2!1sen!2shn!4v1700000000000!5m2!1sen!2shn" 
+            width="100%" 
+            height="100%" 
+            style={{ border: 0 }} 
+            allowFullScreen={false} 
+            loading="lazy" 
+            referrerPolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+      </section>
+
+      {/* 5.6. FAQ */}
+      <FAQ title={t.faqTitle} items={t.faqItems as any} />
 
       {/* 6. FINAL CTA — Conversion */}
       <section className={styles.finalCta}>

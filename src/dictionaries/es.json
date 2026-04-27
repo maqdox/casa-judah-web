@@ -23,7 +23,32 @@
     "amenitiesText": "Piscina soleada, áreas privadas de descanso y espacios diseñados para elevar tu serenidad.",
     "finalCtaTitle": "Tu Escape Comienza Aquí",
     "finalCtaText": "Reserva tu experiencia en Casa Judah y descubre lo que significa vivir con intención.",
-    "reserveNow": "Reservar Ahora"
+    "reserveNow": "Reservar Ahora",
+    "faqTitle": "Preguntas Frecuentes",
+    "faqItems": [
+      {
+        "q": "¿Cuentan con servicio de Wi-Fi?",
+        "a": "Sí, contamos con Wi-Fi satelital de alta velocidad en las cabañas y áreas comunes para que puedas mantenerte conectado si lo deseas."
+      },
+      {
+        "q": "¿Aceptan mascotas (Pet-Friendly)?",
+        "a": "Sí, amamos a los animales. Tu mascota es bienvenida; solo aplican ciertas reglas de convivencia y limpieza para asegurar la paz de todos los huéspedes y animales de la granja."
+      },
+      {
+        "q": "¿El desayuno está incluido?",
+        "a": "Sí, todas nuestras reservas de cabañas incluyen un desayuno tradicional hondureño elaborado con ingredientes orgánicos de nuestra granja."
+      },
+      {
+        "q": "¿Puedo visitar solo para usar la piscina sin hospedarme?",
+        "a": "Sí, ofrecemos pases de día (Day Passes) sujetos a disponibilidad. Recomendamos contactarnos por WhatsApp previamente para reservar tu espacio."
+      },
+      {
+        "q": "¿A qué distancia se encuentran del centro de Catacamas?",
+        "a": "Estamos ubicados a aproximadamente 15 minutos en auto del centro de Catacamas, en una zona de campo tranquila y de fácil acceso."
+      }
+    ],
+    "locationTitle": "Nuestra Ubicación",
+    "locationText": "Encuentranos en el corazón de Olancho, rodeados de naturaleza y paz."
   },
   "experiences": {
     "headerTitle": "Experiencia en la Granja",

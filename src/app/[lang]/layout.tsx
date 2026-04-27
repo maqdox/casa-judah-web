@@ -4,6 +4,7 @@ import "../globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ScrollToTop from "@/components/ScrollToTop";
+import WhatsAppButton from "@/components/WhatsAppButton";
 import { getDictionary } from "@/dictionaries";
 import { prisma } from "@/lib/prisma";
 import { headers } from 'next/headers';
@@ -21,7 +22,29 @@ const playfair = Playfair_Display({ subsets: ["latin"], variable: '--font-playfa
 
 export const metadata: Metadata = {
   title: "Casa Judah | Farm Hotel",
-  description: "An intimate farm hotel experience designed for rest.",
+  description: "Un santuario de calma en Olancho, Honduras. Encuentra paz, lujo orgánico y conexión genuina con la naturaleza.",
+  openGraph: {
+    title: "Casa Judah | Farm Hotel",
+    description: "Un santuario de calma en Olancho, Honduras. Encuentra paz, lujo orgánico y conexión genuina con la naturaleza.",
+    url: 'https://casajudahfarmhotel.com',
+    siteName: 'Casa Judah',
+    images: [
+      {
+        url: '/hero.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Casa Judah Farm Hotel',
+      },
+    ],
+    locale: 'es_HN',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Casa Judah | Farm Hotel',
+    description: 'Un santuario de calma en Olancho, Honduras.',
+    images: ['/hero.jpg'],
+  },
 };
 
 export default async function RootLayout({
@@ -62,8 +85,9 @@ export default async function RootLayout({
       <body className={`${inter.variable} ${playfair.variable}`}>
         {!isV2 && <Header dict={dict.navigation} lang={lang} />}
         {children}
-        {!isV2 && <Footer />}
+        {!isV2 && <Footer lang={lang} />}
         <ScrollToTop />
+        <WhatsAppButton />
       </body>
     </html>
   );
