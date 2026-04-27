@@ -3,7 +3,17 @@ import { cookies } from 'next/headers';
 import styles from './layout.module.css';
 
 import { prisma } from '@/lib/prisma';
-
+import { 
+  LayoutDashboard, 
+  CalendarCheck, 
+  BedDouble, 
+  Waves, 
+  FileText, 
+  Image as ImageIcon, 
+  Settings, 
+  LogOut, 
+  Globe 
+} from 'lucide-react';
 const THEME_MAP: Record<string, { primary: string, accent: string }> = {
   'verde_olivo': { primary: '#4E583E', accent: '#D6BE9B' },
   'terracota': { primary: '#804639', accent: '#D6BE9B' },
@@ -35,19 +45,19 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         </div>
         
         <nav className={styles.nav}>
-          <Link href="/admin" className={styles.navLink}>📊 Dashboard</Link>
-          <Link href="/admin/reservations" className={styles.navLink}>📅 Reservaciones</Link>
-          <Link href="/admin/rooms" className={styles.navLink}>🛏️ Habitaciones</Link>
-          <Link href="/admin/amenities" className={styles.navLink}>🏊 Amenidades</Link>
-          <Link href="/admin/content" className={styles.navLink}>✍️ Contenido</Link>
-          <Link href="/admin/media" className={styles.navLink}>🖼️ Media</Link>
-          <Link href="/admin/settings" className={styles.navLink}>⚙️ Ajustes & Tema</Link>
+          <Link href="/admin" className={styles.navLink}><LayoutDashboard size={18} /> Dashboard</Link>
+          <Link href="/admin/reservations" className={styles.navLink}><CalendarCheck size={18} /> Reservaciones</Link>
+          <Link href="/admin/rooms" className={styles.navLink}><BedDouble size={18} /> Habitaciones</Link>
+          <Link href="/admin/amenities" className={styles.navLink}><Waves size={18} /> Amenidades</Link>
+          <Link href="/admin/content" className={styles.navLink}><FileText size={18} /> Contenido</Link>
+          <Link href="/admin/media" className={styles.navLink}><ImageIcon size={18} /> Media</Link>
+          <Link href="/admin/settings" className={styles.navLink}><Settings size={18} /> Ajustes & Tema</Link>
         </nav>
         
         <div className={styles.sidebarFooter}>
-          <a href="/es" target="_blank" className={styles.navLink}>↗ Ver Web Pública</a>
+          <a href="/es" target="_blank" className={styles.navLink}><Globe size={18} /> Ver Web Pública</a>
           <form action={logoutAction}>
-            <button type="submit" className={styles.logoutBtn}>Cerrar Sesión</button>
+            <button type="submit" className={styles.logoutBtn}><LogOut size={18} /> Cerrar Sesión</button>
           </form>
         </div>
       </aside>
