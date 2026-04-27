@@ -1,11 +1,10 @@
-import styles from "./page.module.css";
+import styles from "../page.module.css";
 import Link from 'next/link';
 import Image from 'next/image';
 import { getDictionary } from "@/dictionaries";
 import { prisma } from "@/lib/prisma";
 import HeaderV2 from "@/components/v2/HeaderV2";
 import FooterV2 from "@/components/v2/FooterV2";
-import RoomCarousel from "@/components/v2/RoomCarousel";
 
 export default async function HomeV2({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = (await params) as { lang: 'en' | 'es' };
@@ -18,114 +17,109 @@ export default async function HomeV2({ params }: { params: Promise<{ lang: strin
     contentMap[`${item.section}.${item.key}`] = item.value;
   });
 
-  const rooms = await prisma.room.findMany({
-    where: { status: 'AVAILABLE' },
-    orderBy: { sortOrder: 'asc' },
-    select: { id: true, contentName: true, basePrice: true, imageUrls: true }
-  });
-
   const heroTitle = contentMap[`hero.title_${lang}`] || t.heroTitle;
   const heroSubtitle = contentMap[`hero.subtitle_${lang}`] || t.heroSubtitle;
   const aboutHeading = contentMap[`about.heading_${lang}`] || t.introTitle;
   const aboutParagraph = contentMap[`about.paragraph_1_${lang}`] || t.introText;
-  const isEs = lang === 'es';
 
   return (
-    <div className={styles.page}>
+    <main className={styles.main}>
       <HeaderV2 dict={dict.navigation} lang={lang} />
-
-      {/* ═══ 1. HERO — Full bleed cinematic ═══ */}
+      
+      {/* 1. HERO — Cinematic entrance */}
       <section className={styles.hero}>
-        <Image src="/hero.jpg" alt={heroTitle} fill priority style={{ objectFit: 'cover' }} />
-        <div className={styles.heroOverlay} />
+        <Image 
+          src="/hero.jpg" 
+          alt={t.heroTitle} 
+          fill 
+          priority
+          style={{ objectFit: 'cover' }} 
+          className={styles.heroImage}
+        />
+        <div className={styles.heroOverlay}></div>
         <div className={styles.heroContent}>
-          <span className={styles.heroTag}>OLANCHO, HONDURAS</span>
           <h1>{heroTitle}</h1>
           <p>{heroSubtitle}</p>
-          <Link href={`/${lang}/booking`} className={styles.heroBtn}>{t.bookCTA}</Link>
+          <Link href={`/${lang}/booking`} className={styles.ctaButton}>{t.bookCTA}</Link>
         </div>
       </section>
 
-      {/* ═══ 2. WHO WE ARE — Centered editorial text ═══ */}
-      <section className={styles.whoWeAre}>
-        <span className={styles.sectionTag}>{isEs ? 'QUIÉNES SOMOS' : 'WHO WE ARE'}</span>
-        <h2>{aboutHeading}</h2>
-        <p>{aboutParagraph}</p>
-        <Link href={`/${lang}/experiences`} className={styles.textCta}>
-          {isEs ? 'DESCUBRIR MÁS' : 'DISCOVER MORE'}
-        </Link>
-      </section>
-
-      {/* ═══ 3. FULL BLEED IMAGE — Garden/Farm ═══ */}
-      <section className={styles.fullBleed}>
-        <Image src="/ternero.jpg" alt="Casa Judah Farm" fill style={{ objectFit: 'cover' }} />
-      </section>
-
-      {/* ═══ 4. THE EXPERIENCE — Asymmetric image + text ═══ */}
-      <section className={styles.featureBlock}>
-        <div className={styles.featureImage}>
-          <Image src="/piscina.jpg" alt={t.experiencesTitle} fill style={{ objectFit: 'cover' }} />
-        </div>
-        <div className={styles.featureText}>
-          <span className={styles.sectionTag}>{isEs ? 'LA EXPERIENCIA' : 'THE EXPERIENCE'}</span>
-          <h2>{t.experiencesTitle}</h2>
-          <p>{t.experiencesText}</p>
-          <Link href={`/${lang}/experiences`} className={styles.textCta}>
-            {isEs ? 'EXPLORAR' : 'EXPLORE'}
-          </Link>
+      {/* 2. BRAND PHILOSOPHY (Verde Olivo: #4E583E) */}
+      <section className={styles.intro} style={{ backgroundColor: '#4E583E', color: '#FFFFFF' }}>
+        <div className={styles.introText}>
+          <h2 style={{ color: '#FFFFFF' }}>{aboutHeading}</h2>
+          <p style={{ color: '#E8EBE4' }}>{aboutParagraph}</p>
         </div>
       </section>
 
-      {/* ═══ 5. ROOMS — Horizontal carousel ═══ */}
-      <section className={styles.roomsSection}>
-        <div className={styles.roomsHeader}>
-          <span className={styles.sectionTag}>{isEs ? 'ALOJAMIENTO' : 'ACCOMMODATION'}</span>
-          <h2>{t.roomsTitle}</h2>
-          <p>{t.roomsText}</p>
+      {/* 3. ROOMS / STAY (Blanco: #FFFFFF) */}
+      <section className={styles.showcaseSection} style={{ backgroundColor: '#FFFFFF' }}>
+        <div className={styles.showcaseImage}>
+          <div className={`${styles.showcaseImageInner} arch-frame`}>
+            <Image src="/exterior.jpg" alt={t.roomsTitle} fill style={{ objectFit: 'cover' }} />
+          </div>
         </div>
-        <RoomCarousel rooms={rooms} lang={lang} />
-      </section>
-
-      {/* ═══ 6. STAY — Reverse asymmetric ═══ */}
-      <section className={`${styles.featureBlock} ${styles.featureReverse}`}>
-        <div className={styles.featureImage}>
-          <Image src="/exterior.jpg" alt={t.roomsTitle} fill style={{ objectFit: 'cover' }} />
-        </div>
-        <div className={styles.featureText}>
-          <span className={styles.sectionTag}>{isEs ? 'TU RETIRO' : 'YOUR RETREAT'}</span>
-          <h2>{isEs ? 'Huésped de Casa Judah' : 'Guest of Casa Judah'}</h2>
-          <p>
-            {isEs
-              ? 'Al reservar directamente con nosotros, eres parte de la familia. Nos esforzamos al máximo para cuidar cada detalle de tu estadía. Disfruta de beneficios exclusivos, atención personalizada y la mejor tarifa garantizada.'
-              : 'When booking directly with us, you\'re family. We go to great lengths to take care of every detail during your stay. Enjoy exclusive benefits, personalized attention, and our best rate guarantee.'}
-          </p>
-          <Link href={`/${lang}/booking`} className={styles.solidBtn}>
-            {isEs ? 'RESERVAR TU ESTADÍA' : 'BOOK YOUR STAY'}
-          </Link>
+        <div className={styles.showcaseText}>
+          <h2 style={{ color: 'var(--color-dark-brown)' }}>{t.roomsTitle}</h2>
+          <p style={{ color: '#6b6560' }}>{t.roomsText}</p>
+          <Link href={`/${lang}/rooms`} className={styles.linkButton}>{t.roomsCTA}</Link>
         </div>
       </section>
 
-      {/* ═══ 7. QUOTE — Philosophy ═══ */}
-      <section className={styles.quoteBlock}>
-        <blockquote>
-          "{isEs
-            ? 'Nuestro propósito es preservar la conexión auténtica entre el ser humano, la tierra y los animales. Un espacio donde el tiempo se detiene.'
-            : 'Our purpose is to preserve the authentic connection between people, the land, and animals. A space where time stands still.'}"
-        </blockquote>
+      {/* 4. EXPERIENCES / FARM (Marrón Medio: #A88E6D) */}
+      <section className={`${styles.showcaseSection} ${styles.reverse}`} style={{ backgroundColor: '#A88E6D', color: '#FFFFFF' }}>
+        <div className={styles.showcaseImage}>
+          <div className={`${styles.showcaseImageInner} luxury-frame`}>
+            <Image src="/ternero.jpg" alt={t.experiencesTitle} fill style={{ objectFit: 'cover' }} />
+          </div>
+        </div>
+        <div className={styles.showcaseText}>
+          <h2 style={{ color: '#FFFFFF' }}>{t.experiencesTitle}</h2>
+          <p style={{ color: '#FDFBF7' }}>{t.experiencesText}</p>
+          <Link href={`/${lang}/experiences`} className={styles.linkButton} style={{ color: '#FFFFFF', borderColor: '#FFFFFF' }}>{t.experiencesCTA}</Link>
+        </div>
       </section>
 
-      {/* ═══ 8. FINAL CTA ═══ */}
+      {/* 5. AMENITIES / WELLNESS (Blanco: #FFFFFF) */}
+      <section className={styles.showcaseSection} style={{ backgroundColor: '#FFFFFF' }}>
+        <div className={styles.showcaseImage}>
+          <div className={`${styles.showcaseImageInner} arch-frame`}>
+            <Image src="/piscina.jpg" alt={t.amenitiesTitle} fill style={{ objectFit: 'cover' }} />
+          </div>
+        </div>
+        <div className={styles.showcaseText}>
+          <h2 style={{ color: 'var(--color-dark-brown)' }}>{t.amenitiesTitle}</h2>
+          <p style={{ color: '#6b6560' }}>{t.amenitiesText}</p>
+        </div>
+      </section>
+
+      {/* 5.5. LOCATION / MAP (Terracota: #804639) */}
+      <section className={styles.locationSection} style={{ padding: '4rem 2rem', backgroundColor: '#804639', color: '#FFFFFF' }}>
+        <div style={{ textAlign: 'center', maxWidth: '1000px', margin: '0 auto' }}>
+          <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '2.2rem', color: '#FFFFFF', marginBottom: '1rem', fontWeight: 400 }}>{t.locationTitle}</h2>
+          <p style={{ color: '#FDFBF7', marginBottom: '2rem' }}>{t.locationText}</p>
+          <div style={{ width: '100%', height: '400px', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.05)' }}>
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15440.098877142724!2d-85.7619285!3d14.7970367!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f6c6596269b0217%3A0x5e2fff1ae76e0c2e!2sCasa%20Judah%20Farm%20Hotel!5e0!3m2!1ses!2shn!4v1700000000000!5m2!1ses!2shn" 
+              width="100%" 
+              height="100%" 
+              style={{ border: 0 }} 
+              allowFullScreen={false} 
+              loading="lazy" 
+              referrerPolicy="no-referrer-when-downgrade">
+            </iframe>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. FINAL CTA — Conversion */}
       <section className={styles.finalCta}>
-        <Image src="/hero.jpg" alt="" fill style={{ objectFit: 'cover' }} />
-        <div className={styles.finalOverlay} />
-        <div className={styles.finalContent}>
-          <h2>{t.finalCtaTitle}</h2>
-          <p>{t.finalCtaText}</p>
-          <Link href={`/${lang}/booking`} className={styles.heroBtn}>{t.reserveNow}</Link>
-        </div>
+        <h2>{t.finalCtaTitle}</h2>
+        <p>{t.finalCtaText}</p>
+        <Link href={`/${lang}/booking`} className={styles.ctaButton}>{t.reserveNow}</Link>
       </section>
 
       <FooterV2 lang={lang} />
-    </div>
+    </main>
   );
 }
