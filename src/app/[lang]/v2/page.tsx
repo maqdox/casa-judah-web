@@ -86,7 +86,7 @@ export default async function HomeV2({ params }: { params: Promise<{ lang: strin
       <section className={styles.showcaseSection} style={{ backgroundColor: '#FFFFFF' }}>
         <div className={styles.showcaseImage}>
           <div className={`${styles.showcaseImageInner} arch-frame`}>
-            <SwipeCarousel images={['/piscina.jpg', '/cortinas.jpg', '/comedor.jpg', '/lamparas.jpg']} altBase={t.amenitiesTitle} objectFit="contain" />
+            <SwipeCarousel images={['/piscina.jpg', '/cortinas.jpg', '/comedor.jpg', '/lamparas.jpg', '/exterior.jpg', '/env1.jpg', '/env2.jpg', '/env3.jpg']} altBase={t.amenitiesTitle} objectFit="contain" />
           </div>
         </div>
         <div className={styles.showcaseText}>
@@ -114,16 +114,7 @@ export default async function HomeV2({ params }: { params: Promise<{ lang: strin
         </div>
       </section>
 
-      {/* 5.8. AMBIENTES / ENVIRONMENTS */}
-      <section style={{ backgroundColor: 'var(--color-beige)', padding: '4rem 2rem' }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center', marginBottom: '2rem' }}>
-          <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '2.2rem', color: 'var(--color-dark-brown)', marginBottom: '0.75rem', fontWeight: 400 }}>{isEs ? 'Ambientes Casa Judah' : 'Casa Judah Environments'}</h2>
-          <p style={{ color: '#6b6560', fontSize: '1rem' }}>{isEs ? 'Descubre la paz que sobrepasa todo entendimiento en cada rincón.' : 'Discover the peace that surpasses all understanding in every corner.'}</p>
-        </div>
-        <div style={{ maxWidth: '800px', margin: '0 auto', width: '100%', aspectRatio: '3/2', minHeight: '250px', maxHeight: '450px', borderRadius: '14px', overflow: 'hidden', boxShadow: '0 12px 32px rgba(44, 34, 24, 0.08)' }}>
-          <SwipeCarousel images={['/exterior.jpg', '/env1.jpg', '/env2.jpg', '/env3.jpg']} altBase="Ambientes Casa Judah" objectFit="contain" />
-        </div>
-      </section>
+
 
       {/* 6. FINAL CTA — Conversion (Franja Blanca) */}
       <section className={styles.finalCta} style={{ backgroundColor: '#FFFFFF', color: 'var(--color-dark-brown)' }}>
