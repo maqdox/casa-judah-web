@@ -5,6 +5,7 @@ import { getDictionary } from "@/dictionaries";
 import { prisma } from "@/lib/prisma";
 import HeaderV2 from "@/components/v2/HeaderV2";
 import FooterV2 from "@/components/v2/FooterV2";
+import SwipeCarousel from "@/components/v2/SwipeCarousel";
 
 export default async function HomeV2({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = (await params) as { lang: 'en' | 'es' };
@@ -56,7 +57,7 @@ export default async function HomeV2({ params }: { params: Promise<{ lang: strin
       <section className={styles.showcaseSection} style={{ backgroundColor: '#FFFFFF' }}>
         <div className={styles.showcaseImage}>
           <div className={`${styles.showcaseImageInner} arch-frame`}>
-            <Image src="/hero.jpg" alt={t.roomsTitle} fill style={{ objectFit: 'cover' }} />
+            <SwipeCarousel images={['/hero.jpg', '/room1.jpg', '/room2.jpg', '/room3.jpg']} altBase={t.roomsTitle} />
           </div>
         </div>
         <div className={styles.showcaseText}>
@@ -70,7 +71,7 @@ export default async function HomeV2({ params }: { params: Promise<{ lang: strin
       <section className={`${styles.showcaseSection} ${styles.reverse}`} style={{ backgroundColor: '#A88E6D', color: '#FFFFFF' }}>
         <div className={styles.showcaseImage}>
           <div className={`${styles.showcaseImageInner} luxury-frame`}>
-            <Image src="/ternero.jpg" alt={t.experiencesTitle} fill style={{ objectFit: 'cover' }} />
+            <SwipeCarousel images={['/ternero.jpg', '/oveja.jpg', '/caballo.jpg']} altBase={t.experiencesTitle} />
           </div>
         </div>
         <div className={styles.showcaseText}>
@@ -84,7 +85,7 @@ export default async function HomeV2({ params }: { params: Promise<{ lang: strin
       <section className={styles.showcaseSection} style={{ backgroundColor: '#FFFFFF' }}>
         <div className={styles.showcaseImage}>
           <div className={`${styles.showcaseImageInner} arch-frame`}>
-            <Image src="/piscina.jpg" alt={t.amenitiesTitle} fill style={{ objectFit: 'cover' }} />
+            <SwipeCarousel images={['/piscina.jpg', '/amenity1.jpg', '/amenity2.jpg', '/amenity3.jpg']} altBase={t.amenitiesTitle} />
           </div>
         </div>
         <div className={styles.showcaseText}>
@@ -109,6 +110,13 @@ export default async function HomeV2({ params }: { params: Promise<{ lang: strin
               referrerPolicy="no-referrer-when-downgrade">
             </iframe>
           </div>
+        </div>
+      </section>
+
+      {/* 5.8. AMBIENTES / ENVIRONMENTS */}
+      <section style={{ backgroundColor: 'var(--color-beige)', padding: '2rem 0' }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', height: '60vh', minHeight: '400px', borderRadius: '12px', overflow: 'hidden' }}>
+          <SwipeCarousel images={['/exterior.jpg', '/env1.jpg', '/env2.jpg', '/env3.jpg']} altBase="Ambientes Casa Judah" />
         </div>
       </section>
 
