@@ -72,7 +72,7 @@ export default async function HomeV2({ params }: { params: Promise<{ lang: strin
       <section className={`${styles.showcaseSection} ${styles.reverse}`} style={{ backgroundColor: '#A88E6D', color: '#FFFFFF' }}>
         <div className={styles.showcaseImage}>
           <div className={`${styles.showcaseImageInner} luxury-frame`}>
-            <SwipeCarousel images={['/ternero.jpg']} altBase={t.experiencesTitle} />
+            <SwipeCarousel images={['/ternero.jpg', '/oveja.png', '/caballo.png']} altBase={t.experiencesTitle} />
           </div>
         </div>
         <div className={styles.showcaseText}>
