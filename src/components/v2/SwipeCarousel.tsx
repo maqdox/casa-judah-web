@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from './SwipeCarousel.module.css';
 
 interface SwipeCarouselProps {
@@ -24,6 +25,24 @@ export default function SwipeCarousel({ images, altBase }: SwipeCarouselProps) {
     }
   };
 
+  const scrollToIndex = (index: number) => {
+    if (trackRef.current) {
+      const width = trackRef.current.clientWidth;
+      trackRef.current.scrollTo({
+        left: width * index,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentIndex > 0) scrollToIndex(currentIndex - 1);
+  };
+
+  const handleNext = () => {
+    if (currentIndex < images.length - 1) scrollToIndex(currentIndex + 1);
+  };
+
   return (
     <div className={styles.carouselContainer}>
       <div 
@@ -44,14 +63,35 @@ export default function SwipeCarousel({ images, altBase }: SwipeCarouselProps) {
       </div>
       
       {images.length > 1 && (
-        <div className={styles.indicators}>
-          {images.map((_, index) => (
-            <div 
-              key={index} 
-              className={`${styles.dot} ${index === currentIndex ? styles.active : ''}`}
-            />
-          ))}
-        </div>
+        <>
+          <button 
+            className={`${styles.navButton} ${styles.prevButton}`} 
+            onClick={handlePrev}
+            style={{ opacity: currentIndex === 0 ? 0 : 1, pointerEvents: currentIndex === 0 ? 'none' : 'auto' }}
+            aria-label="Anterior"
+          >
+            <ChevronLeft size={24} color="#5A4334" />
+          </button>
+          <button 
+            className={`${styles.navButton} ${styles.nextButton}`} 
+            onClick={handleNext}
+            style={{ opacity: currentIndex === images.length - 1 ? 0 : 1, pointerEvents: currentIndex === images.length - 1 ? 'none' : 'auto' }}
+            aria-label="Siguiente"
+          >
+            <ChevronRight size={24} color="#5A4334" />
+          </button>
+
+          <div className={styles.indicators}>
+            {images.map((_, index) => (
+              <div 
+                key={index} 
+                className={`${styles.dot} ${index === currentIndex ? styles.active : ''}`}
+                onClick={() => scrollToIndex(index)}
+                style={{ cursor: 'pointer' }}
+              />
+            ))}
+          </div>
+        </>
       )}
     </div>
   );

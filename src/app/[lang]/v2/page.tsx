@@ -22,6 +22,7 @@ export default async function HomeV2({ params }: { params: Promise<{ lang: strin
   const heroSubtitle = contentMap[`hero.subtitle_${lang}`] || t.heroSubtitle;
   const aboutHeading = contentMap[`about.heading_${lang}`] || t.introTitle;
   const aboutParagraph = contentMap[`about.paragraph_1_${lang}`] || t.introText;
+  const isEs = lang === 'es';
 
   return (
     <main className={styles.main}>
@@ -114,8 +115,12 @@ export default async function HomeV2({ params }: { params: Promise<{ lang: strin
       </section>
 
       {/* 5.8. AMBIENTES / ENVIRONMENTS */}
-      <section style={{ backgroundColor: 'var(--color-beige)', padding: '2rem 0' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto', height: '60vh', minHeight: '400px', borderRadius: '12px', overflow: 'hidden' }}>
+      <section style={{ backgroundColor: 'var(--color-beige)', padding: '6rem 2rem' }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', textAlign: 'center', marginBottom: '3rem' }}>
+          <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '2.5rem', color: 'var(--color-dark-brown)', marginBottom: '1rem', fontWeight: 400 }}>{isEs ? 'Ambientes Casa Judah' : 'Casa Judah Environments'}</h2>
+          <p style={{ color: '#6b6560', fontSize: '1.05rem' }}>{isEs ? 'Descubre la paz que sobrepasa todo entendimiento en cada rincón.' : 'Discover the peace that surpasses all understanding in every corner.'}</p>
+        </div>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', width: '100%', aspectRatio: '16/9', minHeight: '300px', maxHeight: '700px', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 15px 40px rgba(44, 34, 24, 0.08)' }}>
           <SwipeCarousel images={['/exterior.jpg', '/env1.jpg', '/env2.jpg', '/env3.jpg']} altBase="Ambientes Casa Judah" />
         </div>
       </section>
