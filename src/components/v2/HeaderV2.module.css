@@ -1,164 +1,213 @@
-/* ═══════════════════════════════════════
-   HeaderV2 — Premium Farm Hotel style
-   Babylonstoren / Singita inspired
-   ═══════════════════════════════════════ */
-
+/* ===================================================
+   HEADER V2 — Idéntico al V1 (luxury transparent-to-solid)
+   =================================================== */
 .header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 2rem 4rem;
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
+  right: 0;
   z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1.6rem 3rem;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  background: transparent;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.solid {
-  background: rgba(250, 248, 244, 0.97);
-  backdrop-filter: blur(12px);
-  padding: 1.1rem 3rem;
-  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+/* ─── Transparent State (Hero visible) ─── */
+.transparent {
+  background-color: transparent;
+  border-bottom: 1px solid transparent;
 }
 
-/* Left */
-.left { flex: 1; }
-
-.bookLink {
-  font-size: 0.7rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.9);
-  text-decoration: none;
-  border-bottom: 1px solid rgba(255,255,255,0.3);
-  padding-bottom: 2px;
-  transition: all 0.3s;
-  font-weight: 500;
+.transparent .nav a {
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
 }
 
-.bookLink:hover {
-  border-color: rgba(255,255,255,0.8);
+.transparent .nav a:hover {
+  color: var(--color-white);
 }
 
-.solid .bookLink {
-  color: #C8A97E;
-  border-color: #C8A97E;
+.transparent .bookButton {
+  background-color: transparent;
+  color: var(--color-white);
+  border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
-.solid .bookLink:hover {
-  color: #3A2E26;
-  border-color: #3A2E26;
+.transparent .bookButton:hover {
+  background-color: var(--color-white);
+  color: var(--color-dark-brown);
+  border-color: var(--color-white);
 }
 
-/* Center */
-.center { flex: 0; }
-.logo { height: 42px; }
-
-/* Right */
-.right {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 2rem;
+.transparent .langBtn {
+  color: rgba(255, 255, 255, 0.75);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
 }
 
-.langLink {
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.8);
-  text-decoration: none;
-  transition: opacity 0.3s;
-  font-weight: 500;
+/* ─── Solid State (Scrolled) ─── */
+.scrolled {
+  background-color: var(--color-beige);
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+  box-shadow: 0 1px 12px rgba(0, 0, 0, 0.04);
+  padding: 1.2rem 4rem;
 }
 
-.langLink:hover { opacity: 0.6; }
-.solid .langLink { color: #3A2E26; }
-
-/* Burger */
-.burger {
-  background: none;
-  border: none;
-  width: 28px;
-  height: 16px;
-  position: relative;
-  cursor: pointer;
-  padding: 0;
+.scrolled .nav a {
+  color: var(--color-text);
 }
 
-.burger span {
-  display: block;
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background: rgba(255,255,255,0.9);
-  transition: all 0.4s ease;
+.scrolled .nav a:hover {
+  color: var(--color-olive);
 }
 
-.solid .burger span { background: #3A2E26; }
-
-.burger span:first-child { top: 2px; }
-.burger span:last-child { bottom: 2px; }
-
-.burgerOpen span:first-child {
-  top: 50%;
-  transform: translateY(-50%) rotate(45deg);
-  background: #3A2E26 !important;
+.scrolled .bookButton {
+  background-color: var(--color-dark-brown);
+  color: var(--color-white);
+  border: 1px solid var(--color-dark-brown);
 }
 
-.burgerOpen span:last-child {
-  bottom: 50%;
-  transform: translateY(50%) rotate(-45deg);
-  background: #3A2E26 !important;
+.scrolled .bookButton:hover {
+  background-color: var(--color-olive);
+  border-color: var(--color-olive);
 }
 
-/* ─── Overlay ─── */
-.overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 999;
-  background: #FAF8F4;
+.scrolled .langBtn {
+  color: var(--color-text);
+}
+
+/* ─── Logo ─── */
+.logo a {
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  color: inherit;
+  transition: transform 0.3s ease;
 }
 
-.overlayVisible {
+.logo a:hover {
+  transform: scale(1.05);
+}
+
+.mainLogo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── Nav ─── */
+.nav {
+  display: flex;
+  gap: 2.5rem;
+}
+
+.nav a {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: color 0.4s ease;
+  text-decoration: none;
+}
+
+/* ─── Actions ─── */
+.actions {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 1.8rem;
+}
+
+.langBtn {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: opacity 0.3s ease, color 0.4s ease;
+  text-decoration: none;
+}
+
+.langBtn:hover {
+  opacity: 0.6;
+}
+
+.bookButton {
+  padding: 0.55rem 1.4rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  text-decoration: none;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 1024px) {
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .actions {
+    gap: 1rem;
+  }
+
+  .burgerIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2000;
+  }
+}
+
+@media (min-width: 1025px) {
+  .burgerIcon {
+    display: none;
+  }
+}
+
+/* ─── Mobile Menu Overlay ─── */
+.mobileMenu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--color-beige);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  z-index: 1500;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.mobileMenuOpen {
   opacity: 1;
   pointer-events: auto;
 }
 
-.overlayNav {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-}
-
-.overlayNav a {
-  font-family: var(--font-playfair), serif;
-  font-size: 2.8rem;
-  font-weight: 400;
-  color: #3A2E26;
+.mobileMenu a {
+  font-family: var(--font-sans);
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--color-dark-brown);
+  transition: color 0.3s ease;
   text-decoration: none;
-  transition: all 0.3s;
 }
 
-.overlayNav a:hover {
-  color: #C8A97E;
-}
-
-@media (max-width: 768px) {
-  .header { padding: 1.2rem 1.5rem; }
-  .solid { padding: 0.9rem 1.5rem; }
-  .bookLink { font-size: 0.65rem; }
-  .overlayNav a { font-size: 2rem; }
+.mobileMenu a:hover {
+  color: var(--color-olive);
 }

@@ -3,86 +3,91 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { Menu, X } from 'lucide-react';
 import BrandLogo from '../BrandLogo';
 import styles from './HeaderV2.module.css';
 
 export default function HeaderV2({ dict, lang }: { dict: any, lang: string }) {
   const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const router = useRouter();
+  const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+
+  const isHome = pathname === `/${lang}/v2` || pathname === `/${lang}/v2/`;
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    document.cookie = `NEXT_LOCALE=${lang}; path=/; max-age=31536000`;
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lang]);
 
-  // Lock body scroll when menu is open
-  useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [menuOpen]);
+  const isSolid = !isHome || scrolled;
 
   const switchLang = (e: React.MouseEvent) => {
     e.preventDefault();
     const newLang = lang === 'es' ? 'en' : 'es';
     document.cookie = `NEXT_LOCALE=${newLang}; path=/; max-age=31536000`;
     router.push(pathname.replace(`/${lang}`, `/${newLang}`));
+    setMobileOpen(false);
   };
+
+  const close = () => setMobileOpen(false);
 
   return (
     <>
-      <header className={`${styles.header} ${scrolled ? styles.solid : ''}`}>
-        {/* Left: Book button */}
-        <div className={styles.left}>
-          <Link href={`/${lang}/booking`} className={styles.bookLink}>
+      <header className={`${styles.header} ${isSolid ? styles.scrolled : styles.transparent}`}>
+        {/* Mobile burger */}
+        <div className={styles.burgerIcon} onClick={() => setMobileOpen(true)}>
+          <Menu size={28} color={isSolid ? 'var(--color-dark-brown)' : 'var(--color-white)'} />
+        </div>
+
+        {/* Left nav */}
+        <nav className={styles.nav}>
+          <Link href={`/${lang}/rooms`}>{dict.rooms}</Link>
+          <Link href={`/${lang}/experiences`}>{dict.experiences}</Link>
+          <Link href={`/${lang}/faqs`}>{dict.faqs}</Link>
+          <Link href={`/${lang}/policies`}>{dict.policies}</Link>
+        </nav>
+
+        {/* Center logo */}
+        <div className={styles.logo}>
+          <Link href={`/${lang}/v2`}>
+            <BrandLogo scrolled={isSolid || mobileOpen} className={styles.mainLogo} />
+          </Link>
+        </div>
+
+        {/* Right actions */}
+        <div className={styles.actions}>
+          <a href="#" onClick={switchLang} className={styles.langBtn}>
+            {lang === 'es' ? 'EN' : 'ES'}
+          </a>
+          <Link href={`/${lang}/booking`} className={styles.bookButton}>
             {dict.bookNow}
           </Link>
-        </div>
-
-        {/* Center: Logo */}
-        <div className={styles.center}>
-          <Link href={`/${lang}/v2`}>
-            <BrandLogo scrolled={scrolled} className={styles.logo} />
-          </Link>
-        </div>
-
-        {/* Right: Lang + Hamburger */}
-        <div className={styles.right}>
-          <a href="#" onClick={switchLang} className={styles.langLink}>
-            {lang === 'es' ? 'En' : 'Es'}
-          </a>
-          <button 
-            className={`${styles.burger} ${menuOpen ? styles.burgerOpen : ''}`} 
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Menu"
-          >
-            <span /><span />
-          </button>
         </div>
       </header>
 
-      {/* Full-screen overlay nav */}
-      <div className={`${styles.overlay} ${menuOpen ? styles.overlayVisible : ''}`}>
-        <nav className={styles.overlayNav}>
-          <Link href={`/${lang}/v2`} onClick={() => setMenuOpen(false)}>
-            {dict.home || 'Inicio'}
-          </Link>
-          <Link href={`/${lang}/rooms`} onClick={() => setMenuOpen(false)}>
-            {dict.rooms}
-          </Link>
-          <Link href={`/${lang}/experiences`} onClick={() => setMenuOpen(false)}>
-            {dict.experiences}
-          </Link>
-          <Link href={`/${lang}/policies`} onClick={() => setMenuOpen(false)}>
-            {dict.policies}
-          </Link>
-          <Link href={`/${lang}/booking`} onClick={() => setMenuOpen(false)}>
-            {dict.bookNow}
-          </Link>
-        </nav>
+      {/* Mobile overlay */}
+      <div className={`${styles.mobileMenu} ${mobileOpen ? styles.mobileMenuOpen : ''}`}>
+        <div
+          className={styles.burgerIcon}
+          style={{ position: 'absolute', top: '1.5rem', left: '1.5rem' }}
+          onClick={close}
+        >
+          <X size={32} color="var(--color-dark-brown)" />
+        </div>
+        <Link href={`/${lang}/rooms`} onClick={close}>{dict.rooms}</Link>
+        <Link href={`/${lang}/experiences`} onClick={close}>{dict.experiences}</Link>
+        <Link href={`/${lang}/faqs`} onClick={close}>{dict.faqs}</Link>
+        <Link href={`/${lang}/policies`} onClick={close}>{dict.policies}</Link>
+        <Link href={`/${lang}/booking`} onClick={close} style={{ marginTop: '1rem', color: 'var(--color-olive)', fontWeight: 'bold' }}>
+          {dict.bookNow}
+        </Link>
       </div>
+
+      {!isHome && <div style={{ height: '90px' }} />}
     </>
   );
 }
