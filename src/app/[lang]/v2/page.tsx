@@ -55,7 +55,7 @@ export default async function HomeV2({ params }: { params: Promise<{ lang: strin
       <section className={styles.showcaseSection} style={{ backgroundColor: '#FFFFFF' }}>
         <div className={styles.showcaseImage}>
           <div className={`${styles.showcaseImageInner} arch-frame`}>
-            <SwipeCarousel images={['/cortinas_new.jpg', '/hero.jpg', '/room1.jpg', '/room2.jpg', '/room3.jpg']} altBase={t.roomsTitle} objectFit="contain" />
+            <SwipeCarousel images={['/vida1.jpg', '/hero.jpg', '/room1.jpg', '/room2.jpg', '/room3.jpg']} altBase={t.roomsTitle} objectFit="contain" />
           </div>
         </div>
         <div className={styles.showcaseText}>
@@ -83,7 +83,7 @@ export default async function HomeV2({ params }: { params: Promise<{ lang: strin
       <section className={styles.showcaseSection} style={{ backgroundColor: '#FFFFFF' }}>
         <div className={styles.showcaseImage}>
           <div className={`${styles.showcaseImageInner} arch-frame`}>
-            <SwipeCarousel images={['/piscina_new.jpg', '/desayuno.jpg', '/comedor.jpg', '/vida1.jpg', '/exterior.jpg', '/env1.jpg', '/env2.jpg', '/env3.jpg']} altBase={t.amenitiesTitle} objectFit="contain" />
+            <SwipeCarousel images={['/piscina_sunset.jpg', '/desayuno.jpg', '/comedor.jpg', '/exterior.jpg', '/env1.jpg', '/env2.jpg', '/env3.jpg']} altBase={t.amenitiesTitle} objectFit="contain" />
           </div>
         </div>
         <div className={styles.showcaseText}>
