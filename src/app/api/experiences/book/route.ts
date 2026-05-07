@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     }
 
     // Prepare notes from extra details
-    const notes = `Adultos: ${data.adults}, Niños: ${data.children}, Bebida: ${data.drinks}`;
+    const notes = `Adultos: ${data.adults}, Niños: ${data.children}, Bebidas: Café(${data.drinks.cafe}) Té(${data.drinks.te}) Chocolate(${data.drinks.chocolate})`;
 
     // Create the reservation
     const reservation = await prisma.amenityReservation.create({

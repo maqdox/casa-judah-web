@@ -21,7 +21,7 @@ export default function ExperienceBookingModal({ isOpen, onClose }: ExperienceBo
     timeSlot: '15:00', // Default Cupo 1
     adults: 2,
     children: 0,
-    drinks: 'cafe', // 'cafe', 'te', 'chocolate'
+    drinks: { cafe: 2, te: 0, chocolate: 0 },
   });
 
   // Reset when opened
@@ -36,7 +36,7 @@ export default function ExperienceBookingModal({ isOpen, onClose }: ExperienceBo
         timeSlot: '15:00',
         adults: 2,
         children: 0,
-        drinks: 'cafe',
+        drinks: { cafe: 2, te: 0, chocolate: 0 },
       });
     }
   }, [isOpen]);
@@ -48,6 +48,16 @@ export default function ExperienceBookingModal({ isOpen, onClose }: ExperienceBo
     setFormData(prev => ({
       ...prev,
       [name]: name === 'adults' || name === 'children' ? parseInt(value) || 0 : value
+    }));
+  };
+
+  const handleDrinkChange = (drinkType: 'cafe' | 'te' | 'chocolate', value: number) => {
+    setFormData(prev => ({
+      ...prev,
+      drinks: {
+        ...prev.drinks,
+        [drinkType]: value >= 0 ? value : 0
+      }
     }));
   };
 
@@ -66,10 +76,9 @@ export default function ExperienceBookingModal({ isOpen, onClose }: ExperienceBo
     // Children
     total += formData.children * 70;
 
-    // Drinks (Chocolate costs extra per person)
-    const totalPeople = formData.adults + formData.children;
-    if (formData.drinks === 'chocolate') {
-      total += totalPeople * 15;
+    // Drinks (Chocolate costs extra per quantity)
+    if (formData.drinks.chocolate > 0) {
+      total += formData.drinks.chocolate * 15;
     }
 
     return total;
@@ -112,13 +121,8 @@ export default function ExperienceBookingModal({ isOpen, onClose }: ExperienceBo
 
         {step === 1 ? (
           <>
-            <div className={styles.collageHeader}>
-              <div className={styles.collageImage}>
-                <Image src="/granja2.jpg" alt="Ovejas" fill style={{ objectFit: 'cover' }} />
-              </div>
-              <div className={styles.collageImage}>
-                <Image src="/desayuno.jpg" alt="Taza de Casa Judah" fill style={{ objectFit: 'cover', objectPosition: 'center' }} />
-              </div>
+            <div className={styles.singleHeaderImage}>
+              <Image src="/cafe_ovejas_new.png" alt="Café entre Ovejas" fill style={{ objectFit: 'cover' }} />
             </div>
 
             <div className={styles.modalContent}>
@@ -135,7 +139,7 @@ export default function ExperienceBookingModal({ isOpen, onClose }: ExperienceBo
                   </div>
                   <div className={styles.col}>
                     <div className={styles.formGroup}>
-                      <label>WhatsApp</label>
+                      <label>Celular</label>
                       <input required type="tel" name="phone" value={formData.phone} onChange={handleChange} className={styles.formControl} placeholder="+504 0000-0000" />
                     </div>
                   </div>
@@ -144,7 +148,7 @@ export default function ExperienceBookingModal({ isOpen, onClose }: ExperienceBo
                 <div className={styles.row}>
                   <div className={styles.col}>
                     <div className={styles.formGroup}>
-                      <label>Fecha de la Experiencia</label>
+                      <label>Fecha</label>
                       <input required type="date" name="date" value={formData.date} onChange={handleChange} className={styles.formControl} min={new Date().toISOString().split('T')[0]} />
                     </div>
                   </div>
@@ -162,33 +166,33 @@ export default function ExperienceBookingModal({ isOpen, onClose }: ExperienceBo
                 <div className={styles.row}>
                   <div className={styles.col}>
                     <div className={styles.formGroup}>
-                      <label>Adultos</label>
-                      <input required type="number" name="adults" min="1" value={formData.adults} onChange={handleChange} className={styles.formControl} />
+                      <label>Adultos (Max: {10 - formData.children})</label>
+                      <input required type="number" name="adults" min="1" max={10 - formData.children} value={formData.adults} onChange={handleChange} className={styles.formControl} />
                     </div>
                   </div>
                   <div className={styles.col}>
                     <div className={styles.formGroup}>
-                      <label>Niños (1 a 5 años)</label>
-                      <input required type="number" name="children" min="0" value={formData.children} onChange={handleChange} className={styles.formControl} />
+                      <label>Niños de 1 a 5 años (Max: {10 - formData.adults})</label>
+                      <input required type="number" name="children" min="0" max={10 - formData.adults} value={formData.children} onChange={handleChange} className={styles.formControl} />
                     </div>
                   </div>
                 </div>
 
                 <div className={styles.formGroup}>
-                  <label>Opción de Bebida</label>
+                  <label>Opciones de Bebida (Por Persona)</label>
                   <div className={styles.drinkOptions}>
-                    <label className={styles.drinkOption}>
-                      <input type="radio" name="drinks" value="cafe" checked={formData.drinks === 'cafe'} onChange={handleChange} />
-                      Café Artesanal (Incluido)
-                    </label>
-                    <label className={styles.drinkOption}>
-                      <input type="radio" name="drinks" value="te" checked={formData.drinks === 'te'} onChange={handleChange} />
-                      Té (Incluido)
-                    </label>
-                    <label className={styles.drinkOption}>
-                      <input type="radio" name="drinks" value="chocolate" checked={formData.drinks === 'chocolate'} onChange={handleChange} />
-                      Chocolate Caliente (+15 Lps por persona)
-                    </label>
+                    <div className={styles.drinkOption}>
+                      <span>Café Artesanal (Incluido)</span>
+                      <input type="number" min="0" value={formData.drinks.cafe} onChange={(e) => handleDrinkChange('cafe', parseInt(e.target.value) || 0)} className={styles.drinkInput} />
+                    </div>
+                    <div className={styles.drinkOption}>
+                      <span>Té (Incluido)</span>
+                      <input type="number" min="0" value={formData.drinks.te} onChange={(e) => handleDrinkChange('te', parseInt(e.target.value) || 0)} className={styles.drinkInput} />
+                    </div>
+                    <div className={styles.drinkOption}>
+                      <span>Chocolate Caliente (+15 Lps)</span>
+                      <input type="number" min="0" value={formData.drinks.chocolate} onChange={(e) => handleDrinkChange('chocolate', parseInt(e.target.value) || 0)} className={styles.drinkInput} />
+                    </div>
                   </div>
                 </div>
 
@@ -209,10 +213,10 @@ export default function ExperienceBookingModal({ isOpen, onClose }: ExperienceBo
                       <span>L. {formData.children * 70}</span>
                     </div>
                   )}
-                  {formData.drinks === 'chocolate' && (
+                  {formData.drinks.chocolate > 0 && (
                     <div className={styles.priceRow}>
-                      <span>Chocolate extra ({formData.adults + formData.children} personas) x 15 Lps</span>
-                      <span>L. {(formData.adults + formData.children) * 15}</span>
+                      <span>Chocolate extra ({formData.drinks.chocolate} tazas) x 15 Lps</span>
+                      <span>L. {formData.drinks.chocolate * 15}</span>
                     </div>
                   )}
                   <div className={styles.priceTotal}>
