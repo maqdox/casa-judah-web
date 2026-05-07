@@ -122,7 +122,7 @@ export default function ExperienceBookingModal({ isOpen, onClose }: ExperienceBo
         {step === 1 ? (
           <>
             <div className={styles.singleHeaderImage}>
-              <Image src="/cafe_ovejas_new.png" alt="Café entre Ovejas" fill style={{ objectFit: 'cover' }} />
+              <Image src="/cafe_ovejas_new.jpeg" alt="Café entre Ovejas" fill style={{ objectFit: 'cover' }} />
             </div>
 
             <div className={styles.modalContent}>
