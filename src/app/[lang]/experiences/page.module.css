@@ -37,6 +37,9 @@
   .reverse {
     flex-direction: row-reverse;
   }
+  .imageContent {
+    height: 100%;
+  }
 }
 
 .textContent {
@@ -60,5 +63,5 @@
   flex: 1;
   position: relative;
   width: 100%;
-  min-height: 450px;
+  height: 450px;
 }
