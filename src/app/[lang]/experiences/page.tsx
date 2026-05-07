@@ -2,6 +2,7 @@ import styles from './page.module.css';
 import Image from 'next/image';
 import { getDictionary } from '@/dictionaries';
 import SwipeCarousel from '@/components/v2/SwipeCarousel';
+import ExperienceBookingCTA from './ExperienceBookingCTA';
 
 export default async function ExperiencesPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = (await params) as { lang: 'en' | 'es' };
@@ -53,6 +54,8 @@ export default async function ExperiencesPage({ params }: { params: Promise<{ la
            <Image src="/desayuno.jpg" alt="Culinary setting" fill style={{ objectFit: 'cover' }} />
         </div>
       </section>
+
+      <ExperienceBookingCTA />
     </main>
   );
 }
