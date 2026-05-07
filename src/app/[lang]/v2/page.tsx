@@ -3,8 +3,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { getDictionary } from "@/dictionaries";
 import { prisma } from "@/lib/prisma";
-import HeaderV2 from "@/components/v2/HeaderV2";
-import FooterV2 from "@/components/v2/FooterV2";
 import SwipeCarousel from "@/components/v2/SwipeCarousel";
 
 export default async function HomeV2({ params }: { params: Promise<{ lang: string }> }) {
@@ -26,7 +24,6 @@ export default async function HomeV2({ params }: { params: Promise<{ lang: strin
 
   return (
     <main className={styles.main}>
-      <HeaderV2 dict={dict.navigation} lang={lang} />
       
       {/* 1. HERO — Cinematic entrance */}
       <section className={styles.hero}>
@@ -86,7 +83,7 @@ export default async function HomeV2({ params }: { params: Promise<{ lang: strin
       <section className={styles.showcaseSection} style={{ backgroundColor: '#FFFFFF' }}>
         <div className={styles.showcaseImage}>
           <div className={`${styles.showcaseImageInner} arch-frame`}>
-            <SwipeCarousel images={['/piscina.jpg', '/desayuno.jpg', '/comedor.jpg', '/lamparas.jpg', '/exterior.jpg', '/env1.jpg', '/env2.jpg', '/env3.jpg']} altBase={t.amenitiesTitle} objectFit="contain" />
+            <SwipeCarousel images={['/piscina_sunset.jpg', '/desayuno.jpg', '/comedor.jpg', '/cortinas2.jpg', '/exterior.jpg', '/env1.jpg', '/env2.jpg', '/env3.jpg']} altBase={t.amenitiesTitle} />
           </div>
         </div>
         <div className={styles.showcaseText}>
@@ -123,7 +120,7 @@ export default async function HomeV2({ params }: { params: Promise<{ lang: strin
         <Link href={`/${lang}/booking`} className={styles.ctaButton} style={{ backgroundColor: 'var(--color-dark-brown)', color: '#FFFFFF' }}>{t.reserveNow}</Link>
       </section>
 
-      <FooterV2 lang={lang} />
+
     </main>
   );
 }

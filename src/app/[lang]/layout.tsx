@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "../globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import HeaderV2 from "@/components/v2/HeaderV2";
+import FooterV2 from "@/components/v2/FooterV2";
 import ScrollToTop from "@/components/ScrollToTop";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import { getDictionary } from "@/dictionaries";
 import { prisma } from "@/lib/prisma";
-import { headers } from 'next/headers';
 
 const THEME_MAP: Record<string, { primary: string, accent: string }> = {
   'verde_olivo': { primary: '#4E583E', accent: '#D6BE9B' },
@@ -61,14 +60,10 @@ export default async function RootLayout({
 }>) {
   const { lang } = (await params) as { lang: 'en' | 'es' };
   const dict = await getDictionary(lang);
-  
-  const headerList = await headers();
-  const pathname = headerList.get('x-pathname') || '';
-  const isV2 = pathname.includes('/v2');
-
   const themeSetting = await prisma.siteSetting.findUnique({ where: { key: 'activeTheme' } });
   const themeKey = themeSetting?.value || 'verde_olivo';
   const activeColors = THEME_MAP[themeKey] || THEME_MAP['verde_olivo'];
+
 
   return (
     <html lang={lang}>
@@ -87,9 +82,9 @@ export default async function RootLayout({
         `}} />
       </head>
       <body className={`${inter.variable} ${playfair.variable}`}>
-        {!isV2 && <Header dict={dict.navigation} lang={lang} />}
+        <HeaderV2 dict={dict.navigation} lang={lang} />
         {children}
-        {!isV2 && <Footer lang={lang} />}
+        <FooterV2 lang={lang} />
         <ScrollToTop />
         <WhatsAppButton />
       </body>
