@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { getDictionary } from "@/dictionaries";
 import { prisma } from "@/lib/prisma";
-import FAQ from '@/components/FAQ';
+import SwipeCarousel from "@/components/v2/SwipeCarousel";
 
 export default async function Home({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = (await params) as { lang: 'en' | 'es' };
@@ -20,13 +20,15 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
   const heroSubtitle = contentMap[`hero.subtitle_${lang}`] || t.heroSubtitle;
   const aboutHeading = contentMap[`about.heading_${lang}`] || t.introTitle;
   const aboutParagraph = contentMap[`about.paragraph_1_${lang}`] || t.introText;
+  const isEs = lang === 'es';
 
   return (
     <main className={styles.main}>
+      
       {/* 1. HERO — Cinematic entrance */}
       <section className={styles.hero}>
         <Image 
-          src="/hero.jpg" 
+          src="/exterior.jpg" 
           alt={t.heroTitle} 
           fill 
           priority
@@ -41,78 +43,89 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         </div>
       </section>
 
-      {/* 2. BRAND PHILOSOPHY */}
-      <section className={styles.intro}>
+      {/* 2. BRAND PHILOSOPHY (Terracota: #804639) */}
+      <section className={styles.intro} style={{ backgroundColor: '#804639', color: '#FFFFFF' }}>
         <div className={styles.introText}>
-          <h2>{aboutHeading}</h2>
-          <p>{aboutParagraph}</p>
+          <h2 style={{ color: '#FFFFFF' }}>{aboutHeading}</h2>
+          <p style={{ color: '#FDFBF7' }}>{aboutParagraph}</p>
         </div>
       </section>
 
-      {/* 3. ROOMS / STAY */}
-      <section className={styles.showcaseSection}>
+      {/* 3. ROOMS / STAY (Blanco: #FFFFFF) */}
+      <section className={styles.showcaseSection} style={{ backgroundColor: '#FFFFFF' }}>
         <div className={styles.showcaseImage}>
           <div className={`${styles.showcaseImageInner} arch-frame`}>
-            <Image src="/exterior.jpg" alt={t.roomsTitle} fill style={{ objectFit: 'cover' }} />
+            <SwipeCarousel images={['/vida1.jpg', '/hero.jpg', '/room1.jpg', '/room2.jpg', '/room3.jpg']} altBase={t.roomsTitle} objectFit="contain" />
           </div>
         </div>
         <div className={styles.showcaseText}>
-          <h2>{t.roomsTitle}</h2>
-          <p>{t.roomsText}</p>
+          <h2 style={{ color: 'var(--color-dark-brown)' }}>{t.roomsTitle}</h2>
+          <p style={{ color: '#6b6560' }}>{t.roomsText}</p>
           <Link href={`/${lang}/rooms`} className={styles.linkButton}>{t.roomsCTA}</Link>
         </div>
       </section>
 
-      {/* 4. EXPERIENCES / FARM */}
-      <section className={`${styles.showcaseSection} ${styles.reverse}`}>
+      {/* 4. EXPERIENCES / FARM (Marrón Medio: #A88E6D) */}
+      <section className={`${styles.showcaseSection} ${styles.reverse}`} style={{ backgroundColor: '#A88E6D', color: '#FFFFFF' }}>
         <div className={styles.showcaseImage}>
           <div className={`${styles.showcaseImageInner} luxury-frame`}>
-            <Image src="/ternero.jpg" alt={t.experiencesTitle} fill style={{ objectFit: 'cover' }} />
+            <SwipeCarousel images={['/granja1.jpg', '/granja2.jpg', '/granja3.jpg', '/granja4.jpg', '/granja5.jpg', '/granja6.jpg']} altBase={t.experiencesTitle} />
           </div>
         </div>
         <div className={styles.showcaseText}>
-          <h2>{t.experiencesTitle}</h2>
-          <p>{t.experiencesText}</p>
-          <Link href={`/${lang}/experiences`} className={styles.linkButton}>{t.experiencesCTA}</Link>
+          <h2 style={{ color: '#FFFFFF' }}>{t.experiencesTitle}</h2>
+          <p style={{ color: '#FDFBF7' }}>{t.experiencesText}</p>
+          <Link href={`/${lang}/experiences`} className={styles.linkButton} style={{ color: '#FFFFFF', borderColor: '#FFFFFF' }}>{t.experiencesCTA}</Link>
         </div>
       </section>
 
-      {/* 5. AMENITIES / WELLNESS */}
-      <section className={styles.showcaseSection}>
+      {/* 5. AMENITIES / WELLNESS (Blanco: #FFFFFF) */}
+      <section className={styles.showcaseSection} style={{ backgroundColor: '#FFFFFF' }}>
         <div className={styles.showcaseImage}>
           <div className={`${styles.showcaseImageInner} arch-frame`}>
-            <Image src="/piscina.jpg" alt={t.amenitiesTitle} fill style={{ objectFit: 'cover' }} />
+            <SwipeCarousel 
+              images={['/piscina_sunset.jpg', '/desayuno.jpg', '/comedor.jpg', '/exterior.jpg', '/env1.jpg', '/env2.jpg', '/env3.jpg']} 
+              altBase={t.amenitiesTitle} 
+              objectFit="cover" 
+              objectPositions={['center bottom', 'center center', 'center center', 'center center', 'center center', 'center center', 'center center']}
+            />
           </div>
         </div>
         <div className={styles.showcaseText}>
-          <h2>{t.amenitiesTitle}</h2>
-          <p>{t.amenitiesText}</p>
+          <h2 style={{ color: 'var(--color-dark-brown)' }}>{t.amenitiesTitle}</h2>
+          <p style={{ color: '#6b6560' }}>{t.amenitiesText}</p>
         </div>
       </section>
 
-      {/* 5.5. LOCATION / MAP */}
-      <section className={styles.locationSection} style={{ padding: '4rem 2rem', textAlign: 'center', maxWidth: '1000px', margin: '0 auto' }}>
-        <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '2.2rem', color: 'var(--color-dark-brown)', marginBottom: '1rem', fontWeight: 400 }}>{t.locationTitle}</h2>
-        <p style={{ color: '#555', marginBottom: '2rem' }}>{t.locationText}</p>
-        <div style={{ width: '100%', height: '400px', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.05)' }}>
-          <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15440.098877142724!2d-85.7619285!3d14.7970367!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f6c6596269b0217%3A0x5e2fff1ae76e0c2e!2sCasa%20Judah%20Farm%20Hotel!5e0!3m2!1ses!2shn!4v1700000000000!5m2!1ses!2shn" 
-            width="100%" 
-            height="100%" 
-            style={{ border: 0 }} 
-            allowFullScreen={false} 
-            loading="lazy" 
-            referrerPolicy="no-referrer-when-downgrade">
-          </iframe>
+      {/* 5.5. LOCATION / MAP (Verde Olivo: #4E583E) */}
+      <section className={styles.locationSection} style={{ padding: '4rem 2rem', backgroundColor: '#4E583E', color: '#FFFFFF' }}>
+        <div style={{ textAlign: 'center', maxWidth: '1000px', margin: '0 auto' }}>
+          <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '2.2rem', color: '#FFFFFF', marginBottom: '1rem', fontWeight: 400 }}>{t.locationTitle}</h2>
+          <p style={{ color: '#E8EBE4', marginBottom: '2rem' }}>{t.locationText}</p>
+          <div style={{ width: '100%', height: '400px', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.05)' }}>
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15440.098877142724!2d-85.7619285!3d14.7970367!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f6c6596269b0217%3A0x5e2fff1ae76e0c2e!2sCasa%20Judah%20Farm%20Hotel!5e0!3m2!1ses!2shn!4v1700000000000!5m2!1ses!2shn" 
+              width="100%" 
+              height="100%" 
+              style={{ border: 0 }} 
+              allowFullScreen={false} 
+              loading="lazy" 
+              referrerPolicy="no-referrer-when-downgrade">
+            </iframe>
+          </div>
         </div>
       </section>
 
-      {/* 6. FINAL CTA — Conversion */}
-      <section className={styles.finalCta}>
-        <h2>{t.finalCtaTitle}</h2>
-        <p>{t.finalCtaText}</p>
-        <Link href={`/${lang}/booking`} className={styles.ctaButton}>{t.reserveNow}</Link>
+
+
+      {/* 6. FINAL CTA — Conversion (Franja Blanca) */}
+      <section className={styles.finalCta} style={{ backgroundColor: '#FFFFFF', color: 'var(--color-dark-brown)' }}>
+        <h2 style={{ color: 'var(--color-dark-brown)' }}>{t.finalCtaTitle}</h2>
+        <p style={{ color: '#6b6560' }}>{t.finalCtaText}</p>
+        <Link href={`/${lang}/booking`} className={styles.ctaButton} style={{ backgroundColor: 'var(--color-dark-brown)', color: '#FFFFFF' }}>{t.reserveNow}</Link>
       </section>
+
+
     </main>
   );
 }

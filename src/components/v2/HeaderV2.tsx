@@ -13,7 +13,7 @@ export default function HeaderV2({ dict, lang }: { dict: any, lang: string }) {
   const pathname = usePathname();
   const router = useRouter();
 
-  const isHome = pathname === `/${lang}/v2` || pathname === `/${lang}/v2/`;
+  const isHome = pathname === `/${lang}` || pathname === `/${lang}/`;
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -51,9 +51,8 @@ export default function HeaderV2({ dict, lang }: { dict: any, lang: string }) {
           <Link href={`/${lang}/policies`}>{dict.policies}</Link>
         </nav>
 
-        {/* Center logo */}
         <div className={styles.logo}>
-          <Link href={`/${lang}/v2`}>
+          <Link href={`/${lang}`}>
             <BrandLogo scrolled={isSolid || mobileOpen} className={styles.mainLogo} />
           </Link>
         </div>
