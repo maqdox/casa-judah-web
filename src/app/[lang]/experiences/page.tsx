@@ -1,6 +1,7 @@
 import styles from './page.module.css';
 import Image from 'next/image';
 import { getDictionary } from '@/dictionaries';
+import SwipeCarousel from '@/components/v2/SwipeCarousel';
 
 export default async function ExperiencesPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = (await params) as { lang: 'en' | 'es' };
@@ -14,28 +15,37 @@ export default async function ExperiencesPage({ params }: { params: Promise<{ la
         <p>{t.headerSubtitle}</p>
       </header>
 
+      {/* Estilo de Vida Orgánico — gallery */}
       <section className={styles.section}>
         <div className={styles.textContent}>
           <h2>{t.section1Title}</h2>
           <p>{t.section1Text}</p>
         </div>
         <div className={`${styles.imageContent} luxury-frame`}>
-           <Image src="/hero.jpg" alt="Organic farming overview" fill style={{ objectFit: 'cover' }} />
+          <SwipeCarousel
+            images={['/vida1.jpg', '/vida2.jpg', '/vida3.jpg']}
+            altBase={t.section1Title}
+          />
         </div>
       </section>
 
+      {/* Nuestros Animales — gallery */}
       <section className={`${styles.section} ${styles.reverse}`}>
         <div className={styles.textContent}>
           <h2>{t.section2Title}</h2>
           <p>{t.section2Text}</p>
         </div>
         <div className={`${styles.imageContent} arch-frame`}>
-           <Image src="/ternero.jpg" alt="Farm animals view" fill style={{ objectFit: 'cover' }} />
+          <SwipeCarousel
+            images={['/granja1.jpg', '/granja2.jpg', '/granja3.jpg', '/granja4.jpg', '/granja5.jpg', '/granja6.jpg']}
+            altBase={t.section2Title}
+          />
         </div>
       </section>
 
+      {/* Deleite Culinario */}
       <section className={styles.section}>
-         <div className={styles.textContent}>
+        <div className={styles.textContent}>
           <h2>{t.section3Title}</h2>
           <p>{t.section3Text}</p>
         </div>
