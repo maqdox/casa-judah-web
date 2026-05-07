@@ -40,7 +40,7 @@ export default async function ExperiencesPage({ params }: { params: Promise<{ la
           <p>{t.section3Text}</p>
         </div>
         <div className={`${styles.imageContent} luxury-frame`}>
-           <Image src="/piscina.jpg" alt="Culinary setting" fill style={{ objectFit: 'cover' }} />
+           <Image src="/desayuno.jpg" alt="Culinary setting" fill style={{ objectFit: 'cover' }} />
         </div>
       </section>
     </main>
