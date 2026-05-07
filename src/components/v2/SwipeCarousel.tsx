@@ -9,9 +9,10 @@ interface SwipeCarouselProps {
   images: string[];
   altBase: string;
   objectFit?: 'cover' | 'contain';
+  objectPosition?: string;
 }
 
-export default function SwipeCarousel({ images, altBase, objectFit = 'cover' }: SwipeCarouselProps) {
+export default function SwipeCarousel({ images, altBase, objectFit = 'cover', objectPosition = 'center center' }: SwipeCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const trackRef = useRef<HTMLDivElement>(null);
 
@@ -57,7 +58,7 @@ export default function SwipeCarousel({ images, altBase, objectFit = 'cover' }: 
               src={src} 
               alt={`${altBase} - Foto ${index + 1}`} 
               fill 
-              style={{ objectFit: objectFit }} 
+              style={{ objectFit: objectFit, objectPosition: objectPosition }} 
             />
           </div>
         ))}
