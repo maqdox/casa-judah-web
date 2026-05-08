@@ -22,8 +22,8 @@ export default function FooterV2({ lang }: { lang: string }) {
 
         <div className={styles.col}>
           <h4>{isEs ? 'Síguenos' : 'Follow us'}</h4>
-          <a href="https://www.instagram.com/casajudah/" target="_blank" rel="noopener noreferrer">Instagram</a>
-          <a href="https://www.facebook.com/casajudah" target="_blank" rel="noopener noreferrer">Facebook</a>
+          <a href="https://www.instagram.com/casajudahfarmhotel?igsh=YncxbjhpbHZrdjZl" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://www.facebook.com/share/1HbQQBZ9As/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">Facebook</a>
         </div>
       </div>
 

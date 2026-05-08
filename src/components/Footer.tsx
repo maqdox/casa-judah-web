@@ -37,8 +37,8 @@ export default function Footer({ lang = 'es' }: FooterProps) {
         {/* Social & Hours */}
         <div className={styles.col}>
           <h4>{isEs ? 'Síguenos' : 'Follow Us'}</h4>
-          <a href="https://www.instagram.com/casajudah/" target="_blank" rel="noopener noreferrer">Instagram</a>
-          <a href="https://www.facebook.com/casajudah" target="_blank" rel="noopener noreferrer">Facebook</a>
+          <a href="https://www.instagram.com/casajudahfarmhotel?igsh=YncxbjhpbHZrdjZl" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a href="https://www.facebook.com/share/1HbQQBZ9As/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">Facebook</a>
           <span className={styles.hours}>
             Check-in: 3:00 PM<br/>
             Check-out: 11:00 AM
