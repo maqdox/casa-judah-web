@@ -97,6 +97,17 @@ button {
   transform: scale(1.06);
 }
 
+.square-frame {
+  border-radius: 0;
+  box-shadow: 0 15px 40px rgba(44, 34, 24, 0.08);
+  overflow: hidden;
+  transition: transform 3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.square-frame:hover {
+  transform: scale(1.06);
+}
+
 /* ─── Selection ─── */
 ::selection {
   background-color: var(--color-arena);

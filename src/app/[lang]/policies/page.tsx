@@ -21,7 +21,7 @@ export default async function PoliciesPage({ params }: { params: Promise<{ lang:
 
         <div className={styles.policyCard}>
           <h2>{t.g2}</h2>
-          <p>{t.g2t}</p>
+          <p style={{ whiteSpace: 'pre-wrap' }}>{t.g2t}</p>
         </div>
 
         <div className={styles.policyCard}>

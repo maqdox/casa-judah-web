@@ -37,8 +37,6 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         />
         <div className={styles.heroOverlay}></div>
         <div className={styles.heroContent}>
-          <h1>{heroTitle}</h1>
-          <p>{heroSubtitle}</p>
           <Link href={`/${lang}/booking`} className={styles.ctaButton}>{t.bookCTA}</Link>
         </div>
       </section>
@@ -68,8 +66,8 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
       {/* 4. EXPERIENCES / FARM (Marrón Medio: #A88E6D) */}
       <section className={`${styles.showcaseSection} ${styles.reverse}`} style={{ backgroundColor: '#A88E6D', color: '#FFFFFF' }}>
         <div className={styles.showcaseImage}>
-          <div className={`${styles.showcaseImageInner} luxury-frame`}>
-            <SwipeCarousel images={['/granja1.jpg', '/granja2.jpg', '/granja3.jpg', '/granja4.jpg', '/granja5.jpg', '/granja6.jpg']} altBase={t.experiencesTitle} />
+          <div className={`${styles.showcaseImageInner} square-frame`}>
+            <SwipeCarousel images={['/granja1.jpg', '/granja2.jpg', '/granja3.jpg', '/granja4.jpg', '/granja5.jpg', '/granja6.jpg', '/granja7.jpg']} altBase={t.experiencesTitle} />
           </div>
         </div>
         <div className={styles.showcaseText}>
