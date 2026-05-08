@@ -40,6 +40,7 @@ export default async function ExperiencesPage({ params }: { params: Promise<{ la
           <SwipeCarousel
             images={['/granja1.jpg', '/granja2.jpg', '/granja3.jpg', '/granja4.jpg', '/granja5.jpg', '/granja6.jpg', '/oveja_final.jpeg']}
             altBase={t.section2Title}
+            objectFits={['cover', 'cover', 'cover', 'cover', 'cover', 'cover', 'contain']}
           />
         </div>
       </section>

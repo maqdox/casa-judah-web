@@ -67,7 +67,11 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
       <section className={`${styles.showcaseSection} ${styles.reverse}`} style={{ backgroundColor: '#A88E6D', color: '#FFFFFF' }}>
         <div className={styles.showcaseImage}>
           <div className={`${styles.showcaseImageInner} square-frame`}>
-            <SwipeCarousel images={['/granja1.jpg', '/granja2.jpg', '/granja3.jpg', '/granja4.jpg', '/granja5.jpg', '/granja6.jpg', '/oveja_final.jpeg']} altBase={t.experiencesTitle} />
+            <SwipeCarousel 
+              images={['/granja1.jpg', '/granja2.jpg', '/granja3.jpg', '/granja4.jpg', '/granja5.jpg', '/granja6.jpg', '/oveja_final.jpeg']} 
+              altBase={t.experiencesTitle} 
+              objectFits={['cover', 'cover', 'cover', 'cover', 'cover', 'cover', 'contain']}
+            />
           </div>
         </div>
         <div className={styles.showcaseText}>
