@@ -17,10 +17,10 @@
   position: relative;
   min-height: 100vh;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   text-align: center;
-  padding: 2rem;
+  padding: 2rem 2rem 6rem 2rem;
   color: var(--color-white);
   overflow: hidden;
 }
@@ -73,15 +73,7 @@
   text-shadow: 0 1px 20px rgba(0, 0, 0, 0.2);
 }
 
-/* Thin line divider inside hero */
-.heroContent::before {
-  content: '';
-  display: block;
-  width: 60px;
-  height: 1px;
-  background-color: rgba(247, 231, 206, 0.5);
-  margin: 0 auto 2.5rem;
-}
+/* Line divider inside hero removed by request */
 
 /* ─────────────────────────────────────────────────
    BUTTONS — Refined, minimal, boutique

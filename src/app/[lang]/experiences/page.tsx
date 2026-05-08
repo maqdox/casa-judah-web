@@ -22,7 +22,7 @@ export default async function ExperiencesPage({ params }: { params: Promise<{ la
           <h2>{t.section1Title}</h2>
           <p>{t.section1Text}</p>
         </div>
-        <div className={`${styles.imageContent} luxury-frame`}>
+        <div className={`${styles.imageContent} square-frame`}>
           <SwipeCarousel
             images={['/vida1.jpg', '/vida2.jpg', '/vida3.jpg']}
             altBase={t.section1Title}
@@ -36,9 +36,9 @@ export default async function ExperiencesPage({ params }: { params: Promise<{ la
           <h2>{t.section2Title}</h2>
           <p>{t.section2Text}</p>
         </div>
-        <div className={`${styles.imageContent} arch-frame`}>
+        <div className={`${styles.imageContent} square-frame`}>
           <SwipeCarousel
-            images={['/granja1.jpg', '/granja2.jpg', '/granja3.jpg', '/granja4.jpg', '/granja5.jpg', '/granja6.jpg']}
+            images={['/granja1.jpg', '/granja2.jpg', '/granja3.jpg', '/granja4.jpg', '/granja5.jpg', '/granja6.jpg', '/oveja.jpg']}
             altBase={t.section2Title}
           />
         </div>
@@ -50,7 +50,7 @@ export default async function ExperiencesPage({ params }: { params: Promise<{ la
           <h2>{t.section3Title}</h2>
           <p>{t.section3Text}</p>
         </div>
-        <div className={`${styles.imageContent} luxury-frame`}>
+        <div className={`${styles.imageContent} square-frame`}>
            <Image src="/desayuno.jpg" alt="Culinary setting" fill style={{ objectFit: 'cover' }} />
         </div>
       </section>
