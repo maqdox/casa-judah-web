@@ -24,7 +24,7 @@ export default async function ExperiencesPage({ params }: { params: Promise<{ la
         </div>
         <div className={`${styles.imageContent} square-frame`}>
           <SwipeCarousel
-            images={['/vida1.jpg', '/vida2.jpg', '/vida3.jpg']}
+            images={['/bicicletas.jpg', '/ninos.jpg', '/ternero_nino.jpg', '/fogata.jpg']}
             altBase={t.section1Title}
           />
         </div>
