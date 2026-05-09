@@ -8,7 +8,8 @@ export default async function BookingPage({ params }: { params: Promise<{ lang: 
   const { lang } = (await params) as { lang: 'en' | 'es' };
   
   const rooms = await prisma.room.findMany({
-    where: { status: 'AVAILABLE' }
+    where: { status: 'AVAILABLE' },
+    orderBy: { sortOrder: 'asc' }
   });
 
   return (

@@ -15,7 +15,8 @@ export default async function RoomsPage({ params }: { params: Promise<{ lang: st
   const t = dict.roomsPage;
 
   const rooms = await prisma.room.findMany({
-    where: { status: 'AVAILABLE' }
+    where: { status: 'AVAILABLE' },
+    orderBy: { sortOrder: 'asc' }
   });
 
   return (
