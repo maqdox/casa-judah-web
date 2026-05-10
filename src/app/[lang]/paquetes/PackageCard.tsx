@@ -53,7 +53,7 @@ export default function PackageCard({ pkg }: { pkg: PackageConfig }) {
         <div className={styles.cardBody}>
           <span className={styles.badge}>{pkg.badge}</span>
           <h2 className={styles.cardTitle}>{pkg.title}</h2>
-          <p className={styles.cardSubtitle}>{pkg.subtitle}</p>
+          {pkg.subtitle && <p className={styles.cardSubtitle}>{pkg.subtitle}</p>}
 
           {/* Includes */}
           <p className={styles.includesLabel}>{isEs ? 'Incluye' : 'Includes'}</p>

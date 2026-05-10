@@ -10,21 +10,14 @@ export default async function PaquetesPage({ params }: { params: Promise<{ lang:
     {
       id: 'noche-de-fogata',
       title: isEs ? 'Noche de Fogata' : 'Bonfire Night',
-      subtitle: isEs ? 'bajo las Estrellas' : 'under the Stars',
+      subtitle: '',
       image: '/fogata.jpeg',
       badge: isEs ? 'Experiencia Especial · Paquete' : 'Special Experience · Package',
       includes: [
         { text: isEs ? 'Fogata encendida en zona privada' : 'Lit bonfire in private area' },
         { text: isEs ? 'Kit de malvaviscos para asar' : 'Marshmallow roasting kit' },
-        {
-          text: isEs ? 'Bebidas calientes' : 'Hot beverages',
-          subItems: [
-            isEs ? 'Chocolate caliente' : 'Hot chocolate',
-            isEs ? 'Café' : 'Coffee',
-            isEs ? 'Té de hierbas' : 'Herbal tea',
-          ],
-          extraLabel: '+15 LPS'
-        },
+        { text: isEs ? 'Café y Té de hierbas (incluido)' : 'Coffee and Herbal tea (included)' },
+        { text: isEs ? 'Chocolate caliente' : 'Hot chocolate', extraLabel: '+15 LPS' },
         { text: isEs ? 'Área de cine al aire libre' : 'Outdoor cinema area' },
       ],
       duration: isEs ? '2 horas' : '2 hours',
@@ -40,7 +33,7 @@ export default async function PaquetesPage({ params }: { params: Promise<{ lang:
     {
       id: 'cafe-entre-ovejas',
       title: isEs ? 'Café entre Ovejas' : 'Coffee with Sheep',
-      subtitle: isEs ? 'una tarde mágica' : 'a magical afternoon',
+      subtitle: '',
       image: '/cafe_ovejas_new.jpeg',
       badge: isEs ? 'Experiencia Especial · Paquete' : 'Special Experience · Package',
       includes: [
