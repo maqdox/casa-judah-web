@@ -119,6 +119,15 @@
   gap: 1.8rem;
 }
 
+.packagesLink {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: color 0.4s ease;
+  text-decoration: none;
+}
+
 .langBtn {
   font-family: var(--font-sans);
   font-size: 0.78rem;

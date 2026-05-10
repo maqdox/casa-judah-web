@@ -6,7 +6,8 @@
     "faqs": "FAQS",
     "bookNow": "Book Now",
     "menu": "MENU",
-    "home": "Home"
+    "home": "Home",
+    "packages": "Packages"
   },
   "home": {
     "heroTitle": "Elevated Simplicity",

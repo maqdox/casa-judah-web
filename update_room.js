@@ -9,11 +9,10 @@ async function main() {
     const updated = await prisma.room.update({
       where: { id: room.id },
       data: { 
-        imageUrls: '/room3.jpg|/room2.jpg|/room1.jpg',
-        sortOrder: 0
+        imageUrls: '/rooms/familiar_doble/fd_camas.jpeg|/rooms/familiar_doble/fd_cama.jpeg|/rooms/familiar_doble/fd_patio.jpeg|/rooms/familiar_doble/fd_bano.jpeg'
       }
     });
-    console.log('Successfully updated Habitación Familiar Doble');
+    console.log('Successfully updated images for:', updated.contentName);
   } else {
     console.log('Room not found');
   }

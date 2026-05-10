@@ -59,6 +59,7 @@ export default function HeaderV2({ dict, lang }: { dict: any, lang: string }) {
 
         {/* Right actions */}
         <div className={styles.actions}>
+          <Link href={`/${lang}/paquetes`} className={styles.packagesLink}>{dict.packages}</Link>
           <a href="#" onClick={switchLang} className={styles.langBtn}>
             {lang === 'es' ? 'EN' : 'ES'}
           </a>
@@ -79,6 +80,7 @@ export default function HeaderV2({ dict, lang }: { dict: any, lang: string }) {
         </div>
         <Link href={`/${lang}/rooms`} onClick={close}>{dict.rooms}</Link>
         <Link href={`/${lang}/experiences`} onClick={close}>{dict.experiences}</Link>
+        <Link href={`/${lang}/paquetes`} onClick={close}>{dict.packages}</Link>
         <Link href={`/${lang}/faqs`} onClick={close}>{dict.faqs}</Link>
         <Link href={`/${lang}/policies`} onClick={close}>{dict.policies}</Link>
         <Link href={`/${lang}/booking`} onClick={close} style={{ marginTop: '1rem', color: 'var(--color-olive)', fontWeight: 'bold' }}>
