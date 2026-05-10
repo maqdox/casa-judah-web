@@ -1,0 +1,83 @@
+.container {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+  background-color: #FAF9F6; /* Matches the site's soft background */
+}
+
+.card {
+  max-width: 600px;
+  background: #FFFFFF;
+  padding: 4rem 3rem;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.icon {
+  width: 80px;
+  height: 80px;
+  background-color: rgba(78, 88, 62, 0.1); /* Subtle olive/primary background */
+  color: var(--color-dark-brown);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.icon svg {
+  width: 40px;
+  height: 40px;
+}
+
+.title {
+  font-family: var(--font-playfair);
+  font-size: 2.5rem;
+  color: var(--color-dark-brown);
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+}
+
+.button {
+  display: inline-block;
+  background-color: var(--color-dark-brown);
+  color: #fff;
+  padding: 1rem 2.5rem;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.button:hover {
+  background-color: #3a422e; /* Slightly darker */
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .card {
+    padding: 3rem 1.5rem;
+  }
+  
+  .title {
+    font-size: 2rem;
+  }
+}
