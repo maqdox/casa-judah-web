@@ -68,10 +68,39 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
       const formData = new FormData(e.currentTarget);
       const name = formData.get('name') as string;
       const phoneInput = formData.get('phone') as string;
+      const emailInput = formData.get('email') as string;
       const checkInD = formData.get('checkIn') as string;
       const checkOutD = formData.get('checkOut') as string;
       const method = formData.get('paymentMethod') as string;
 
+      // Card payments go through Pagadito
+      if (method === 'full_card' || method === 'partial_card') {
+        const res = await fetch('/api/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            roomId,
+            checkIn: checkInD,
+            checkOut: checkOutD,
+            name,
+            email: emailInput,
+            phone: phoneInput,
+            paymentMethod: method
+          })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.error || 'Error al procesar el pago.');
+        }
+
+        // Redirect to Pagadito payment page
+        window.location.href = data.redirectUrl;
+        return;
+      }
+
+      // Non-card payments: keep existing flow (WhatsApp + local reservation)
       const resId = await createReservation(formData);
 
       let whatsappMsgExtra = '';
@@ -83,7 +112,6 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
         whatsappMsgExtra = `\nPor favor confírmenme disponibilidad.`;
       }
 
-      // Generar mensaje de WhatsApp
       const whatsappMessage = `*Nueva Solicitud de Reservación*\n\n` +
         `*ID:* #${resId.split('-')[0]}\n` +
         `*Huésped:* ${name}\n` +
