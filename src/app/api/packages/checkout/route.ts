@@ -42,7 +42,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Paquete no encontrado' }, { status: 400 });
     }
 
-    // Validate capacity
     const totalGuests = (data.adults || data.guests || 0) + (data.children || 0);
     if (totalGuests > config.maxCapacity) {
       return NextResponse.json({ error: `Capacidad máxima: ${config.maxCapacity} personas` }, { status: 400 });
@@ -67,52 +66,32 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Esta fecha ya está reservada para este paquete' }, { status: 409 });
     }
 
-    // Ensure amenity exists
-    let amenity = await prisma.amenity.findUnique({ where: { id: data.amenityId } });
-    if (!amenity) {
-      amenity = await prisma.amenity.create({
-        data: {
-          id: data.amenityId,
-          title_es: config.title_es,
-          title_en: config.title_en,
-          desc_es: config.desc_es,
-          desc_en: config.desc_en,
-          imageUrl: config.imageUrl,
-          price: config.price,
-          isActive: true
-        }
-      });
-    }
-
-    const notes = data.notes || `Adultos: ${data.adults}, Niños: ${data.children || 0}`;
-
-    // Create reservation as PENDING
-    const reservation = await prisma.amenityReservation.create({
-      data: {
-        amenityId: amenity.id,
-        guestName: data.name,
-        guestPhone: data.phone,
-        guestEmail: data.email || '',
-        date: new Date(data.date),
-        timeSlot: data.timeSlot || 'evening',
-        guests: totalGuests,
-        totalPrice: data.totalPrice,
-        status: 'PENDING',
-        notes
-      }
-    });
+    // Encode package booking data in ERN — NO reservation created yet
+    const bookingData = {
+      type: 'package',
+      amenityId: data.amenityId,
+      name: data.name,
+      phone: data.phone,
+      email: data.email || '',
+      date: data.date,
+      timeSlot: data.timeSlot || 'evening',
+      guests: totalGuests,
+      totalPrice: data.totalPrice,
+      notes: data.notes || '',
+      packageTitle: data.packageTitle || config.title_es,
+    };
+    const ern = 'pkg-' + Buffer.from(JSON.stringify(bookingData)).toString('base64url');
 
     // Call Pagadito
-    const ern = `pkg-${reservation.id}`;
     const redirectUrl = await execTrans(ern, [
       {
         quantity: 1,
-        description: `${data.packageTitle || config.title_es} - ${totalGuests} personas`,
+        description: `${bookingData.packageTitle} - ${totalGuests} personas`,
         priceInHNL: data.totalPrice
       }
     ]);
 
-    return NextResponse.json({ redirectUrl, reservationId: reservation.id });
+    return NextResponse.json({ redirectUrl });
   } catch (err: any) {
     console.error('Package checkout error:', err);
     return NextResponse.json({ error: err.message || 'Error al procesar el pago.' }, { status: 500 });

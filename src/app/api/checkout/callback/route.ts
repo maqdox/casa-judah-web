@@ -29,16 +29,35 @@ export async function GET(req: NextRequest) {
       const isPackage = ern.startsWith('pkg-');
 
       if (isPackage) {
-        const reservationId = ern.replace('pkg-', '');
-        console.log('[Callback] Confirming package reservation:', reservationId);
-        
-        await prisma.amenityReservation.update({
-          where: { id: reservationId },
-          data: { status: 'CONFIRMED' }
+        // Package reservation — decode booking data from ERN and CREATE the reservation now
+        let bookingData: any;
+        try {
+          const encodedData = ern.replace('pkg-', '');
+          bookingData = JSON.parse(Buffer.from(encodedData, 'base64url').toString());
+        } catch (err) {
+          console.error('[Callback] Failed to decode package ERN:', ern, err);
+          return NextResponse.redirect(new URL('/es/paquetes?error=invalid_ern', req.url));
+        }
+
+        console.log('[Callback] Creating package reservation for:', bookingData.name);
+
+        const reservation = await prisma.amenityReservation.create({
+          data: {
+            amenityId: bookingData.amenityId,
+            guestName: bookingData.name,
+            guestPhone: bookingData.phone,
+            guestEmail: bookingData.email || '',
+            date: new Date(bookingData.date),
+            timeSlot: bookingData.timeSlot || 'evening',
+            guests: bookingData.guests,
+            totalPrice: bookingData.totalPrice,
+            status: 'CONFIRMED',
+            notes: bookingData.notes
+          }
         });
 
         return NextResponse.redirect(
-          new URL(`/es/payment-success?resId=${reservationId}&type=package`, req.url)
+          new URL(`/es/payment-success?resId=${reservation.id}&type=package`, req.url)
         );
       } else {
         // Room reservation — decode booking data from ERN

@@ -257,7 +257,6 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
         <select name="paymentMethod" required value={paymentMethod} onChange={e => setPaymentMethod(e.target.value)}>
           <option value="full_card">{t.optFull}</option>
           <option value="partial_card">{t.optPart}</option>
-          <option value="hotel">{t.optHotel}</option>
           <option value="bank_transfer">{t.optBank}</option>
           <option value="payment_link">{t.optLink}</option>
         </select>
