@@ -46,7 +46,10 @@ export default function PackageCard({ pkg }: { pkg: PackageConfig }) {
             src={pkg.image}
             alt={pkg.title}
             fill
-            style={{ objectFit: 'cover' }}
+            style={{ 
+              objectFit: 'cover', 
+              objectPosition: pkg.id === 'cafe-entre-ovejas' ? 'center bottom' : 'center center' 
+            }}
             priority
           />
         </div>
