@@ -60,6 +60,26 @@ export default async function PaquetesPage({ params }: { params: Promise<{ lang:
       hasDrinks: true,
       lang,
     },
+    // TEST PACKAGE — Remove after Pagadito testing
+    {
+      id: 'test-pagadito',
+      title: '🧪 Test de Pago',
+      subtitle: '',
+      image: '/fogata.jpeg',
+      badge: '⚠️ Solo para pruebas',
+      includes: [
+        { text: 'Paquete de prueba para verificar pasarela de pago' },
+      ],
+      duration: 'N/A',
+      capacity: '1 persona',
+      basePrice: 26,
+      basePriceNote: 'Aprox. $1 USD — Solo para pruebas',
+      extraPersonPrice: 0,
+      extraPersonLabel: '',
+      maxCapacity: 1,
+      hasTimeSlots: false,
+      lang,
+    },
   ];
 
   return (

@@ -21,6 +21,16 @@ const PACKAGE_CONFIGS: Record<string, { title_es: string; title_en: string; desc
     price: 650,
     maxCapacity: 20,
   },
+  // TEST — Remove after Pagadito testing
+  'test-pagadito': {
+    title_es: 'Test de Pago',
+    title_en: 'Payment Test',
+    desc_es: 'Paquete de prueba',
+    desc_en: 'Test package',
+    imageUrl: '/fogata.jpeg',
+    price: 26,
+    maxCapacity: 1,
+  },
 };
 
 export async function POST(req: NextRequest) {
