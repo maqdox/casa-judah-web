@@ -16,32 +16,45 @@ export async function GET(req: NextRequest) {
     const status = await getStatus(token);
 
     if (status.status === 'COMPLETED' || status.status === 'REGISTERED') {
-      // Payment was successful - update reservation + payment
-      const reservation = await prisma.reservation.findUnique({
-        where: { id: ern },
-        include: { payment: true, room: true, guest: true }
-      });
+      const isPackage = ern.startsWith('pkg-');
 
-      if (reservation) {
-        await prisma.$transaction(async (tx) => {
-          await tx.reservation.update({
-            where: { id: ern },
-            data: { status: 'CONFIRMED' }
-          });
-
-          if (reservation.payment) {
-            await tx.payment.update({
-              where: { id: reservation.payment.id },
-              data: { status: 'COMPLETED' }
-            });
-          }
+      if (isPackage) {
+        // Package reservation
+        const reservationId = ern.replace('pkg-', '');
+        await prisma.amenityReservation.update({
+          where: { id: reservationId },
+          data: { status: 'CONFIRMED' }
         });
 
-        // Detect language from reservation or default to 'es'
-        const lang = 'es';
         return NextResponse.redirect(
-          new URL(`/${lang}/payment-success?resId=${ern}`, req.url)
+          new URL(`/es/payment-success?resId=${reservationId}&type=package`, req.url)
         );
+      } else {
+        // Room reservation
+        const reservation = await prisma.reservation.findUnique({
+          where: { id: ern },
+          include: { payment: true }
+        });
+
+        if (reservation) {
+          await prisma.$transaction(async (tx) => {
+            await tx.reservation.update({
+              where: { id: ern },
+              data: { status: 'CONFIRMED' }
+            });
+
+            if (reservation.payment) {
+              await tx.payment.update({
+                where: { id: reservation.payment.id },
+                data: { status: 'COMPLETED' }
+              });
+            }
+          });
+
+          return NextResponse.redirect(
+            new URL(`/es/payment-success?resId=${ern}`, req.url)
+          );
+        }
       }
     }
 

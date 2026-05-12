@@ -151,7 +151,7 @@ export default function PackageBookingModal({ isOpen, onClose, pkg }: PackageBoo
         ? `Adultos: ${formData.guests}, Niños: ${formData.children}, Bebidas: Café(${formData.drinks.cafe}) Té(${formData.drinks.te}) Chocolate(${formData.drinks.chocolate})`
         : `Personas: ${formData.guests}`;
 
-      const response = await fetch('/api/experiences/book', {
+      const response = await fetch('/api/packages/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -164,11 +164,13 @@ export default function PackageBookingModal({ isOpen, onClose, pkg }: PackageBoo
         }),
       });
 
-      if (response.ok) {
-        setStep(2);
+      const result = await response.json();
+
+      if (response.ok && result.redirectUrl) {
+        // Redirect to Pagadito payment page
+        window.location.href = result.redirectUrl;
       } else {
-        const errorData = await response.json();
-        alert(errorData.error || (isEs ? 'Ocurrió un error. Intenta de nuevo.' : 'An error occurred. Try again.'));
+        alert(result.error || (isEs ? 'Ocurrió un error. Intenta de nuevo.' : 'An error occurred. Try again.'));
       }
     } catch {
       alert(isEs ? 'Error de conexión. Intenta de nuevo.' : 'Connection error. Try again.');
