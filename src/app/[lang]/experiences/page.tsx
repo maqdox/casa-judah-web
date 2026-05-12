@@ -10,18 +10,23 @@ export default async function ExperiencesPage({ params }: { params: Promise<{ la
 
   const section1Images = [
     { src: '/bicicletas.jpeg', objectFit: 'cover' },
-    { src: '/conejos/conejo2.jpg', objectFit: 'cover' },
+    { src: '/conejos/conejo4.jpg', objectFit: 'cover' },
     { src: '/ninos.jpeg', objectFit: 'cover' },
-    { src: '/conejos/conejo3.jpg', objectFit: 'cover' },
+    { src: '/conejos/conejo5.jpg', objectFit: 'cover' },
+    { src: '/conejos/conejo6.jpg', objectFit: 'cover' },
+    { src: '/conejos/conejo7.jpg', objectFit: 'cover' },
     { src: '/ternero_nino.jpeg', objectFit: 'cover' },
     { src: '/fogata.jpeg', objectFit: 'cover' },
   ];
 
   const section2Images = [
     { src: '/granja1.jpg', objectFit: 'cover' },
+    { src: '/conejos/conejo8.jpg', objectFit: 'cover' },
     { src: '/granja2.jpg', objectFit: 'cover' },
-    { src: '/conejos/conejo1.jpg', objectFit: 'cover' },
+    { src: '/conejos/conejo9.jpg', objectFit: 'cover' },
+    { src: '/conejos/conejo10.jpg', objectFit: 'cover' },
     { src: '/granja3.jpg', objectFit: 'cover' },
+    { src: '/conejos/conejo11.jpg', objectFit: 'cover' },
     { src: '/granja4.jpg', objectFit: 'cover' },
     { src: '/granja5.jpg', objectFit: 'cover' },
     { src: '/granja6.jpg', objectFit: 'cover' },
