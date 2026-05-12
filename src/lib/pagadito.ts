@@ -102,13 +102,14 @@ export async function execTrans(ern: string, details: { quantity: number, descri
     })
   });
 
-  const data: ExecTransResponse = await response.json();
+  const data = await response.json();
 
-  if (data.code !== 'PG1001') {
+  if (data.code !== 'PG1002' && data.code !== 'PG1001') {
     throw new Error(`Error de Pagadito: ${data.message} (Código: ${data.code})`);
   }
 
-  return data.value; // Redirect URL
+  // PG1002 returns the URL inside data.data.url
+  return data.data?.url || data.value;
 }
 
 /**
@@ -121,11 +122,11 @@ export async function getStatus(token: string): Promise<GetStatusResponse['value
     body: JSON.stringify({ token })
   });
 
-  const data: GetStatusResponse = await response.json();
+  const data = await response.json();
 
-  if (data.code !== 'PG1001') {
+  if (data.code !== 'PG1001' && data.code !== 'PG1002') {
     throw new Error(`Error al verificar estado en Pagadito: ${data.message} (Código: ${data.code})`);
   }
 
-  return data.value;
+  return data.data || data.value;
 }
