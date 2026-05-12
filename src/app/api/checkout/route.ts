@@ -14,6 +14,16 @@ export async function POST(req: NextRequest) {
     const checkInDate = new Date(checkIn);
     const checkOutDate = new Date(checkOut);
 
+    // Validate dates
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+    if (checkInDate < now) {
+      return NextResponse.json({ error: 'La fecha de llegada no puede ser anterior a hoy.' }, { status: 400 });
+    }
+    if (checkOutDate <= checkInDate) {
+      return NextResponse.json({ error: 'La fecha de salida debe ser posterior a la de llegada.' }, { status: 400 });
+    }
+
     // Check availability
     const overlapping = await prisma.reservation.findFirst({
       where: {
@@ -41,52 +51,26 @@ export async function POST(req: NextRequest) {
     const tax = subtotal * 0.15;
     const totalPrice = subtotal + tax;
 
-    // Determine payment amount
     let paymentAmount = totalPrice;
     if (paymentMethod === 'partial_card') paymentAmount = totalPrice / 2;
 
-    // Create guest + reservation + payment in a transaction
-    const reservation = await prisma.$transaction(async (tx) => {
-      let guest = await tx.guest.findUnique({ where: { email } });
-      if (!guest) {
-        guest = await tx.guest.create({ data: { name, email, phone } });
-      }
+    // Encode booking data in ERN so callback can create the reservation after payment
+    const bookingData = {
+      roomId, checkIn, checkOut, name, email, phone, paymentMethod,
+      totalPrice, paymentAmount, days
+    };
+    const ern = Buffer.from(JSON.stringify(bookingData)).toString('base64url');
 
-      const res = await tx.reservation.create({
-        data: {
-          guestId: guest.id,
-          roomId: room.id,
-          checkInDate,
-          checkOutDate,
-          rulesAccepted: true,
-          totalPrice,
-          status: 'PENDING'
-        }
-      });
-
-      await tx.payment.create({
-        data: {
-          reservationId: res.id,
-          amount: paymentAmount,
-          paymentMethod,
-          status: 'PENDING'
-        }
-      });
-
-      return res;
-    });
-
-    // Call Pagadito to get the payment URL
-    const ern = reservation.id;
+    // Call Pagadito to get the payment URL (NO reservation created yet)
     const redirectUrl = await execTrans(ern, [
       {
         quantity: days,
         description: `${room.contentName} (${days} noches)`,
-        priceInHNL: room.basePrice * 1.15 // price per night including tax
+        priceInHNL: room.basePrice * 1.15
       }
     ]);
 
-    return NextResponse.json({ redirectUrl, reservationId: reservation.id });
+    return NextResponse.json({ redirectUrl });
   } catch (err: any) {
     console.error('Checkout error:', err);
     return NextResponse.json({ error: err.message || 'Error al procesar el pago.' }, { status: 500 });

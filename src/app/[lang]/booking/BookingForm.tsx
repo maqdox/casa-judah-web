@@ -14,6 +14,16 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
   const [roomId, setRoomId] = useState(initialRoomId);
   const [checkIn, setCheckIn] = useState('');
   const [checkOut, setCheckOut] = useState('');
+
+  // Date helpers
+  const today = new Date().toISOString().split('T')[0];
+  const minCheckOut = checkIn ? new Date(new Date(checkIn).getTime() + 86400000).toISOString().split('T')[0] : today;
+
+  const handleCheckInChange = (val: string) => {
+    setCheckIn(val);
+    // Reset check-out if it's now invalid
+    if (checkOut && val >= checkOut) setCheckOut('');
+  };
   const [paymentMethod, setPaymentMethod] = useState('full_card');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -205,11 +215,11 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
       <div className={styles.row}>
         <div className={styles.formGroup}>
           <label>{t.checkIn}</label>
-          <input type="date" name="checkIn" required onChange={e => setCheckIn(e.target.value)} />
+          <input type="date" name="checkIn" required min={today} value={checkIn} onChange={e => handleCheckInChange(e.target.value)} />
         </div>
         <div className={styles.formGroup}>
           <label>{t.checkOut}</label>
-          <input type="date" name="checkOut" required onChange={e => setCheckOut(e.target.value)} />
+          <input type="date" name="checkOut" required min={minCheckOut} value={checkOut} onChange={e => setCheckOut(e.target.value)} />
         </div>
       </div>
 

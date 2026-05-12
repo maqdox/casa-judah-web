@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
       const isPackage = ern.startsWith('pkg-');
 
       if (isPackage) {
-        // Package reservation
+        // Package reservation — already created as PENDING, just confirm
         const reservationId = ern.replace('pkg-', '');
         await prisma.amenityReservation.update({
           where: { id: reservationId },
@@ -30,31 +30,50 @@ export async function GET(req: NextRequest) {
           new URL(`/es/payment-success?resId=${reservationId}&type=package`, req.url)
         );
       } else {
-        // Room reservation
-        const reservation = await prisma.reservation.findUnique({
-          where: { id: ern },
-          include: { payment: true }
-        });
+        // Room reservation — decode booking data from ERN and CREATE the reservation now
+        let bookingData: any;
+        try {
+          bookingData = JSON.parse(Buffer.from(ern, 'base64url').toString());
+        } catch {
+          return NextResponse.redirect(new URL('/es/booking?error=invalid_ern', req.url));
+        }
 
-        if (reservation) {
-          await prisma.$transaction(async (tx) => {
-            await tx.reservation.update({
-              where: { id: ern },
-              data: { status: 'CONFIRMED' }
-            });
+        const { roomId, checkIn, checkOut, name, email, phone, paymentMethod, totalPrice, paymentAmount } = bookingData;
 
-            if (reservation.payment) {
-              await tx.payment.update({
-                where: { id: reservation.payment.id },
-                data: { status: 'COMPLETED' }
-              });
+        // Create the reservation + payment now that payment is confirmed
+        const reservation = await prisma.$transaction(async (tx) => {
+          let guest = await tx.guest.findUnique({ where: { email } });
+          if (!guest) {
+            guest = await tx.guest.create({ data: { name, email, phone } });
+          }
+
+          const res = await tx.reservation.create({
+            data: {
+              guestId: guest.id,
+              roomId,
+              checkInDate: new Date(checkIn),
+              checkOutDate: new Date(checkOut),
+              rulesAccepted: true,
+              totalPrice,
+              status: 'CONFIRMED'
             }
           });
 
-          return NextResponse.redirect(
-            new URL(`/es/payment-success?resId=${ern}`, req.url)
-          );
-        }
+          await tx.payment.create({
+            data: {
+              reservationId: res.id,
+              amount: paymentAmount,
+              paymentMethod,
+              status: 'COMPLETED'
+            }
+          });
+
+          return res;
+        });
+
+        return NextResponse.redirect(
+          new URL(`/es/payment-success?resId=${reservation.id}`, req.url)
+        );
       }
     }
 
