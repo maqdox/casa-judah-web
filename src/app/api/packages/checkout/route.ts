@@ -28,7 +28,7 @@ const PACKAGE_CONFIGS: Record<string, { title_es: string; title_en: string; desc
     desc_es: 'Paquete de prueba',
     desc_en: 'Test package',
     imageUrl: '/fogata.jpeg',
-    price: 100,
+    price: 26.62,
     maxCapacity: 1,
   },
 };
