@@ -84,19 +84,13 @@ export default function PackageBookingModal({ isOpen, onClose, pkg }: PackageBoo
         
         if (numValue < minVal) numValue = minVal;
 
-        if (pkg.id === 'cafe-entre-ovejas') {
-          numValue = Math.min(numValue, 10 - prev.children);
-        } else {
-          numValue = Math.min(numValue, pkg.maxCapacity);
-        }
+        numValue = Math.min(numValue, pkg.maxCapacity - prev.children);
         finalValue = numValue;
       } else if (name === 'children') {
         let numValue = parseInt(value) || 0;
         if (numValue < 0) numValue = 0;
 
-        if (pkg.id === 'cafe-entre-ovejas') {
-          numValue = Math.min(numValue, 10 - prev.guests);
-        }
+        numValue = Math.min(numValue, pkg.maxCapacity - prev.guests);
         finalValue = numValue;
       }
       
@@ -121,21 +115,18 @@ export default function PackageBookingModal({ isOpen, onClose, pkg }: PackageBoo
 
   // Pricing
   const getPrice = () => {
-    if (pkg.id === 'noche-de-fogata') {
-      let total = pkg.basePrice; // 650 for 4
-      if (formData.guests > 4) {
-        total += (formData.guests - 4) * pkg.extraPersonPrice;
-      }
-      return total;
+    const baseGuests = pkg.id === 'cafe-entre-ovejas' ? 2 : 4;
+    let total = pkg.basePrice;
+    
+    if (formData.guests > baseGuests) {
+      total += (formData.guests - baseGuests) * pkg.extraPersonPrice;
     }
-
-    // Café entre ovejas
-    let total = pkg.basePrice; // 450 for 2
-    if (formData.guests > 2) {
-      total += (formData.guests - 2) * pkg.extraPersonPrice;
+    
+    if (formData.children > 0 && pkg.extraChildPrice) {
+      total += formData.children * pkg.extraChildPrice;
     }
-    total += formData.children * 70;
-    if (formData.drinks.chocolate > 0) {
+    
+    if (pkg.hasDrinks && formData.drinks.chocolate > 0) {
       total += formData.drinks.chocolate * 15;
     }
     return total;
@@ -147,9 +138,7 @@ export default function PackageBookingModal({ isOpen, onClose, pkg }: PackageBoo
     setIsSubmitting(true);
 
     try {
-      const notes = pkg.id === 'cafe-entre-ovejas'
-        ? `Adultos: ${formData.guests}, Niños: ${formData.children}, Bebidas: Café(${formData.drinks.cafe}) Té(${formData.drinks.te}) Chocolate(${formData.drinks.chocolate})`
-        : `Personas: ${formData.guests}`;
+      const notes = `Adultos: ${formData.guests}, Niños: ${formData.children}${pkg.hasDrinks ? `, Bebidas: Café(${formData.drinks.cafe}) Té(${formData.drinks.te}) Chocolate(${formData.drinks.chocolate})` : ''}`;
 
       const response = await fetch('/api/packages/checkout', {
         method: 'POST',
@@ -249,24 +238,24 @@ export default function PackageBookingModal({ isOpen, onClose, pkg }: PackageBoo
                 <div className={styles.row}>
                   <div className={styles.col}>
                     <div className={styles.formGroup}>
-                      <label>{isEs ? `Personas (Max: ${pkg.maxCapacity})` : `Guests (Max: ${pkg.maxCapacity})`}</label>
+                      <label>{isEs ? `Adultos (Max: ${pkg.maxCapacity})` : `Adults (Max: ${pkg.maxCapacity})`}</label>
                       <input 
                         required 
                         type="number" 
                         name="guests" 
                         min={pkg.id === 'noche-de-fogata' ? 4 : 1} 
-                        max={pkg.id === 'cafe-entre-ovejas' ? 10 - formData.children : pkg.maxCapacity} 
+                        max={pkg.maxCapacity - formData.children} 
                         value={formData.guests} 
                         onChange={handleChange} 
                         className={styles.formControl} 
                       />
                     </div>
                   </div>
-                  {pkg.id === 'cafe-entre-ovejas' && (
+                  {pkg.extraChildPrice !== undefined && (
                     <div className={styles.col}>
                       <div className={styles.formGroup}>
-                        <label>{isEs ? 'Niños de 1 a 5 años' : 'Children (ages 1-5)'}</label>
-                        <input type="number" name="children" min="0" max={10 - formData.guests} value={formData.children} onChange={handleChange} className={styles.formControl} />
+                        <label>{isEs ? 'Niños' : 'Children'}</label>
+                        <input type="number" name="children" min="0" max={pkg.maxCapacity - formData.guests} value={formData.children} onChange={handleChange} className={styles.formControl} />
                       </div>
                     </div>
                   )}
@@ -305,10 +294,10 @@ export default function PackageBookingModal({ isOpen, onClose, pkg }: PackageBoo
                       <span>L. {(formData.guests - baseGuests) * pkg.extraPersonPrice}</span>
                     </div>
                   )}
-                  {pkg.id === 'cafe-entre-ovejas' && formData.children > 0 && (
+                  {pkg.extraChildPrice !== undefined && formData.children > 0 && (
                     <div className={styles.priceRow}>
-                      <span>{isEs ? 'Niños' : 'Children'} ({formData.children}) x 70 Lps</span>
-                      <span>L. {formData.children * 70}</span>
+                      <span>{isEs ? 'Niños Adicionales' : 'Additional Children'} ({formData.children}) x {pkg.extraChildPrice} Lps</span>
+                      <span>L. {formData.children * pkg.extraChildPrice}</span>
                     </div>
                   )}
                   {pkg.hasDrinks && formData.drinks.chocolate > 0 && (

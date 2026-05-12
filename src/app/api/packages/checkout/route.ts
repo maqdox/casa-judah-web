@@ -8,7 +8,7 @@ const PACKAGE_CONFIGS: Record<string, { title_es: string; title_en: string; desc
     title_en: 'Coffee with Sheep',
     desc_es: 'Una tarde para detener el tiempo, entre lana suave y café recién hecho.',
     desc_en: 'An afternoon to pause time, surrounded by soft wool and fresh coffee.',
-    imageUrl: '/cafe_ovejas_new.jpeg',
+    imageUrl: '/cafe_ovejas_v2.jpg',
     price: 450,
     maxCapacity: 10,
   },

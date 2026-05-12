@@ -15,7 +15,7 @@ export default async function PaquetesPage({ params }: { params: Promise<{ lang:
       badge: isEs ? 'Experiencia Especial · Paquete' : 'Special Experience · Package',
       includes: [
         { text: isEs ? 'Fogata encendida en zona privada' : 'Lit bonfire in private area' },
-        { text: isEs ? 'Kit de malvaviscos para asar' : 'Marshmallow roasting kit' },
+        { text: isEs ? 'Kit de malvaviscos para asar o palomitas' : 'Marshmallow roasting kit or popcorn' },
         { text: isEs ? 'Café y Té de hierbas (incluido)' : 'Coffee and Herbal tea (included)' },
         { text: isEs ? 'Chocolate caliente' : 'Hot chocolate', extraLabel: '+15 LPS' },
         { text: isEs ? 'Área de cine al aire libre' : 'Outdoor cinema area' },
@@ -25,7 +25,9 @@ export default async function PaquetesPage({ params }: { params: Promise<{ lang:
       basePrice: 650,
       basePriceNote: isEs ? 'Paquete base para hasta 4 personas' : 'Base package for up to 4 guests',
       extraPersonPrice: 120,
-      extraPersonLabel: isEs ? 'Persona adicional' : 'Additional person',
+      extraPersonLabel: isEs ? 'Adulto adicional' : 'Additional adult',
+      extraChildPrice: 75,
+      extraChildLabel: isEs ? 'Niño adicional' : 'Additional child',
       maxCapacity: 20,
       hasTimeSlots: false,
       lang,
@@ -34,7 +36,7 @@ export default async function PaquetesPage({ params }: { params: Promise<{ lang:
       id: 'cafe-entre-ovejas',
       title: isEs ? 'Café entre Ovejas' : 'Coffee with Sheep',
       subtitle: '',
-      image: '/cafe_ovejas_new.jpeg',
+      image: '/cafe_ovejas_v2.jpg',
       badge: isEs ? 'Experiencia Especial · Paquete' : 'Special Experience · Package',
       includes: [
         { text: isEs ? 'Café artesanal o Té (incluido)' : 'Artisan coffee or Tea (included)' },
@@ -51,6 +53,8 @@ export default async function PaquetesPage({ params }: { params: Promise<{ lang:
       basePriceNote: isEs ? 'Paquete base para 2 personas' : 'Base package for 2 guests',
       extraPersonPrice: 150,
       extraPersonLabel: isEs ? 'Adulto adicional' : 'Additional adult',
+      extraChildPrice: 75,
+      extraChildLabel: isEs ? 'Niño adicional' : 'Additional child',
       maxCapacity: 10,
       hasTimeSlots: true,
       timeSlots: [

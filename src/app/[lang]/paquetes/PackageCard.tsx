@@ -24,6 +24,8 @@ export interface PackageConfig {
   basePriceNote: string;
   extraPersonPrice: number;
   extraPersonLabel: string;
+  extraChildPrice?: number;
+  extraChildLabel?: string;
   maxCapacity: number;
   hasTimeSlots: boolean;
   timeSlots?: { value: string; label: string }[];
@@ -95,6 +97,13 @@ export default function PackageCard({ pkg }: { pkg: PackageConfig }) {
               <span>{pkg.extraPersonLabel}</span>
               <span className={styles.extraPriceAmount}>+ {pkg.extraPersonPrice} Lps</span>
             </div>
+
+            {pkg.extraChildPrice !== undefined && (
+              <div className={styles.extraPriceRow}>
+                <span>{pkg.extraChildLabel}</span>
+                <span className={styles.extraPriceAmount}>+ {pkg.extraChildPrice} Lps</span>
+              </div>
+            )}
 
             <button
               className={styles.ctaButton}
