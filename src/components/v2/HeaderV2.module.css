@@ -160,7 +160,8 @@
     padding: 1rem 1.5rem;
   }
 
-  .nav {
+  .nav,
+  .packagesLink {
     display: none;
   }
 
