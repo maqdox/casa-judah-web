@@ -74,11 +74,40 @@ export default function PackageBookingModal({ isOpen, onClose, pkg }: PackageBoo
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: name === 'guests' || name === 'children' ? parseInt(value) || 0 : value
-    }));
+    
+    setFormData(prev => {
+      let finalValue: string | number = value;
+      
+      if (name === 'guests') {
+        let numValue = parseInt(value) || 0;
+        const minVal = pkg.id === 'noche-de-fogata' ? 4 : 1;
+        
+        if (numValue < minVal) numValue = minVal;
+
+        if (pkg.id === 'cafe-entre-ovejas') {
+          numValue = Math.min(numValue, 10 - prev.children);
+        } else {
+          numValue = Math.min(numValue, pkg.maxCapacity);
+        }
+        finalValue = numValue;
+      } else if (name === 'children') {
+        let numValue = parseInt(value) || 0;
+        if (numValue < 0) numValue = 0;
+
+        if (pkg.id === 'cafe-entre-ovejas') {
+          numValue = Math.min(numValue, 10 - prev.guests);
+        }
+        finalValue = numValue;
+      }
+      
+      return {
+        ...prev,
+        [name]: finalValue
+      };
+    });
   };
+
+
 
   const handleDrinkChange = (drinkType: 'cafe' | 'te' | 'chocolate', value: number) => {
     setFormData(prev => ({
@@ -187,7 +216,15 @@ export default function PackageBookingModal({ isOpen, onClose, pkg }: PackageBoo
                   <div className={styles.col}>
                     <div className={styles.formGroup}>
                       <label>{isEs ? 'Fecha' : 'Date'}</label>
-                      <input required type="date" name="date" value={formData.date} onChange={handleChange} className={styles.formControl} min={new Date().toISOString().split('T')[0]} />
+                      <input 
+                        required 
+                        type="date" 
+                        name="date" 
+                        value={formData.date} 
+                        onChange={handleChange} 
+                        className={styles.formControl} 
+                        min={new Date(Date.now() + 86400000).toISOString().split('T')[0]} 
+                      />
                       {checkingDate && <span className={styles.checkingText}>{isEs ? 'Verificando disponibilidad...' : 'Checking availability...'}</span>}
                       {dateAvailable === false && <span className={styles.unavailableText}>{isEs ? 'Esta fecha ya está reservada' : 'This date is already booked'}</span>}
                       {dateAvailable === true && <span className={styles.availableText}>{isEs ? 'Disponible' : 'Available'}</span>}
@@ -211,7 +248,16 @@ export default function PackageBookingModal({ isOpen, onClose, pkg }: PackageBoo
                   <div className={styles.col}>
                     <div className={styles.formGroup}>
                       <label>{isEs ? `Personas (Max: ${pkg.maxCapacity})` : `Guests (Max: ${pkg.maxCapacity})`}</label>
-                      <input required type="number" name="guests" min="1" max={pkg.maxCapacity} value={formData.guests} onChange={handleChange} className={styles.formControl} />
+                      <input 
+                        required 
+                        type="number" 
+                        name="guests" 
+                        min={pkg.id === 'noche-de-fogata' ? 4 : 1} 
+                        max={pkg.id === 'cafe-entre-ovejas' ? 10 - formData.children : pkg.maxCapacity} 
+                        value={formData.guests} 
+                        onChange={handleChange} 
+                        className={styles.formControl} 
+                      />
                     </div>
                   </div>
                   {pkg.id === 'cafe-entre-ovejas' && (

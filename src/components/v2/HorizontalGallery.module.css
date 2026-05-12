@@ -1,0 +1,81 @@
+.galleryWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.galleryGrid {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding-bottom: 1rem; /* Less padding since scrollbar is hidden */
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  /* Hide scrollbar */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.galleryGrid::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+.galleryGrid.centered {
+  justify-content: center;
+}
+
+.galleryCard {
+  position: relative;
+  flex: 0 0 320px;
+  height: 420px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  scroll-snap-align: start;
+}
+
+.cardImage {
+  transition: transform 0.5s ease;
+}
+
+.galleryCard:hover .cardImage {
+  transform: scale(1.05);
+}
+
+.navButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  color: #333;
+}
+
+.navButton:hover {
+  background: #fff;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.navButton.left {
+  left: -24px;
+}
+
+.navButton.right {
+  right: -24px;
+}
+
+@media (max-width: 768px) {
+  .navButton {
+    display: none; /* Hide arrows on touch devices since they can swipe easily */
+  }
+}

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, Suspense } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { createReservation } from '../../actions';
 import { useSearchParams, useRouter } from 'next/navigation';
 import PhoneInput from '@/components/PhoneInput';
@@ -17,6 +17,33 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
   const [paymentMethod, setPaymentMethod] = useState('full_card');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isCheckingAvailability, setIsCheckingAvailability] = useState(false);
+  const [isAvailable, setIsAvailable] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    if (roomId && checkIn && checkOut) {
+      const checkAvailability = async () => {
+        setIsCheckingAvailability(true);
+        setIsAvailable(null);
+        try {
+          const res = await fetch(`/api/rooms/availability?roomId=${roomId}&checkIn=${checkIn}&checkOut=${checkOut}`);
+          const data = await res.json();
+          if (res.ok && typeof data.available === 'boolean') {
+            setIsAvailable(data.available);
+          } else {
+            setIsAvailable(null);
+          }
+        } catch (e) {
+          setIsAvailable(null);
+        } finally {
+          setIsCheckingAvailability(false);
+        }
+      };
+      checkAvailability();
+    } else {
+      setIsAvailable(null);
+    }
+  }, [roomId, checkIn, checkOut]);
 
   const selectedRoom = rooms.find(r => r.id === roomId);
   
@@ -140,6 +167,11 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
       {error && <div className={styles.error}>{error}</div>}
+      {isAvailable === false && (
+        <div className={styles.error} style={{ backgroundColor: '#fee2e2', color: '#b91c1c' }}>
+          {lang === 'es' ? 'Esta habitación no está disponible en las fechas seleccionadas.' : 'This room is not available for the selected dates.'}
+        </div>
+      )}
 
       <div className={styles.sectionTitle}>{t.section1}</div>
       <div className={styles.row}>
@@ -233,8 +265,8 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
         <label htmlFor="rulesAccepted">{t.rules}</label>
       </div>
 
-      <button type="submit" className={styles.submitButton} disabled={loading}>
-        {loading ? t.processing : t.submit}
+      <button type="submit" className={styles.submitButton} disabled={loading || isAvailable === false || isCheckingAvailability}>
+        {loading || isCheckingAvailability ? t.processing : t.submit}
       </button>
     </form>
   )
