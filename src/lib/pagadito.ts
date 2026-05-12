@@ -111,7 +111,7 @@ export async function execTrans(ern: string, details: { quantity: number, descri
 /**
  * Checks the status of a transaction token after user returns.
  */
-export async function getStatus(token: string): Promise<GetStatusResponse['value']> {
+export async function getStatus(token: string): Promise<any> {
   const response = await fetch(`${PAGADITO_BASE_URL}/get-status`, {
     method: 'POST',
     headers: getAuthHeaders(),
@@ -119,8 +119,10 @@ export async function getStatus(token: string): Promise<GetStatusResponse['value
   });
 
   const data = await response.json();
+  console.log('[Pagadito] get-status raw response:', JSON.stringify(data));
 
-  if (data.code !== 'PG1001' && data.code !== 'PG1002') {
+  // PG1003 = "Transaction status" (normal success for get-status)
+  if (!['PG1001', 'PG1002', 'PG1003'].includes(data.code)) {
     throw new Error(`Error al verificar estado en Pagadito: ${data.message} (Código: ${data.code})`);
   }
 
