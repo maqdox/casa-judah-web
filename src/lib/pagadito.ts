@@ -5,7 +5,35 @@
 const PAGADITO_BASE_URL = 'https://connect.pagadito.com/api/v2';
 const UID = process.env.PAGADITO_UID;
 const WSK = process.env.PAGADITO_WSK;
-const EXCHANGE_RATE = parseFloat(process.env.PAGADITO_EXCHANGE_RATE || '24.7');
+const FALLBACK_RATE = parseFloat(process.env.PAGADITO_EXCHANGE_RATE || '26.5');
+
+// Cache the exchange rate for 12 hours to avoid unnecessary API calls
+let cachedRate: { value: number; fetchedAt: number } | null = null;
+const CACHE_DURATION_MS = 12 * 60 * 60 * 1000; // 12 hours
+
+async function getExchangeRate(): Promise<number> {
+  // Return cached rate if still fresh
+  if (cachedRate && (Date.now() - cachedRate.fetchedAt) < CACHE_DURATION_MS) {
+    return cachedRate.value;
+  }
+
+  try {
+    const res = await fetch('https://open.er-api.com/v6/latest/USD', { 
+      next: { revalidate: 43200 } // 12h cache for Next.js
+    });
+    const data = await res.json();
+    
+    if (data.result === 'success' && data.rates?.HNL) {
+      cachedRate = { value: data.rates.HNL, fetchedAt: Date.now() };
+      console.log(`[Pagadito] Tasa de cambio actualizada: 1 USD = L ${data.rates.HNL}`);
+      return data.rates.HNL;
+    }
+  } catch (err) {
+    console.warn('[Pagadito] No se pudo obtener la tasa de cambio en tiempo real, usando fallback:', FALLBACK_RATE);
+  }
+
+  return FALLBACK_RATE;
+}
 
 // Helper for Basic Auth
 const getAuthHeaders = () => {
@@ -45,11 +73,12 @@ export interface GetStatusResponse {
  * Executes a transaction request to Pagadito and returns the payment URL.
  */
 export async function execTrans(ern: string, details: { quantity: number, description: string, priceInHNL: number }[]): Promise<string> {
+  const exchangeRate = await getExchangeRate();
   let amountUSD = 0;
   
   const formattedDetails: PagaditoDetail[] = details.map(d => {
     // Convert HNL to USD and round to 2 decimals
-    const priceUSD = parseFloat((d.priceInHNL / EXCHANGE_RATE).toFixed(2));
+    const priceUSD = parseFloat((d.priceInHNL / exchangeRate).toFixed(2));
     amountUSD += priceUSD * d.quantity;
     
     return {
