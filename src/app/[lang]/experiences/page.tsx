@@ -21,8 +21,8 @@ export default async function ExperiencesPage({ params }: { params: Promise<{ la
 
   const section2Images = [
     { src: '/granja1.jpg', objectFit: 'cover' },
+    { src: '/conejos/conejo8.jpg', objectFit: 'cover' },
     { src: '/granja2.jpg', objectFit: 'cover' },
-    { src: '/conejos/conejo9.jpg', objectFit: 'cover' },
     { src: '/conejos/conejo10.jpg', objectFit: 'cover' },
     { src: '/granja3.jpg', objectFit: 'cover' },
     { src: '/conejos/conejo11.jpg', objectFit: 'cover' },
