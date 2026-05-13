@@ -30,15 +30,15 @@
     "faqItems": [
       {
         "q": "Do you have Wi-Fi?",
-        "a": "Yes, we provide high-speed satellite Wi-Fi in the cabins and common areas so you can stay connected if you wish."
+        "a": "Yes, we provide high-speed satellite Wi-Fi in the rooms and common areas so you can stay connected if you wish."
       },
       {
         "q": "Are you Pet-Friendly?",
-        "a": "Yes, we love animals. Your pet is welcome; only certain coexistence and cleanliness rules apply to ensure the peace of all guests and farm animals."
+        "a": "Pets are not allowed at Casa Judah."
       },
       {
         "q": "Is breakfast included?",
-        "a": "Yes, all our cabin reservations include a traditional Honduran breakfast made with organic ingredients from our farm."
+        "a": "Yes, all our room reservations include a traditional Honduran breakfast made with organic ingredients from our farm."
       },
       {
         "q": "Can I visit just to use the pool without staying overnight?",
@@ -69,14 +69,115 @@
     "pricePerNight": "per night plus taxes"
   },
   "policies": {
-    "title": "Policies & House Rules",
+    "title": "Casa Judah Policies",
     "subtitle": "Please review our guidelines to ensure a peaceful stay for everyone.",
-    "g1": "General Rules",
-    "g1t": "Check-in from 3:00 PM, Check-out by 11:00 AM. To preserve the tranquility of the environment, quiet hours are strictly from 10:00 PM.",
-    "g2": "Smoke-Free Policy",
-    "g2t": "Casa Judah is a 100% smoke-free environment. Out of respect for our guests, animals, and the natural surroundings, smoking (cigarettes, vapes, cigars, etc.) is not permitted inside the rooms or in enclosed areas.\n\nNon-compliance fee: smoking inside the rooms incurs a deep cleaning fee of L 2,000.00\n\nThank you for helping us keep the country air pure.",
-    "g3": "Cancellation Policy",
-    "g3t": "Full refund for cancellations made up to 14 days prior to check-in. 50% refund for cancellations up to 7 days before. No refunds for cancellations within 7 days."
+    "sections": [
+      {
+        "heading": "Cancellation Policy",
+        "intro": "By making a reservation at Casa Judah, the guest accepts the following policies:",
+        "subsections": [
+          {
+            "heading": "Reservations",
+            "items": [
+              "A deposit or full payment is required to confirm the reservation.",
+              "Dates are blocked immediately after payment."
+            ]
+          },
+          {
+            "heading": "Cancellations",
+            "items": [
+              "All payments made are non-refundable.",
+              "In case of cancellation, no refunds will be issued."
+            ]
+          },
+          {
+            "heading": "Date Changes",
+            "items": [
+              "A date change will only be allowed with a minimum of 15 days' notice and subject to availability.",
+              "Date changes may only be made once."
+            ]
+          },
+          {
+            "heading": "No Shows",
+            "items": [
+              "If the guest does not show up on the day of their reservation, the amount paid will be forfeited."
+            ]
+          },
+          {
+            "heading": "Weather or Personal Situations",
+            "items": [
+              "No refunds will be issued due to weather, illness, change of plans, traffic, flights, or other personal situations."
+            ]
+          },
+          {
+            "heading": "Special Events and Groups",
+            "items": [
+              "Reservations for events, birthdays, or large groups are 100% non-refundable."
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "Family & Relaxation Environment",
+        "intro": "Casa Judah is a space designed for rest, connection, and family time. Out of respect for all our guests, we ask that the following rules be observed:",
+        "subsections": [
+          {
+            "heading": "Quiet Hours",
+            "items": [
+              "Please keep music and conversations at a moderate volume.",
+              "Quiet hours: 10:00 PM to 8:00 AM."
+            ]
+          },
+          {
+            "heading": "Parties and Excess",
+            "items": [
+              "Uncontrolled parties, excessive alcohol consumption, and disruptive behavior are not allowed.",
+              "Private events must be pre-authorized."
+            ]
+          },
+          {
+            "heading": "Room Capacity",
+            "items": [
+              "Only the number of registered guests per room is allowed.",
+              "External visitors are not permitted."
+            ]
+          },
+          {
+            "heading": "Care of Facilities",
+            "items": [
+              "Please take care of furniture, décor, and green areas.",
+              "Any damage caused will be the guest's responsibility."
+            ]
+          },
+          {
+            "heading": "Children",
+            "items": [
+              "Children must be accompanied by an adult in common areas and recreational zones."
+            ]
+          },
+          {
+            "heading": "Pets",
+            "items": [
+              "Pets are not allowed."
+            ]
+          },
+          {
+            "heading": "Pool and Common Areas",
+            "items": [
+              "Use at the guest's own risk.",
+              "No running or dangerous activities."
+            ]
+          },
+          {
+            "heading": "Respect and Coexistence",
+            "items": [
+              "Respect toward other guests and staff is expected.",
+              "We reserve the right of admission or continued stay in case of inappropriate behavior."
+            ]
+          }
+        ]
+      }
+    ]
   },
   "faqsPage": {
     "title": "Frequently Asked Questions (FAQS)",
@@ -84,15 +185,15 @@
     "items": [
       {
         "q": "Do you have Wi-Fi?",
-        "a": "Yes, we provide high-speed satellite Wi-Fi in the cabins and common areas so you can stay connected if you wish."
+        "a": "Yes, we provide high-speed satellite Wi-Fi in the rooms and common areas so you can stay connected if you wish."
       },
       {
         "q": "Are you Pet-Friendly?",
-        "a": "Yes, we love animals. Your pet is welcome; only certain coexistence and cleanliness rules apply to ensure the peace of all guests and farm animals."
+        "a": "Pets are not allowed at Casa Judah."
       },
       {
         "q": "Is breakfast included?",
-        "a": "Yes, all our cabin reservations include a traditional Honduran breakfast made with organic ingredients from our farm."
+        "a": "Yes, all our room reservations include a traditional Honduran breakfast made with organic ingredients from our farm."
       },
       {
         "q": "Can I visit just to use the pool without staying overnight?",

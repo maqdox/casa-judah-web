@@ -14,20 +14,29 @@ export default async function PoliciesPage({ params }: { params: Promise<{ lang:
       </header>
 
       <section className={styles.policySection}>
-        <div className={styles.policyCard}>
-          <h2>{t.g1}</h2>
-          <p>{t.g1t}</p>
-        </div>
-
-        <div className={styles.policyCard}>
-          <h2>{t.g2}</h2>
-          <p style={{ whiteSpace: 'pre-wrap' }}>{t.g2t}</p>
-        </div>
-
-        <div className={styles.policyCard}>
-          <h2>{t.g3}</h2>
-          <p>{t.g3t}</p>
-        </div>
+        {t.sections.map((section: { heading: string; intro?: string; items?: string[]; subsections?: { heading: string; items: string[] }[] }, i: number) => (
+          <div key={i} className={styles.policyCard}>
+            <h2>{section.heading}</h2>
+            {section.intro && <p className={styles.intro}>{section.intro}</p>}
+            {section.items && (
+              <ul>
+                {section.items.map((item: string, j: number) => (
+                  <li key={j}>{item}</li>
+                ))}
+              </ul>
+            )}
+            {section.subsections && section.subsections.map((sub: { heading: string; items: string[] }, k: number) => (
+              <div key={k} className={styles.subsection}>
+                <h3>{sub.heading}</h3>
+                <ul>
+                  {sub.items.map((item: string, l: number) => (
+                    <li key={l}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        ))}
       </section>
     </main>
   );

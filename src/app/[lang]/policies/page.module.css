@@ -21,47 +21,67 @@
   font-style: italic;
 }
 
-.content {
+.policySection {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.policyCard {
   background-color: var(--color-white);
-  padding: 4rem;
+  padding: 2rem 2.5rem;
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
 }
 
-.policySection {
-  margin-bottom: 3rem;
-}
-
-.policySection:last-child {
-  margin-bottom: 0;
-}
-
-.policySection h2 {
-  font-size: 1.6rem;
+.policyCard h2 {
+  font-size: 1.5rem;
   color: var(--color-olive);
   border-bottom: 1px solid var(--color-beige-dark);
   padding-bottom: 0.5rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
-.policySection ul {
+.intro {
+  font-size: 1.05rem;
+  color: #4a4a4a;
+  margin-bottom: 1.25rem;
+  line-height: 1.7;
+}
+
+.policyCard ul {
   list-style-type: disc;
   padding-left: 1.5rem;
   color: #4a4a4a;
+  margin-bottom: 1rem;
 }
 
-.policySection li {
-  font-size: 1.1rem;
+.policyCard li {
+  font-size: 1.05rem;
   line-height: 1.8;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.5rem;
 }
 
-.policySection strong {
+.subsection {
+  margin-top: 1.5rem;
+}
+
+.subsection h3 {
+  font-size: 1.15rem;
+  color: var(--color-dark-brown);
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.policyCard strong {
   color: var(--color-dark-brown);
 }
 
 @media (max-width: 768px) {
-  .content {
-    padding: 2rem;
+  .policyCard {
+    padding: 1.5rem;
+  }
+  .header h1 {
+    font-size: 2rem;
   }
 }

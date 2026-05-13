@@ -30,15 +30,15 @@
     "faqItems": [
       {
         "q": "¿Cuentan con servicio de Wi-Fi?",
-        "a": "Sí, contamos con Wi-Fi satelital de alta velocidad en las cabañas y áreas comunes para que puedas mantenerte conectado si lo deseas."
+        "a": "Sí, contamos con Wi-Fi satelital de alta velocidad en las habitaciones y áreas comunes para que puedas mantenerte conectado si lo deseas."
       },
       {
         "q": "¿Aceptan mascotas (Pet-Friendly)?",
-        "a": "Sí, amamos a los animales. Tu mascota es bienvenida; solo aplican ciertas reglas de convivencia y limpieza para asegurar la paz de todos los huéspedes y animales de la granja."
+        "a": "No se permiten mascotas en Casa Judah."
       },
       {
         "q": "¿El desayuno está incluido?",
-        "a": "Sí, todas nuestras reservas de cabañas incluyen un desayuno tradicional hondureño elaborado con ingredientes orgánicos de nuestra granja."
+        "a": "Sí, todas nuestras reservas de habitaciones incluyen un desayuno tradicional hondureño elaborado con ingredientes orgánicos de nuestra granja."
       },
       {
         "q": "¿Puedo visitar solo para usar la piscina sin hospedarme?",
@@ -69,14 +69,115 @@
     "pricePerNight": "por noche más impuestos"
   },
   "policies": {
-    "title": "Políticas y Reglas del Hotel",
+    "title": "Políticas de Casa Judah",
     "subtitle": "Por favor revisa nuestros lineamientos para asegurar tu estadía pacífica.",
-    "g1": "Reglas Generales",
-    "g1t": "El Check-in comienza a las 3:00 PM y el Check-out se realiza a más tardar a las 11:00 AM. Para preservar la tranquilidad del entorno, las horas de silencio total aplican desde las 10:00 PM.",
-    "g2": "Política Libre de Humo",
-    "g2t": "Casa Judah es un espacio 100% libre de humo. Por respeto a nuestros huéspedes, animales y al entorno natural, no se permite fumar (cigarrillos, vapeadores, puros, etc.) dentro de las habitaciones ni en áreas cerradas.\n\nCargo por incumplimiento: fumar dentro de las habitaciones genera un cargo de limpieza profunda de L 2,000.00\n\nGracias por ayudarnos a mantener el aire puro del campo.",
-    "g3": "Políticas de Cancelación",
-    "g3t": "Ofrecemos reembolso del 100% al cancelar tu estadía con 14 días o más de anticipación al momento de tu Check-in programado. Hasta 7 días antes se retornará el 50%. En plazos menores no ofrecemos reembolso de dinero."
+    "sections": [
+      {
+        "heading": "Política de Cancelación",
+        "intro": "Al realizar una reserva en Casa Judah, el cliente acepta las siguientes políticas:",
+        "subsections": [
+          {
+            "heading": "Reservas",
+            "items": [
+              "Para confirmar la reserva se requiere un anticipo o pago completo.",
+              "Las fechas quedan bloqueadas inmediatamente después del pago."
+            ]
+          },
+          {
+            "heading": "Cancelaciones",
+            "items": [
+              "Los pagos realizados son no reembolsables.",
+              "En caso de cancelación, no se realizarán devoluciones de dinero."
+            ]
+          },
+          {
+            "heading": "Cambios de fecha",
+            "items": [
+              "Se permitirá un cambio de fecha únicamente con mínimo 15 días de anticipación y sujeto a disponibilidad.",
+              "El cambio podrá realizarse una sola vez."
+            ]
+          },
+          {
+            "heading": "No shows",
+            "items": [
+              "Si el huésped no se presenta el día de su reserva, se perderá el monto pagado."
+            ]
+          },
+          {
+            "heading": "Clima o situaciones personales",
+            "items": [
+              "No se realizan devoluciones por clima, enfermedad, cambios de planes, tráfico, vuelos u otras situaciones personales."
+            ]
+          },
+          {
+            "heading": "Eventos especiales y grupos",
+            "items": [
+              "Reservas para eventos, cumpleaños o grupos grandes son 100% no reembolsables."
+            ]
+          }
+        ]
+      },
+      {
+        "heading": "Ambiente Familiar y de Descanso",
+        "intro": "Casa Judah es un espacio diseñado para el descanso, la conexión y la convivencia familiar. Por respeto a todos nuestros huéspedes, solicitamos cumplir las siguientes normas:",
+        "subsections": [
+          {
+            "heading": "Horario de silencio",
+            "items": [
+              "Mantener volumen moderado en música y conversaciones.",
+              "Horario de silencio: de 10:00 PM a 8:00 AM."
+            ]
+          },
+          {
+            "heading": "Fiestas y excesos",
+            "items": [
+              "No se permiten fiestas descontroladas, consumo excesivo de alcohol ni comportamientos escandalosos.",
+              "Eventos privados deben ser previamente autorizados."
+            ]
+          },
+          {
+            "heading": "Capacidad de habitaciones",
+            "items": [
+              "Solo se permite el número de huéspedes registrados por habitación.",
+              "No se permiten visitas externas."
+            ]
+          },
+          {
+            "heading": "Cuidado de las instalaciones",
+            "items": [
+              "Favor cuidar mobiliario, decoración y áreas verdes.",
+              "Cualquier daño ocasionado será responsabilidad del huésped."
+            ]
+          },
+          {
+            "heading": "Niños",
+            "items": [
+              "Los niños deben estar acompañados por un adulto en áreas comunes y zonas recreativas."
+            ]
+          },
+          {
+            "heading": "Mascotas",
+            "items": [
+              "No se permiten mascotas."
+            ]
+          },
+          {
+            "heading": "Piscina y áreas comunes",
+            "items": [
+              "Uso bajo responsabilidad del huésped.",
+              "No correr ni realizar actividades peligrosas."
+            ]
+          },
+          {
+            "heading": "Respeto y convivencia",
+            "items": [
+              "Se espera respeto hacia otros huéspedes y el personal.",
+              "Nos reservamos el derecho de admisión o permanencia en caso de conductas inapropiadas."
+            ]
+          }
+        ]
+      }
+    ]
   },
   "faqsPage": {
     "title": "Preguntas Frecuentes (FAQS)",
@@ -84,15 +185,15 @@
     "items": [
       {
         "q": "¿Cuentan con servicio de Wi-Fi?",
-        "a": "Sí, contamos con Wi-Fi satelital de alta velocidad en las cabañas y áreas comunes para que puedas mantenerte conectado si lo deseas."
+        "a": "Sí, contamos con Wi-Fi satelital de alta velocidad en las habitaciones y áreas comunes para que puedas mantenerte conectado si lo deseas."
       },
       {
         "q": "¿Aceptan mascotas (Pet-Friendly)?",
-        "a": "Sí, amamos a los animales. Tu mascota es bienvenida; solo aplican ciertas reglas de convivencia y limpieza para asegurar la paz de todos los huéspedes y animales de la granja."
+        "a": "No se permiten mascotas en Casa Judah."
       },
       {
         "q": "¿El desayuno está incluido?",
-        "a": "Sí, todas nuestras reservas de cabañas incluyen un desayuno tradicional hondureño elaborado con ingredientes orgánicos de nuestra granja."
+        "a": "Sí, todas nuestras reservas de habitaciones incluyen un desayuno tradicional hondureño elaborado con ingredientes orgánicos de nuestra granja."
       },
       {
         "q": "¿Puedo visitar solo para usar la piscina sin hospedarme?",
