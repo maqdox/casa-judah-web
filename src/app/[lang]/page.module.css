@@ -147,7 +147,7 @@
 }
 
 .introText p {
-  font-size: 1.15rem;
+  font-size: 1.3rem;
   line-height: 2;
   color: #6b6560;
   font-family: var(--font-serif);
@@ -227,7 +227,7 @@
 }
 
 .showcaseText p {
-  font-size: 1.05rem;
+  font-size: 1.2rem;
   line-height: 2;
   color: #6b6560;
   margin-bottom: 3rem;

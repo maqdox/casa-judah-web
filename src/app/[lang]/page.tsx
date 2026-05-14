@@ -45,7 +45,9 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
       <section className={styles.intro} style={{ backgroundColor: '#804639', color: '#FFFFFF' }}>
         <div className={styles.introText}>
           <h2 style={{ color: '#FFFFFF' }}>{aboutHeading}</h2>
-          <p style={{ color: '#FDFBF7' }}>{aboutParagraph}</p>
+          {aboutParagraph.split('\n\n').map((para: string, i: number) => (
+            <p key={i} style={{ color: '#FDFBF7', marginBottom: i < aboutParagraph.split('\n\n').length - 1 ? '1.5rem' : '0' }}>{para}</p>
+          ))}
         </div>
       </section>
 
