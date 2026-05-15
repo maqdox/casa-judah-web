@@ -55,7 +55,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
       <section className={styles.showcaseSection} style={{ backgroundColor: '#FFFFFF' }}>
         <div className={styles.showcaseImage}>
           <div className={`${styles.showcaseImageInner} arch-frame`}>
-            <SwipeCarousel images={['/fotos-alojamiento/LAP09588.JPG', '/fotos-alojamiento/DSC00250.JPG', '/fotos-alojamiento/DSC00289.JPG', '/fotos-alojamiento/LAP09557.JPG', '/fotos-alojamiento/LAP09579.JPG', '/fotos-alojamiento/DSC00647-HDR.JPG', '/fotos-alojamiento/DSC00673-HDR.JPG']} altBase={t.roomsTitle} objectFit="contain" />
+            <SwipeCarousel images={['/fotos-alojamiento/alojamiento-1.jpg', '/fotos-alojamiento/alojamiento-2.jpg', '/fotos-alojamiento/alojamiento-3.jpg', '/fotos-alojamiento/alojamiento-4.jpg', '/fotos-alojamiento/alojamiento-5.jpg', '/fotos-alojamiento/alojamiento-6.jpg', '/fotos-alojamiento/alojamiento-7.jpg']} altBase={t.roomsTitle} objectFit="contain" />
           </div>
         </div>
         <div className={styles.showcaseText}>
