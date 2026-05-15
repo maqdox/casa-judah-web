@@ -55,7 +55,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
       <section className={styles.showcaseSection} style={{ backgroundColor: '#FFFFFF' }}>
         <div className={styles.showcaseImage}>
           <div className={`${styles.showcaseImageInner} arch-frame`}>
-            <SwipeCarousel images={['/fotos alojamiento/LAP09588.JPG', '/fotos alojamiento/DSC00250.JPG', '/fotos alojamiento/DSC00289.JPG', '/fotos alojamiento/LAP09557.JPG', '/fotos alojamiento/LAP09579.JPG', '/vida1.jpg', '/hero.jpg', '/room1.jpg', '/room2.jpg', '/room3.jpg']} altBase={t.roomsTitle} objectFit="contain" />
+            <SwipeCarousel images={['/Fotos Alojamiento/LAP09588.JPG', '/Fotos Alojamiento/DSC00250.JPG', '/Fotos Alojamiento/DSC00289.JPG', '/Fotos Alojamiento/LAP09557.JPG', '/Fotos Alojamiento/LAP09579.JPG', '/Fotos Alojamiento/DSC00647-HDR.JPG', '/Fotos Alojamiento/DSC00673-HDR.JPG']} altBase={t.roomsTitle} objectFit="contain" />
           </div>
         </div>
         <div className={styles.showcaseText}>
@@ -88,10 +88,10 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         <div className={styles.showcaseImage}>
           <div className={`${styles.showcaseImageInner} arch-frame`}>
             <SwipeCarousel 
-              images={['/Fotos Bienestar/WhatsApp Image 2026-05-14 at 10.32.18.jpeg', '/Fotos Bienestar/WhatsApp Image 2026-05-14 at 10.29.37.jpeg', '/Fotos Bienestar/WhatsApp Image 2026-05-14 at 10.30.39.jpeg', '/Fotos Bienestar/WhatsApp Image 2026-05-14 at 10.45.00.jpeg', '/piscina_sunset.jpg', '/desayuno.jpg', '/comedor.jpg', '/exterior.jpg', '/env1.jpg', '/env2.jpg', '/env3.jpg']} 
+              images={['/Fotos Bienestar/WhatsApp Image 2026-05-14 at 10.32.18.jpeg', '/Fotos Bienestar/WhatsApp Image 2026-05-14 at 10.29.37.jpeg', '/Fotos Bienestar/WhatsApp Image 2026-05-14 at 10.30.39.jpeg', '/Fotos Bienestar/WhatsApp Image 2026-05-14 at 10.45.00.jpeg']} 
               altBase={t.amenitiesTitle} 
               objectFit="cover" 
-              objectPositions={['center center', 'center center', 'center center', 'center center', 'center bottom', 'center center', 'center center', 'center center', 'center center', 'center center', 'center center']}
+              objectPositions={['center center', 'center center', 'center center', 'center center']}
             />
           </div>
         </div>
