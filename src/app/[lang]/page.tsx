@@ -55,7 +55,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
       <section className={styles.showcaseSection} style={{ backgroundColor: '#FFFFFF' }}>
         <div className={styles.showcaseImage}>
           <div className={`${styles.showcaseImageInner} arch-frame`}>
-            <SwipeCarousel images={['/vida1.jpg', '/hero.jpg', '/room1.jpg', '/room2.jpg', '/room3.jpg']} altBase={t.roomsTitle} objectFit="contain" />
+            <SwipeCarousel images={['/fotos alojamiento/LAP09588.JPG', '/fotos alojamiento/DSC00250.JPG', '/fotos alojamiento/DSC00289.JPG', '/fotos alojamiento/LAP09557.JPG', '/fotos alojamiento/LAP09579.JPG', '/vida1.jpg', '/hero.jpg', '/room1.jpg', '/room2.jpg', '/room3.jpg']} altBase={t.roomsTitle} objectFit="contain" />
           </div>
         </div>
         <div className={styles.showcaseText}>
@@ -70,9 +70,9 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         <div className={styles.showcaseImage}>
           <div className={`${styles.showcaseImageInner} square-frame`}>
             <SwipeCarousel 
-              images={['/granja1.jpg', '/granja2.jpg', '/conejos/conejo1.jpg', '/conejos/conejo2.jpg', '/granja3.jpg', '/granja4.jpg', '/granja5.jpg', '/granja6.jpg', '/conejos/conejo3.jpg', '/oveja_final.jpeg']} 
+              images={['/granja1.jpg', '/granja2.jpg', '/conejos/conejo1.jpg', '/conejos/conejo2.jpg', '/granja3.jpg', '/granja4.jpg', '/granja5.jpg', '/conejos/conejo3.jpg', '/oveja_final.jpeg']} 
               altBase={t.experiencesTitle} 
-              objectFits={['cover', 'cover', 'cover', 'cover', 'cover', 'cover', 'cover', 'cover', 'cover', 'contain']}
+              objectFits={['cover', 'cover', 'cover', 'cover', 'cover', 'cover', 'cover', 'cover', 'contain']}
             />
           </div>
         </div>
@@ -88,10 +88,10 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
         <div className={styles.showcaseImage}>
           <div className={`${styles.showcaseImageInner} arch-frame`}>
             <SwipeCarousel 
-              images={['/piscina_sunset.jpg', '/desayuno.jpg', '/comedor.jpg', '/exterior.jpg', '/env1.jpg', '/env2.jpg', '/env3.jpg']} 
+              images={['/Fotos Bienestar/WhatsApp Image 2026-05-14 at 10.32.18.jpeg', '/Fotos Bienestar/WhatsApp Image 2026-05-14 at 10.29.37.jpeg', '/Fotos Bienestar/WhatsApp Image 2026-05-14 at 10.30.39.jpeg', '/Fotos Bienestar/WhatsApp Image 2026-05-14 at 10.45.00.jpeg', '/piscina_sunset.jpg', '/desayuno.jpg', '/comedor.jpg', '/exterior.jpg', '/env1.jpg', '/env2.jpg', '/env3.jpg']} 
               altBase={t.amenitiesTitle} 
               objectFit="cover" 
-              objectPositions={['center bottom', 'center center', 'center center', 'center center', 'center center', 'center center', 'center center']}
+              objectPositions={['center center', 'center center', 'center center', 'center center', 'center bottom', 'center center', 'center center', 'center center', 'center center', 'center center', 'center center']}
             />
           </div>
         </div>
