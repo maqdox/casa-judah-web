@@ -31,6 +31,15 @@ const PACKAGE_CONFIGS: Record<string, { title_es: string; title_en: string; desc
     price: 26.62,
     maxCapacity: 1,
   },
+  'paquete-cumpleanos': {
+    title_es: 'Paquete Cumpleaños Edición Infantil',
+    title_en: 'Kids Birthday Package',
+    desc_es: 'Celebra un cumpleaños inolvidable en medio de la naturaleza.',
+    desc_en: 'Celebrate an unforgettable birthday surrounded by nature.',
+    imageUrl: '/cumpleanos-infantil.png',
+    price: 3800,
+    maxCapacity: 50,
+  },
 };
 
 export async function POST(req: NextRequest) {

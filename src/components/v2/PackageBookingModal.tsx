@@ -25,8 +25,9 @@ export default function PackageBookingModal({ isOpen, onClose, pkg }: PackageBoo
     email: '',
     date: '',
     timeSlot: pkg.timeSlots?.[0]?.value || '',
-    guests: pkg.id === 'cafe-entre-ovejas' ? 2 : 4,
+    guests: pkg.id === 'cafe-entre-ovejas' ? 2 : (pkg.id === 'paquete-cumpleanos' ? 2 : 4),
     children: 0,
+    selectedOptionIndex: 0,
     drinks: { cafe: 2, te: 0, chocolate: 0 },
   });
 
@@ -41,8 +42,9 @@ export default function PackageBookingModal({ isOpen, onClose, pkg }: PackageBoo
         email: '',
         date: '',
         timeSlot: pkg.timeSlots?.[0]?.value || '',
-        guests: pkg.id === 'cafe-entre-ovejas' ? 2 : 4,
+        guests: pkg.id === 'cafe-entre-ovejas' ? 2 : (pkg.id === 'paquete-cumpleanos' ? 2 : 4),
         children: 0,
+        selectedOptionIndex: 0,
         drinks: { cafe: 2, te: 0, chocolate: 0 },
       });
     }
@@ -78,7 +80,9 @@ export default function PackageBookingModal({ isOpen, onClose, pkg }: PackageBoo
     setFormData(prev => {
       let finalValue: string | number = value;
       
-      if (name === 'guests') {
+      if (name === 'selectedOptionIndex') {
+        finalValue = parseInt(value) || 0;
+      } else if (name === 'guests') {
         let numValue = parseInt(value) || 0;
         const minVal = pkg.id === 'noche-de-fogata' ? 4 : 1;
         
@@ -101,8 +105,6 @@ export default function PackageBookingModal({ isOpen, onClose, pkg }: PackageBoo
     });
   };
 
-
-
   const handleDrinkChange = (drinkType: 'cafe' | 'te' | 'chocolate', value: number) => {
     setFormData(prev => ({
       ...prev,
@@ -114,7 +116,16 @@ export default function PackageBookingModal({ isOpen, onClose, pkg }: PackageBoo
   };
 
   // Pricing
-  const getPrice = () => {
+  const getSubtotal = () => {
+    if (pkg.priceOptions) {
+      const selectedOpt = pkg.priceOptions[formData.selectedOptionIndex] || pkg.priceOptions[0];
+      let total = selectedOpt.price;
+      if (formData.children > 0 && pkg.extraChildPrice) {
+        total += formData.children * pkg.extraChildPrice;
+      }
+      return total;
+    }
+
     const baseGuests = pkg.id === 'cafe-entre-ovejas' ? 2 : 4;
     let total = pkg.basePrice;
     
@@ -132,13 +143,32 @@ export default function PackageBookingModal({ isOpen, onClose, pkg }: PackageBoo
     return total;
   };
 
+  const getTax = () => {
+    if (pkg.hasTax) {
+      return Math.round(getSubtotal() * 0.15);
+    }
+    return 0;
+  };
+
+  const getTotalPrice = () => {
+    return getSubtotal() + getTax();
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (dateAvailable === false) return;
     setIsSubmitting(true);
 
     try {
-      const notes = `Adultos: ${formData.guests}, Niños: ${formData.children}${pkg.hasDrinks ? `, Bebidas: Café(${formData.drinks.cafe}) Té(${formData.drinks.te}) Chocolate(${formData.drinks.chocolate})` : ''}`;
+      let notes = '';
+      let totalChildrenCount = formData.children;
+      if (pkg.priceOptions) {
+        const selectedOpt = pkg.priceOptions[formData.selectedOptionIndex] || pkg.priceOptions[0];
+        notes = `Paquete Base: ${selectedOpt.label}, Niños adicionales: ${formData.children}, Adultos acompañantes: ${formData.guests}`;
+        totalChildrenCount = selectedOpt.baseGuests + formData.children;
+      } else {
+        notes = `Adultos: ${formData.guests}, Niños: ${formData.children}${pkg.hasDrinks ? `, Bebidas: Café(${formData.drinks.cafe}) Té(${formData.drinks.te}) Chocolate(${formData.drinks.chocolate})` : ''}`;
+      }
 
       const response = await fetch('/api/packages/checkout', {
         method: 'POST',
@@ -146,7 +176,8 @@ export default function PackageBookingModal({ isOpen, onClose, pkg }: PackageBoo
         body: JSON.stringify({
           ...formData,
           adults: formData.guests,
-          totalPrice: getPrice(),
+          children: totalChildrenCount,
+          totalPrice: getTotalPrice(),
           amenityId: pkg.id,
           packageTitle: pkg.title,
           notes,
@@ -235,31 +266,61 @@ export default function PackageBookingModal({ isOpen, onClose, pkg }: PackageBoo
                   )}
                 </div>
 
-                <div className={styles.row}>
-                  <div className={styles.col}>
+                {pkg.priceOptions ? (
+                  <>
                     <div className={styles.formGroup}>
-                      <label>{isEs ? `Adultos (Max: ${pkg.maxCapacity})` : `Adults (Max: ${pkg.maxCapacity})`}</label>
-                      <input 
-                        required 
-                        type="number" 
-                        name="guests" 
-                        min={pkg.id === 'noche-de-fogata' ? 4 : 1} 
-                        max={pkg.maxCapacity - formData.children} 
-                        value={formData.guests} 
-                        onChange={handleChange} 
-                        className={styles.formControl} 
-                      />
+                      <label>{isEs ? 'Selecciona el Paquete Base' : 'Select Base Package'}</label>
+                      <select name="selectedOptionIndex" value={formData.selectedOptionIndex} onChange={handleChange} className={styles.formControl}>
+                        {pkg.priceOptions.map((opt, idx) => (
+                          <option key={idx} value={idx}>
+                            {opt.label} - L. {opt.price.toLocaleString()} + ISV
+                          </option>
+                        ))}
+                      </select>
                     </div>
-                  </div>
-                  {pkg.extraChildPrice !== undefined && (
-                    <div className={styles.col}>
-                      <div className={styles.formGroup}>
-                        <label>{isEs ? 'Niños' : 'Children'}</label>
-                        <input type="number" name="children" min="0" max={pkg.maxCapacity - formData.guests} value={formData.children} onChange={handleChange} className={styles.formControl} />
+
+                    <div className={styles.row}>
+                      <div className={styles.col}>
+                        <div className={styles.formGroup}>
+                          <label>{isEs ? 'Niños Adicionales (+ L. 320 c/u)' : 'Additional Children (+ L. 320 ea)'}</label>
+                          <input type="number" name="children" min="0" max={pkg.maxCapacity - (pkg.priceOptions[formData.selectedOptionIndex]?.baseGuests || 10)} value={formData.children} onChange={handleChange} className={styles.formControl} />
+                        </div>
+                      </div>
+                      <div className={styles.col}>
+                        <div className={styles.formGroup}>
+                          <label>{isEs ? 'Adultos Acompañantes' : 'Accompanying Adults'}</label>
+                          <input required type="number" name="guests" min="1" max={pkg.maxCapacity} value={formData.guests} onChange={handleChange} className={styles.formControl} />
+                        </div>
                       </div>
                     </div>
-                  )}
-                </div>
+                  </>
+                ) : (
+                  <div className={styles.row}>
+                    <div className={styles.col}>
+                      <div className={styles.formGroup}>
+                        <label>{isEs ? `Adultos (Max: ${pkg.maxCapacity})` : `Adults (Max: ${pkg.maxCapacity})`}</label>
+                        <input 
+                          required 
+                          type="number" 
+                          name="guests" 
+                          min={pkg.id === 'noche-de-fogata' ? 4 : 1} 
+                          max={pkg.maxCapacity - formData.children} 
+                          value={formData.guests} 
+                          onChange={handleChange} 
+                          className={styles.formControl} 
+                        />
+                      </div>
+                    </div>
+                    {pkg.extraChildPrice !== undefined && (
+                      <div className={styles.col}>
+                        <div className={styles.formGroup}>
+                          <label>{isEs ? 'Niños' : 'Children'}</label>
+                          <input type="number" name="children" min="0" max={pkg.maxCapacity - formData.guests} value={formData.children} onChange={handleChange} className={styles.formControl} />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 {/* Drink options only for Café entre Ovejas */}
                 {pkg.hasDrinks && (
@@ -284,31 +345,54 @@ export default function PackageBookingModal({ isOpen, onClose, pkg }: PackageBoo
 
                 {/* Price Breakdown */}
                 <div className={styles.priceBreakdown}>
-                  <div className={styles.priceRow}>
-                    <span>{isEs ? `Paquete Base (${baseGuests} Personas)` : `Base Package (${baseGuests} Guests)`}</span>
-                    <span>L. {pkg.basePrice}</span>
-                  </div>
-                  {formData.guests > baseGuests && (
-                    <div className={styles.priceRow}>
-                      <span>{isEs ? 'Personas Adicionales' : 'Additional Guests'} ({formData.guests - baseGuests}) x {pkg.extraPersonPrice} Lps</span>
-                      <span>L. {(formData.guests - baseGuests) * pkg.extraPersonPrice}</span>
-                    </div>
-                  )}
-                  {pkg.extraChildPrice !== undefined && formData.children > 0 && (
-                    <div className={styles.priceRow}>
-                      <span>{isEs ? 'Niños Adicionales' : 'Additional Children'} ({formData.children}) x {pkg.extraChildPrice} Lps</span>
-                      <span>L. {formData.children * pkg.extraChildPrice}</span>
-                    </div>
-                  )}
-                  {pkg.hasDrinks && formData.drinks.chocolate > 0 && (
-                    <div className={styles.priceRow}>
-                      <span>{isEs ? 'Chocolate extra' : 'Extra chocolate'} ({formData.drinks.chocolate}) x 15 Lps</span>
-                      <span>L. {formData.drinks.chocolate * 15}</span>
-                    </div>
+                  {pkg.priceOptions ? (
+                    <>
+                      <div className={styles.priceRow}>
+                        <span>{isEs ? `Paquete Base (${pkg.priceOptions[formData.selectedOptionIndex]?.label})` : `Base Package (${pkg.priceOptions[formData.selectedOptionIndex]?.label})`}</span>
+                        <span>L. {pkg.priceOptions[formData.selectedOptionIndex]?.price || 0}</span>
+                      </div>
+                      {formData.children > 0 && pkg.extraChildPrice !== undefined && (
+                        <div className={styles.priceRow}>
+                          <span>{isEs ? 'Niños Adicionales' : 'Additional Children'} ({formData.children}) x {pkg.extraChildPrice} Lps</span>
+                          <span>L. {formData.children * pkg.extraChildPrice}</span>
+                        </div>
+                      )}
+                      {pkg.hasTax && (
+                        <div className={styles.priceRow}>
+                          <span>{isEs ? '15% Impuesto sobre la venta (ISV)' : '15% Sales Tax'}</span>
+                          <span>L. {getTax()}</span>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      <div className={styles.priceRow}>
+                        <span>{isEs ? `Paquete Base (${baseGuests} Personas)` : `Base Package (${baseGuests} Guests)`}</span>
+                        <span>L. {pkg.basePrice}</span>
+                      </div>
+                      {formData.guests > baseGuests && (
+                        <div className={styles.priceRow}>
+                          <span>{isEs ? 'Personas Adicionales' : 'Additional Guests'} ({formData.guests - baseGuests}) x {pkg.extraPersonPrice} Lps</span>
+                          <span>L. {(formData.guests - baseGuests) * pkg.extraPersonPrice}</span>
+                        </div>
+                      )}
+                      {pkg.extraChildPrice !== undefined && formData.children > 0 && (
+                        <div className={styles.priceRow}>
+                          <span>{isEs ? 'Niños Adicionales' : 'Additional Children'} ({formData.children}) x {pkg.extraChildPrice} Lps</span>
+                          <span>L. {formData.children * pkg.extraChildPrice}</span>
+                        </div>
+                      )}
+                      {pkg.hasDrinks && formData.drinks.chocolate > 0 && (
+                        <div className={styles.priceRow}>
+                          <span>{isEs ? 'Chocolate extra' : 'Extra chocolate'} ({formData.drinks.chocolate}) x 15 Lps</span>
+                          <span>L. {formData.drinks.chocolate * 15}</span>
+                        </div>
+                      )}
+                    </>
                   )}
                   <div className={styles.priceTotal}>
                     <span>{isEs ? 'Total Estimado' : 'Estimated Total'}</span>
-                    <span>L. {getPrice()}</span>
+                    <span>L. {getTotalPrice()}</span>
                   </div>
                 </div>
 

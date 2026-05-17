@@ -11,6 +11,12 @@ export interface PackageIncludeItem {
   extraLabel?: string; // e.g. "+15 LPS"
 }
 
+export interface PackagePriceOption {
+  label: string;
+  price: number;
+  baseGuests: number;
+}
+
 export interface PackageConfig {
   id: string;
   title: string;
@@ -30,6 +36,8 @@ export interface PackageConfig {
   hasTimeSlots: boolean;
   timeSlots?: { value: string; label: string }[];
   hasDrinks?: boolean;
+  priceOptions?: PackagePriceOption[];
+  hasTax?: boolean;
   lang: string;
 }
 
@@ -96,16 +104,35 @@ export default function PackageCard({ pkg }: { pkg: PackageConfig }) {
             </span>
             <span className={styles.priceNote}>{pkg.basePriceNote}</span>
 
-            <div className={styles.extraPriceRow}>
-              <span>{pkg.extraPersonLabel}</span>
-              <span className={styles.extraPriceAmount}>+ {pkg.extraPersonPrice} Lps</span>
-            </div>
-
-            {pkg.extraChildPrice !== undefined && (
-              <div className={styles.extraPriceRow}>
-                <span>{pkg.extraChildLabel}</span>
-                <span className={styles.extraPriceAmount}>+ {pkg.extraChildPrice} Lps</span>
+            {pkg.priceOptions ? (
+              <div style={{ margin: '1rem 0', display: 'flex', flexDirection: 'column', gap: '0.5rem', width: '100%' }}>
+                {pkg.priceOptions.map((opt, idx) => (
+                  <div key={idx} className={styles.extraPriceRow}>
+                    <span>{opt.label}</span>
+                    <span className={styles.extraPriceAmount}>L. {opt.price.toLocaleString()} + ISV</span>
+                  </div>
+                ))}
+                {pkg.extraChildPrice !== undefined && (
+                  <div className={styles.extraPriceRow}>
+                    <span>{pkg.extraChildLabel}</span>
+                    <span className={styles.extraPriceAmount}>+ {pkg.extraChildPrice} Lps + ISV</span>
+                  </div>
+                )}
               </div>
+            ) : (
+              <>
+                <div className={styles.extraPriceRow}>
+                  <span>{pkg.extraPersonLabel}</span>
+                  <span className={styles.extraPriceAmount}>+ {pkg.extraPersonPrice} Lps</span>
+                </div>
+
+                {pkg.extraChildPrice !== undefined && (
+                  <div className={styles.extraPriceRow}>
+                    <span>{pkg.extraChildLabel}</span>
+                    <span className={styles.extraPriceAmount}>+ {pkg.extraChildPrice} Lps</span>
+                  </div>
+                )}
+              </>
             )}
 
             <button
