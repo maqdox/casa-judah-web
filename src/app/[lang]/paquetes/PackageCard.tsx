@@ -49,13 +49,13 @@ export default function PackageCard({ pkg }: { pkg: PackageConfig }) {
     <>
       <article className={styles.card}>
         {/* Image */}
-        <div className={styles.cardImage}>
+        <div className={styles.cardImage} style={{ backgroundColor: pkg.id === 'paquete-cumpleanos' ? '#f8f6f3' : 'transparent' }}>
           <Image
             src={pkg.image}
             alt={pkg.title}
             fill
             style={{ 
-              objectFit: 'cover', 
+              objectFit: pkg.id === 'paquete-cumpleanos' ? 'contain' : 'cover', 
               objectPosition: pkg.id === 'cafe-entre-ovejas' ? 'center bottom' : 'center center' 
             }}
             priority

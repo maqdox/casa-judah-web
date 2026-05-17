@@ -164,7 +164,7 @@ export default function PackageBookingModal({ isOpen, onClose, pkg }: PackageBoo
       let totalChildrenCount = formData.children;
       if (pkg.priceOptions) {
         const selectedOpt = pkg.priceOptions[formData.selectedOptionIndex] || pkg.priceOptions[0];
-        notes = `Paquete Base: ${selectedOpt.label}, Niños adicionales: ${formData.children}, Adultos acompañantes: ${formData.guests}`;
+        notes = `Paquete Base: ${selectedOpt.label}, Niños adicionales: ${formData.children}`;
         totalChildrenCount = selectedOpt.baseGuests + formData.children;
       } else {
         notes = `Adultos: ${formData.guests}, Niños: ${formData.children}${pkg.hasDrinks ? `, Bebidas: Café(${formData.drinks.cafe}) Té(${formData.drinks.te}) Chocolate(${formData.drinks.chocolate})` : ''}`;
@@ -175,7 +175,7 @@ export default function PackageBookingModal({ isOpen, onClose, pkg }: PackageBoo
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
-          adults: formData.guests,
+          adults: pkg.priceOptions ? 0 : formData.guests,
           children: totalChildrenCount,
           totalPrice: getTotalPrice(),
           amenityId: pkg.id,
@@ -210,8 +210,8 @@ export default function PackageBookingModal({ isOpen, onClose, pkg }: PackageBoo
 
         {step === 1 ? (
           <>
-            <div className={styles.singleHeaderImage}>
-              <Image src={pkg.image} alt={pkg.title} fill style={{ objectFit: 'cover' }} />
+            <div className={styles.singleHeaderImage} style={{ backgroundColor: pkg.id === 'paquete-cumpleanos' ? '#f8f6f3' : 'transparent' }}>
+              <Image src={pkg.image} alt={pkg.title} fill style={{ objectFit: pkg.id === 'paquete-cumpleanos' ? 'contain' : 'cover' }} />
             </div>
 
             <div className={styles.modalContent}>
@@ -279,19 +279,9 @@ export default function PackageBookingModal({ isOpen, onClose, pkg }: PackageBoo
                       </select>
                     </div>
 
-                    <div className={styles.row}>
-                      <div className={styles.col}>
-                        <div className={styles.formGroup}>
-                          <label>{isEs ? 'Niños Adicionales (+ L. 320 c/u)' : 'Additional Children (+ L. 320 ea)'}</label>
-                          <input type="number" name="children" min="0" max={pkg.maxCapacity - (pkg.priceOptions[formData.selectedOptionIndex]?.baseGuests || 10)} value={formData.children} onChange={handleChange} className={styles.formControl} />
-                        </div>
-                      </div>
-                      <div className={styles.col}>
-                        <div className={styles.formGroup}>
-                          <label>{isEs ? 'Adultos Acompañantes' : 'Accompanying Adults'}</label>
-                          <input required type="number" name="guests" min="1" max={pkg.maxCapacity} value={formData.guests} onChange={handleChange} className={styles.formControl} />
-                        </div>
-                      </div>
+                    <div className={styles.formGroup}>
+                      <label>{isEs ? 'Niños Adicionales (+ L. 320 c/u)' : 'Additional Children (+ L. 320 ea)'}</label>
+                      <input type="number" name="children" min="0" max={pkg.maxCapacity - (pkg.priceOptions[formData.selectedOptionIndex]?.baseGuests || 10)} value={formData.children} onChange={handleChange} className={styles.formControl} />
                     </div>
                   </>
                 ) : (
