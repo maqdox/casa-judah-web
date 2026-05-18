@@ -114,6 +114,9 @@
   list-style: none;
   padding: 0;
   margin: 0 0 1rem 0;
+  height: 280px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
 }
 
 .includesList li {
@@ -193,6 +196,9 @@
   margin-top: auto;
   padding-top: 1rem;
   border-top: 1px solid #ece8e3;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .priceAmount {
@@ -249,7 +255,7 @@
   text-transform: uppercase;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-top: 0.5rem;
+  margin-top: auto;
 }
 
 .ctaButton:hover {

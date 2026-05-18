@@ -56,7 +56,7 @@ export default function PackageCard({ pkg }: { pkg: PackageConfig }) {
             fill
             style={{ 
               objectFit: 'cover', 
-              objectPosition: pkg.id === 'cafe-entre-ovejas' ? 'center bottom' : (pkg.id === 'paquete-cumpleanos' ? 'center 35%' : 'center center') 
+              objectPosition: pkg.id === 'cafe-entre-ovejas' ? 'center bottom' : (pkg.id === 'paquete-cumpleanos' ? 'center bottom' : 'center center') 
             }}
             priority
           />
