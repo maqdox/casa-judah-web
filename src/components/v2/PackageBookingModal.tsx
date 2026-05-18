@@ -210,8 +210,8 @@ export default function PackageBookingModal({ isOpen, onClose, pkg }: PackageBoo
 
         {step === 1 ? (
           <>
-            <div className={styles.singleHeaderImage} style={{ backgroundColor: pkg.id === 'paquete-cumpleanos' ? '#f8f6f3' : 'transparent' }}>
-              <Image src={pkg.image} alt={pkg.title} fill style={{ objectFit: pkg.id === 'paquete-cumpleanos' ? 'contain' : 'cover' }} />
+            <div className={styles.singleHeaderImage}>
+              <Image src={pkg.image} alt={pkg.title} fill style={{ objectFit: 'cover', objectPosition: pkg.id === 'paquete-cumpleanos' ? 'center 35%' : 'center center' }} />
             </div>
 
             <div className={styles.modalContent}>
