@@ -25,6 +25,8 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
     if (checkOut && val >= checkOut) setCheckOut('');
   };
   const [paymentMethod, setPaymentMethod] = useState('full_card');
+  const [earlyCheckIn, setEarlyCheckIn] = useState(false);
+  const [lateCheckOut, setLateCheckOut] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [isCheckingAvailability, setIsCheckingAvailability] = useState(false);
@@ -60,12 +62,15 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
   let subtotal = 0;
   let tax = 0;
   let totalPrice = 0;
+  let addonsTotal = 0;
   if (selectedRoom && checkIn && checkOut) {
     const days = Math.ceil((new Date(checkOut).getTime() - new Date(checkIn).getTime()) / (1000 * 3600 * 24));
     if (days > 0) {
       subtotal = days * selectedRoom.basePrice;
-      tax = subtotal * 0.15;
-      totalPrice = subtotal + tax;
+      if (earlyCheckIn) addonsTotal += 500;
+      if (lateCheckOut) addonsTotal += 500;
+      tax = (subtotal + addonsTotal) * 0.15;
+      totalPrice = subtotal + addonsTotal + tax;
     }
   }
 
@@ -95,7 +100,9 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
             name,
             email: emailInput,
             phone: phoneInput,
-            paymentMethod: method
+            paymentMethod: method,
+            earlyCheckIn,
+            lateCheckOut
           })
         });
 
@@ -122,12 +129,18 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
         whatsappMsgExtra = `\nPor favor confírmenme disponibilidad.`;
       }
 
+      let addonsText = '';
+      if (earlyCheckIn || lateCheckOut) {
+        addonsText = `*Servicios Adicionales:* ${earlyCheckIn ? 'Early Check-in (L 500)' : ''} ${lateCheckOut ? 'Late Check-out (L 500)' : ''}\n`;
+      }
+
       const whatsappMessage = `*Nueva Solicitud de Reservación*\n\n` +
         `*ID:* #${resId.split('-')[0]}\n` +
         `*Huésped:* ${name}\n` +
         `*Teléfono:* ${phoneInput}\n` +
         `*Habitación:* ${selectedRoom?.contentName}\n` +
         `*Fechas:* ${checkInD} al ${checkOutD}\n` +
+        addonsText +
         `*Total:* L ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(totalPrice)}\n` +
         `*Pago:* ${method}\n` +
         whatsappMsgExtra;
@@ -150,11 +163,19 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
     roomType: "Tipo de Habitación",
     selectRoom: "Selecciona una habitación...",
     night: "noche",
-    section3: "3. Detalles del Huésped",
+    section3: "3. Servicios Adicionales (Opcional)",
+    earlyTitle: "Early Check-in",
+    earlyTime: "Ingreso: 10:00 am - 1:00 pm",
+    subjectDisp: "Sujeto a disponibilidad",
+    addonCost: "Costo adicional: L.500 por habitación",
+    lateTitle: "Late Check-out",
+    lateTime: "Salida: Hasta las 2:00 pm",
+    lateWarning: "DESPUÉS DE LAS 2:00 PM RECARGO DE LA NOCHE COMPLETA.",
+    section4: "4. Detalles del Huésped",
     name: "Nombre Completo",
     email: "Correo Electrónico",
     phone: "Teléfono",
-    section4: "4. Método de Pago",
+    section5: "5. Método de Pago",
     optFull: "Pagar Monto Total (Tarjeta)",
     optPart: "Pagar 50% de Depósito",
     optHotel: "Pagar en el Hotel",
@@ -179,11 +200,19 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
     roomType: "Room Type",
     selectRoom: "Select a room...",
     night: "night",
-    section3: "3. Guest Details",
+    section3: "3. Additional Services (Optional)",
+    earlyTitle: "Early Check-in",
+    earlyTime: "Check-in: 10:00 AM - 1:00 PM",
+    subjectDisp: "Subject to availability",
+    addonCost: "Additional cost: L.500 per room",
+    lateTitle: "Late Check-out",
+    lateTime: "Check-out: Until 2:00 PM",
+    lateWarning: "AFTER 2:00 PM FULL NIGHT CHARGE APPLIES.",
+    section4: "4. Guest Details",
     name: "Full Name",
     email: "Email Address",
     phone: "Phone Number",
-    section4: "4. Payment Method",
+    section5: "5. Payment Method",
     optFull: "Pay Full Amount Now (Credit Card)",
     optPart: "Pay 50% Deposit Now",
     optHotel: "Pay at Hotel",
@@ -237,6 +266,52 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
       </div>
 
       <div className={styles.sectionTitle}>{t.section3}</div>
+      <div className={styles.addonsGrid}>
+        <div 
+          className={`${styles.addonCard} ${earlyCheckIn ? styles.addonCardActive : ''}`}
+          onClick={() => setEarlyCheckIn(!earlyCheckIn)}
+        >
+          <div className={styles.addonHeader}>
+            <input 
+              type="checkbox" 
+              name="earlyCheckIn" 
+              checked={earlyCheckIn} 
+              onChange={e => setEarlyCheckIn(e.target.checked)}
+              onClick={e => e.stopPropagation()}
+            />
+            <span className={styles.addonTitle}>{t.earlyTitle}</span>
+          </div>
+          <div className={styles.addonDetails}>
+            <span>{t.earlyTime}</span>
+            <span>{t.subjectDisp}</span>
+            <span className={styles.addonPrice}>{t.addonCost}</span>
+          </div>
+        </div>
+
+        <div 
+          className={`${styles.addonCard} ${lateCheckOut ? styles.addonCardActive : ''}`}
+          onClick={() => setLateCheckOut(!lateCheckOut)}
+        >
+          <div className={styles.addonHeader}>
+            <input 
+              type="checkbox" 
+              name="lateCheckOut" 
+              checked={lateCheckOut} 
+              onChange={e => setLateCheckOut(e.target.checked)}
+              onClick={e => e.stopPropagation()}
+            />
+            <span className={styles.addonTitle}>{t.lateTitle}</span>
+          </div>
+          <div className={styles.addonDetails}>
+            <span>{t.lateTime}</span>
+            <span>{t.subjectDisp}</span>
+            <span className={styles.addonPrice}>{t.addonCost}</span>
+            <span className={styles.addonWarning}>{t.lateWarning}</span>
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.sectionTitle}>{t.section4}</div>
       <div className={styles.formGroup}>
         <label>{t.name}</label>
         <input type="text" name="name" required placeholder="Jane Doe" />
@@ -252,7 +327,7 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
         </div>
       </div>
 
-      <div className={styles.sectionTitle}>{t.section4}</div>
+      <div className={styles.sectionTitle}>{t.section5}</div>
       <div className={styles.formGroup}>
         <select name="paymentMethod" required value={paymentMethod} onChange={e => setPaymentMethod(e.target.value)}>
           <option value="full_card">{t.optFull}</option>
@@ -279,6 +354,20 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
             <span>{selectedRoom.contentName} (L {new Intl.NumberFormat('en-US').format(selectedRoom.basePrice)} x {Math.ceil((new Date(checkOut).getTime() - new Date(checkIn).getTime()) / (1000 * 3600 * 24))} {t.nightsLabel})</span>
             <span>L {new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(subtotal)}</span>
           </div>
+
+          {earlyCheckIn && (
+            <div className={styles.summaryRow}>
+              <span>{t.earlyTitle} (10:00 AM - 1:00 PM)</span>
+              <span>L 500.00</span>
+            </div>
+          )}
+
+          {lateCheckOut && (
+            <div className={styles.summaryRow}>
+              <span>{t.lateTitle} (Hasta 2:00 PM)</span>
+              <span>L 500.00</span>
+            </div>
+          )}
 
           <div className={styles.summaryRow}>
             <span>{t.taxLabel}</span>

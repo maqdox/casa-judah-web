@@ -43,9 +43,16 @@ export async function createReservation(formData: FormData) {
   const days = Math.ceil(daysMs / (1000 * 60 * 60 * 24));
   if (days <= 0) throw new Error('Invalid dates.');
 
+  const earlyCheckIn = formData.get('earlyCheckIn') === 'on';
+  const lateCheckOut = formData.get('lateCheckOut') === 'on';
+
+  let addonsTotal = 0;
+  if (earlyCheckIn) addonsTotal += 500;
+  if (lateCheckOut) addonsTotal += 500;
+
   const subtotal = days * room.basePrice;
-  const tax = subtotal * 0.15;
-  const totalPrice = subtotal + tax;
+  const tax = (subtotal + addonsTotal) * 0.15;
+  const totalPrice = subtotal + addonsTotal + tax;
 
   const reservation = await prisma.$transaction(async (tx) => {
     let guest = await tx.guest.findUnique({ where: { email } });
@@ -129,9 +136,11 @@ export async function createReservation(formData: FormData) {
               
               <div style="background-color: #F8F9FA; padding: 20px; border-radius: 8px; margin: 20px 0;">
                 <p><strong>Alojamiento:</strong> ${room.contentName}</p>
-                <p><strong>Check-in:</strong> ${checkIn.toLocaleDateString()}</p>
-                <p><strong>Check-out:</strong> ${checkOut.toLocaleDateString()}</p>
-                <p><strong>Subtotal:</strong> L ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(subtotal)}</p>
+                <p><strong>Check-in:</strong> ${checkIn.toLocaleDateString()} ${earlyCheckIn ? '(Early Check-in 10:00 AM)' : ''}</p>
+                <p><strong>Check-out:</strong> ${checkOut.toLocaleDateString()} ${lateCheckOut ? '(Late Check-out 2:00 PM)' : ''}</p>
+                ${earlyCheckIn ? `<p><strong>Early Check-in:</strong> L 500.00</p>` : ''}
+                ${lateCheckOut ? `<p><strong>Late Check-out:</strong> L 500.00</p>` : ''}
+                <p><strong>Subtotal (Estadías + Servicios):</strong> L ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(subtotal + addonsTotal)}</p>
                 <p><strong>Impuestos (15%):</strong> L ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(tax)}</p>
                 <p><strong>Total:</strong> L ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(totalPrice)}</p>
                 <p><strong>Método Acordado:</strong> ${paymentMethod.replace('_', ' ').toUpperCase()}</p>

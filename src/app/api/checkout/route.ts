@@ -5,7 +5,7 @@ import { execTrans } from '@/lib/pagadito';
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { roomId, checkIn, checkOut, name, email, phone, paymentMethod } = body;
+    const { roomId, checkIn, checkOut, name, email, phone, paymentMethod, earlyCheckIn, lateCheckOut } = body;
 
     if (!roomId || !checkIn || !checkOut || !name || !email) {
       return NextResponse.json({ error: 'Faltan campos requeridos.' }, { status: 400 });
@@ -47,9 +47,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Fechas inválidas.' }, { status: 400 });
     }
 
+    let addonsTotal = 0;
+    if (earlyCheckIn) addonsTotal += 500;
+    if (lateCheckOut) addonsTotal += 500;
+
     const subtotal = days * room.basePrice;
-    const tax = subtotal * 0.15;
-    const totalPrice = subtotal + tax;
+    const tax = (subtotal + addonsTotal) * 0.15;
+    const totalPrice = subtotal + addonsTotal + tax;
 
     let paymentAmount = totalPrice;
     if (paymentMethod === 'partial_card') paymentAmount = totalPrice / 2;
@@ -57,18 +61,26 @@ export async function POST(req: NextRequest) {
     // Encode booking data in ERN so callback can create the reservation after payment
     const bookingData = {
       roomId, checkIn, checkOut, name, email, phone, paymentMethod,
-      totalPrice, paymentAmount, days
+      totalPrice, paymentAmount, days, earlyCheckIn, lateCheckOut
     };
     const ern = Buffer.from(JSON.stringify(bookingData)).toString('base64url');
 
     // Call Pagadito to get the payment URL (NO reservation created yet)
-    const redirectUrl = await execTrans(ern, [
+    const lineItems = [
       {
         quantity: days,
         description: `${room.contentName} (${days} noches)`,
         priceInHNL: room.basePrice * 1.15
       }
-    ]);
+    ];
+    if (earlyCheckIn) {
+      lineItems.push({ quantity: 1, description: 'Early Check-in (10:00 AM - 1:00 PM)', priceInHNL: 500 * 1.15 });
+    }
+    if (lateCheckOut) {
+      lineItems.push({ quantity: 1, description: 'Late Check-out (Hasta 2:00 PM)', priceInHNL: 500 * 1.15 });
+    }
+
+    const redirectUrl = await execTrans(ern, lineItems);
 
     return NextResponse.json({ redirectUrl });
   } catch (err: any) {

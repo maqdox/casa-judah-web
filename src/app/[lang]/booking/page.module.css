@@ -196,4 +196,82 @@
   .row {
     flex-direction: column;
   }
+  .addonsGrid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ─── Addons Cards ─── */
+.addonsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.addonCard {
+  background-color: #fafafa;
+  border: 2px solid #ece8e3;
+  border-radius: var(--radius-sm);
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.addonCard:hover {
+  border-color: var(--color-olive);
+  background-color: var(--color-white);
+  box-shadow: var(--shadow-sm);
+}
+
+.addonCardActive {
+  background-color: #f7f9f4;
+  border-color: var(--color-olive);
+  box-shadow: var(--shadow-sm);
+}
+
+.addonHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.addonHeader input[type="checkbox"] {
+  width: 1.2rem;
+  height: 1.2rem;
+  accent-color: var(--color-olive);
+  cursor: pointer;
+}
+
+.addonTitle {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: var(--color-dark-brown);
+  font-weight: 600;
+}
+
+.addonDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  color: #555;
+  padding-left: 2rem;
+}
+
+.addonPrice {
+  font-weight: 600;
+  color: var(--color-dark-brown);
+  margin-top: 0.2rem;
+}
+
+.addonWarning {
+  font-size: 0.8rem;
+  color: #b91c1c;
+  font-weight: 600;
+  margin-top: 0.4rem;
 }
