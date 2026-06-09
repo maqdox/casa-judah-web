@@ -25,7 +25,7 @@ export default function PackageBookingModal({ isOpen, onClose, pkg }: PackageBoo
     email: '',
     date: '',
     timeSlot: pkg.timeSlots?.[0]?.value || '',
-    guests: pkg.id === 'cafe-entre-ovejas' ? 2 : (pkg.id === 'paquete-cumpleanos' ? 2 : 4),
+    guests: pkg.id === 'test-pagadito' ? 1 : 2,
     children: 0,
     selectedOptionIndex: 0,
     drinks: { cafe: 2, te: 0, chocolate: 0 },
@@ -42,7 +42,7 @@ export default function PackageBookingModal({ isOpen, onClose, pkg }: PackageBoo
         email: '',
         date: '',
         timeSlot: pkg.timeSlots?.[0]?.value || '',
-        guests: pkg.id === 'cafe-entre-ovejas' ? 2 : (pkg.id === 'paquete-cumpleanos' ? 2 : 4),
+        guests: pkg.id === 'test-pagadito' ? 1 : 2,
         children: 0,
         selectedOptionIndex: 0,
         drinks: { cafe: 2, te: 0, chocolate: 0 },
@@ -84,7 +84,7 @@ export default function PackageBookingModal({ isOpen, onClose, pkg }: PackageBoo
         finalValue = parseInt(value) || 0;
       } else if (name === 'guests') {
         let numValue = parseInt(value) || 0;
-        const minVal = pkg.id === 'noche-de-fogata' ? 4 : 1;
+        const minVal = pkg.id === 'noche-de-fogata' ? 2 : 1;
         
         if (numValue < minVal) numValue = minVal;
 
@@ -126,7 +126,7 @@ export default function PackageBookingModal({ isOpen, onClose, pkg }: PackageBoo
       return total;
     }
 
-    const baseGuests = pkg.id === 'cafe-entre-ovejas' ? 2 : 4;
+    const baseGuests = (pkg.id === 'cafe-entre-ovejas' || pkg.id === 'noche-de-fogata') ? 2 : 4;
     let total = pkg.basePrice;
     
     if (formData.guests > baseGuests) {
@@ -199,7 +199,7 @@ export default function PackageBookingModal({ isOpen, onClose, pkg }: PackageBoo
     }
   };
 
-  const baseGuests = pkg.id === 'cafe-entre-ovejas' ? 2 : 4;
+  const baseGuests = (pkg.id === 'cafe-entre-ovejas' || pkg.id === 'noche-de-fogata') ? 2 : 4;
 
   return (
     <div className={styles.overlay} onClick={onClose}>
@@ -293,7 +293,7 @@ export default function PackageBookingModal({ isOpen, onClose, pkg }: PackageBoo
                           required 
                           type="number" 
                           name="guests" 
-                          min={pkg.id === 'noche-de-fogata' ? 4 : 1} 
+                          min={pkg.id === 'noche-de-fogata' ? 2 : 1} 
                           max={pkg.maxCapacity - formData.children} 
                           value={formData.guests} 
                           onChange={handleChange} 

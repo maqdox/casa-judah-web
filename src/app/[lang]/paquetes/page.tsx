@@ -28,7 +28,7 @@ export default async function PaquetesPage({ params }: { params: Promise<{ lang:
       extraPersonLabel: isEs ? 'Adulto adicional' : 'Additional adult',
       extraChildPrice: 75,
       extraChildLabel: isEs ? 'Niño adicional' : 'Additional child',
-      maxCapacity: 20,
+      maxCapacity: 10,
       hasTimeSlots: false,
       lang,
     },
