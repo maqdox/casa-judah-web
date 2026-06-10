@@ -33,7 +33,29 @@ export default async function ExperiencesPage({ params }: { params: Promise<{ la
   ];
 
   const section3Images = [
-    { src: '/desayuno.jpg', objectFit: 'cover' }
+    { src: '/desayuno.jpg', objectFit: 'cover' },
+    { src: '/deleite-culinario/1.jpg', objectFit: 'cover' },
+    { src: '/deleite-culinario/2.jpg', objectFit: 'cover' },
+    { src: '/deleite-culinario/3.jpg', objectFit: 'cover' },
+  ];
+
+  const experienciaGranjaImages = [
+    { src: '/experiencia-granja/1.jpg', objectFit: 'cover' },
+    { src: '/experiencia-granja/2.jpg', objectFit: 'cover' },
+    { src: '/experiencia-granja/3.jpg', objectFit: 'cover' },
+    { src: '/experiencia-granja/4.jpg', objectFit: 'cover' },
+    { src: '/experiencia-granja/5.jpg', objectFit: 'cover' },
+    { src: '/experiencia-granja/6.jpg', objectFit: 'cover' },
+    { src: '/experiencia-granja/7.jpg', objectFit: 'cover' },
+    { src: '/experiencia-granja/8.jpg', objectFit: 'cover' },
+    { src: '/experiencia-granja/9.jpg', objectFit: 'cover' },
+  ];
+
+  const cafeOvejasImages = [
+    { src: '/cafe-ovejas/1.jpg', objectFit: 'cover' },
+    { src: '/cafe-ovejas/2.jpg', objectFit: 'cover' },
+    { src: '/cafe-ovejas/3.jpg', objectFit: 'cover' },
+    { src: '/cafe-ovejas/4.jpg', objectFit: 'cover' },
   ];
 
   return (
@@ -43,6 +65,10 @@ export default async function ExperiencesPage({ params }: { params: Promise<{ la
         <p>{t.headerSubtitle}</p>
       </header>
 
+      <section className={styles.sectionBlock} style={{ paddingTop: 0 }}>
+        <HorizontalGallery images={experienciaGranjaImages as any} title={t.headerTitle} />
+      </section>
+
       {/* Estilo de Vida Orgánico */}
       <section className={styles.sectionBlock}>
         <div className={styles.textContent}>
@@ -50,6 +76,15 @@ export default async function ExperiencesPage({ params }: { params: Promise<{ la
           <p>{t.section1Text}</p>
         </div>
         <HorizontalGallery images={section1Images as any} title={t.section1Title} />
+      </section>
+
+      {/* Café entre Ovejas */}
+      <section className={styles.sectionBlock}>
+        <div className={styles.textContent}>
+          <h2>{isEs ? 'Café entre Ovejas' : 'Coffee among Sheep'}</h2>
+          <p>{isEs ? 'Disfruta de una tarde mágica rodeado de naturaleza. Nuestro paquete incluye café artesanal o té, y la oportunidad única de interactuar de cerca con nuestras adorables ovejas y otros animales de la granja. Llévate un recuerdo inolvidable con una foto grupal.' : 'Enjoy a magical afternoon surrounded by nature. Our package includes artisan coffee or tea, and the unique opportunity to interact closely with our adorable sheep and other farm animals. Take home an unforgettable memory with a group photo.'}</p>
+        </div>
+        <HorizontalGallery images={cafeOvejasImages as any} title={isEs ? 'Café entre Ovejas' : 'Coffee among Sheep'} />
       </section>
 
       {/* Nuestros Animales */}
