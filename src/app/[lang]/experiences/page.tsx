@@ -5,6 +5,7 @@ import HorizontalGallery from '@/components/v2/HorizontalGallery';
 
 export default async function ExperiencesPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = (await params) as { lang: 'en' | 'es' };
+  const isEs = lang === 'es';
   const dict = await getDictionary(lang);
   const t = dict.experiences;
 
