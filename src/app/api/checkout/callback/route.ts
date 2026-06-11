@@ -71,40 +71,58 @@ export async function GET(req: NextRequest) {
 
         console.log('[Callback] Creating room reservation for:', bookingData.name);
 
-        const { roomId, checkIn, checkOut, name, email, phone, paymentMethod, totalPrice, paymentAmount } = bookingData;
+        const { roomIds, checkIn, checkOut, name, email, phone, paymentMethod, earlyCheckIn, lateCheckOut } = bookingData;
 
-        const reservation = await prisma.$transaction(async (tx) => {
+        const reservations = await prisma.$transaction(async (tx) => {
           let guest = await tx.guest.findUnique({ where: { email } });
           if (!guest) {
             guest = await tx.guest.create({ data: { name, email, phone } });
           }
 
-          const res = await tx.reservation.create({
-            data: {
-              guestId: guest.id,
-              roomId,
-              checkInDate: new Date(checkIn),
-              checkOutDate: new Date(checkOut),
-              rulesAccepted: true,
-              totalPrice,
-              status: 'CONFIRMED'
-            }
-          });
+          const rooms = await tx.room.findMany({ where: { id: { in: roomIds } } });
+          const days = Math.ceil((new Date(checkOut).getTime() - new Date(checkIn).getTime()) / (1000 * 60 * 60 * 24));
+          const createdRes = [];
 
-          await tx.payment.create({
-            data: {
-              reservationId: res.id,
-              amount: paymentAmount,
-              paymentMethod,
-              status: 'COMPLETED'
-            }
-          });
+          for (const room of rooms) {
+            const roomSubtotal = days * room.basePrice;
+            let roomAddons = 0;
+            if (earlyCheckIn) roomAddons += 500;
+            if (lateCheckOut) roomAddons += 500;
+            const roomTax = (roomSubtotal + roomAddons) * 0.15;
+            const roomTotalPrice = roomSubtotal + roomAddons + roomTax;
 
-          return res;
+            let paymentAmount = roomTotalPrice;
+            if (paymentMethod === 'partial_card') paymentAmount = roomTotalPrice / 2;
+
+            const res = await tx.reservation.create({
+              data: {
+                guestId: guest.id,
+                roomId: room.id,
+                checkInDate: new Date(checkIn),
+                checkOutDate: new Date(checkOut),
+                rulesAccepted: true,
+                totalPrice: roomTotalPrice,
+                status: 'CONFIRMED'
+              }
+            });
+
+            await tx.payment.create({
+              data: {
+                reservationId: res.id,
+                amount: paymentAmount,
+                paymentMethod,
+                status: 'COMPLETED'
+              }
+            });
+
+            createdRes.push(res);
+          }
+
+          return createdRes;
         });
 
         return NextResponse.redirect(
-          new URL(`/es/payment-success?resId=${reservation.id}`, req.url)
+          new URL(`/es/booking/success?resId=${reservations[0].id}`, req.url)
         );
       }
     }

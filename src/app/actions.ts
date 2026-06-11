@@ -6,7 +6,7 @@ import nodemailer from 'nodemailer';
 import { supabase } from '@/lib/supabase';
 
 export async function createReservation(formData: FormData) {
-  const roomId = formData.get('roomId') as string;
+  const roomIds = formData.getAll('roomIds') as string[];
   const checkInStr = formData.get('checkIn') as string;
   const checkOutStr = formData.get('checkOut') as string;
   const name = formData.get('name') as string;
@@ -15,7 +15,7 @@ export async function createReservation(formData: FormData) {
   const rulesAccepted = formData.get('rulesAccepted') === 'on';
   const paymentMethod = formData.get('paymentMethod') as string;
 
-  if (!roomId || !checkInStr || !checkOutStr || !name || !email || !rulesAccepted) {
+  if (roomIds.length === 0 || !checkInStr || !checkOutStr || !name || !email || !rulesAccepted) {
     throw new Error('Missing required fields.');
   }
 
@@ -24,7 +24,7 @@ export async function createReservation(formData: FormData) {
 
   const overlapping = await prisma.reservation.findFirst({
     where: {
-      roomId,
+      roomId: { in: roomIds },
       status: { not: 'CANCELLED' },
       OR: [
         { checkInDate: { lte: checkOut }, checkOutDate: { gte: checkIn } }
@@ -33,11 +33,11 @@ export async function createReservation(formData: FormData) {
   });
 
   if (overlapping) {
-    throw new Error('The room is already booked for these dates.');
+    throw new Error('One or more rooms are already booked for these dates.');
   }
 
-  const room = await prisma.room.findUnique({ where: { id: roomId } });
-  if (!room) throw new Error('Room not found.');
+  const rooms = await prisma.room.findMany({ where: { id: { in: roomIds } } });
+  if (rooms.length !== roomIds.length) throw new Error('Room not found.');
 
   const daysMs = checkOut.getTime() - checkIn.getTime();
   const days = Math.ceil(daysMs / (1000 * 60 * 60 * 24));
@@ -46,44 +46,34 @@ export async function createReservation(formData: FormData) {
   const earlyCheckIn = formData.get('earlyCheckIn') === 'on';
   const lateCheckOut = formData.get('lateCheckOut') === 'on';
 
-  let addonsTotal = 0;
-  if (earlyCheckIn) addonsTotal += 500;
-  if (lateCheckOut) addonsTotal += 500;
+  let globalSubtotal = 0;
+  let globalAddonsTotal = 0;
 
-  const subtotal = days * room.basePrice;
-  const tax = (subtotal + addonsTotal) * 0.15;
-  const totalPrice = subtotal + addonsTotal + tax;
+  if (earlyCheckIn) globalAddonsTotal += 500 * roomIds.length;
+  if (lateCheckOut) globalAddonsTotal += 500 * roomIds.length;
 
-  const reservation = await prisma.$transaction(async (tx) => {
+  for (const r of rooms) {
+    globalSubtotal += days * r.basePrice;
+  }
+
+  const globalTax = (globalSubtotal + globalAddonsTotal) * 0.15;
+  const globalTotalPrice = globalSubtotal + globalAddonsTotal + globalTax;
+
+  const reservations = await prisma.$transaction(async (tx) => {
     let guest = await tx.guest.findUnique({ where: { email } });
     if (!guest) {
       guest = await tx.guest.create({ data: { name, email, phone } });
     }
 
-    const res = await tx.reservation.create({
-      data: {
-        guestId: guest.id,
-        roomId: room.id,
-        checkInDate: checkIn,
-        checkOutDate: checkOut,
-        rulesAccepted,
-        totalPrice,
-        status: ['bank_transfer', 'payment_link'].includes(paymentMethod) ? 'PENDING' : 'CONFIRMED'
-      }
-    });
-
-    let paymentAmount = totalPrice;
-    if (paymentMethod === 'partial_card') paymentAmount = totalPrice / 2;
-    if (paymentMethod === 'hotel') paymentAmount = 0;
-
     let receiptUrl = null;
     const receiptFile = formData.get('receipt') as File | null;
     
+    // Solo subimos el recibo una vez
     if (receiptFile && receiptFile.size > 0) {
       const bytes = await receiptFile.arrayBuffer();
       const buffer = Buffer.from(bytes);
       const ext = receiptFile.name.split('.').pop() || 'jpg';
-      const filename = `receipt_${res.id}_${Date.now()}.${ext}`;
+      const filename = `receipt_${guest.id}_${Date.now()}.${ext}`;
       
       const { data, error } = await supabase.storage
         .from('receipts')
@@ -94,21 +84,50 @@ export async function createReservation(formData: FormData) {
       }
     }
 
-    await tx.payment.create({
-      data: {
-        reservationId: res.id,
-        amount: paymentAmount,
-        paymentMethod,
-        status: ['full_card', 'partial_card'].includes(paymentMethod) ? 'COMPLETED' : 'PENDING',
-        receiptUrl
-      }
-    });
+    const createdRes = [];
 
-    return res;
+    // Creamos la reservacion por cada habitacion
+    for (const room of rooms) {
+      const roomSubtotal = days * room.basePrice;
+      let roomAddons = 0;
+      if (earlyCheckIn) roomAddons += 500;
+      if (lateCheckOut) roomAddons += 500;
+      const roomTax = (roomSubtotal + roomAddons) * 0.15;
+      const roomTotalPrice = roomSubtotal + roomAddons + roomTax;
+
+      const res = await tx.reservation.create({
+        data: {
+          guestId: guest.id,
+          roomId: room.id,
+          checkInDate: checkIn,
+          checkOutDate: checkOut,
+          rulesAccepted,
+          totalPrice: roomTotalPrice,
+          status: ['bank_transfer', 'payment_link'].includes(paymentMethod) ? 'PENDING' : 'CONFIRMED'
+        }
+      });
+
+      let paymentAmount = roomTotalPrice;
+      if (paymentMethod === 'partial_card') paymentAmount = roomTotalPrice / 2;
+      if (paymentMethod === 'hotel') paymentAmount = 0;
+
+      await tx.payment.create({
+        data: {
+          reservationId: res.id,
+          amount: paymentAmount,
+          paymentMethod,
+          status: ['full_card', 'partial_card'].includes(paymentMethod) ? 'COMPLETED' : 'PENDING',
+          receiptUrl
+        }
+      });
+      createdRes.push(res);
+    }
+
+    return createdRes;
   });
 
   // FIRE EMAIL NOTIFICATION TIER
-  if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+  if (process.env.EMAIL_USER && process.env.EMAIL_PASS && reservations.length > 0) {
     try {
       const transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -118,11 +137,13 @@ export async function createReservation(formData: FormData) {
         }
       });
 
+      const roomNames = rooms.map(r => r.contentName).join(', ');
+
       const mailOptions = {
         from: `"Casa Judah" <${process.env.EMAIL_USER}>`,
         to: email, // Guest's email
         bcc: process.env.ADMIN_EMAIL || process.env.EMAIL_USER, // Backup alert to Owner
-        subject: `Casa Judah - Confirmación de Estadía #${reservation.id.substring(0, 8)}`,
+        subject: `Casa Judah - Confirmación de Estadía #${reservations[0].id.substring(0, 8)}`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333; line-height: 1.6;">
             <div style="text-align: center; padding: 20px 0; border-bottom: 2px solid #556B2F;">
@@ -135,14 +156,14 @@ export async function createReservation(formData: FormData) {
               <p>Tu reservación ha sido guardada exitosamente. Estamos emocionados de recibirte.</p>
               
               <div style="background-color: #F8F9FA; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                <p><strong>Alojamiento:</strong> ${room.contentName}</p>
+                <p><strong>Alojamiento (${rooms.length}):</strong> ${roomNames}</p>
                 <p><strong>Check-in:</strong> ${checkIn.toLocaleDateString()} ${earlyCheckIn ? '(Early Check-in 10:00 AM)' : ''}</p>
                 <p><strong>Check-out:</strong> ${checkOut.toLocaleDateString()} ${lateCheckOut ? '(Late Check-out 2:00 PM)' : ''}</p>
-                ${earlyCheckIn ? `<p><strong>Early Check-in:</strong> L 500.00</p>` : ''}
-                ${lateCheckOut ? `<p><strong>Late Check-out:</strong> L 500.00</p>` : ''}
-                <p><strong>Subtotal (Estadías + Servicios):</strong> L ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(subtotal + addonsTotal)}</p>
-                <p><strong>Impuestos (15%):</strong> L ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(tax)}</p>
-                <p><strong>Total:</strong> L ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(totalPrice)}</p>
+                ${earlyCheckIn ? `<p><strong>Early Check-in (x${rooms.length}):</strong> L ${new Intl.NumberFormat('en-US').format(500 * rooms.length)}</p>` : ''}
+                ${lateCheckOut ? `<p><strong>Late Check-out (x${rooms.length}):</strong> L ${new Intl.NumberFormat('en-US').format(500 * rooms.length)}</p>` : ''}
+                <p><strong>Subtotal (Estadías + Servicios):</strong> L ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(globalSubtotal + globalAddonsTotal)}</p>
+                <p><strong>Impuestos (15%):</strong> L ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(globalTax)}</p>
+                <p><strong>Total:</strong> L ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(globalTotalPrice)}</p>
                 <p><strong>Método Acordado:</strong> ${paymentMethod.replace('_', ' ').toUpperCase()}</p>
               </div>
 
@@ -164,5 +185,6 @@ export async function createReservation(formData: FormData) {
   revalidatePath('/admin/reservations');
   revalidatePath('/admin');
   
-  return reservation.id;
+  // Return the first reservation ID to use on the success page
+  return reservations[0].id;
 }

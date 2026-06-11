@@ -11,7 +11,7 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
   const router = useRouter();
   const initialRoomId = searchParams.get('roomId') || '';
 
-  const [roomId, setRoomId] = useState(initialRoomId);
+  const [selectedRoomIds, setSelectedRoomIds] = useState<string[]>(initialRoomId ? [initialRoomId] : []);
   const [checkIn, setCheckIn] = useState('');
   const [checkOut, setCheckOut] = useState('');
 
@@ -30,45 +30,58 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [isCheckingAvailability, setIsCheckingAvailability] = useState(false);
-  const [isAvailable, setIsAvailable] = useState<boolean | null>(null);
+  const [availabilityMap, setAvailabilityMap] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
-    if (roomId && checkIn && checkOut) {
+    if (checkIn && checkOut) {
       const checkAvailability = async () => {
         setIsCheckingAvailability(true);
-        setIsAvailable(null);
         try {
-          const res = await fetch(`/api/rooms/availability?roomId=${roomId}&checkIn=${checkIn}&checkOut=${checkOut}`);
-          const data = await res.json();
-          if (res.ok && typeof data.available === 'boolean') {
-            setIsAvailable(data.available);
-          } else {
-            setIsAvailable(null);
-          }
+          const newAvailabilityMap: Record<string, boolean> = {};
+          await Promise.all(rooms.map(async (room) => {
+            const res = await fetch(`/api/rooms/availability?roomId=${room.id}&checkIn=${checkIn}&checkOut=${checkOut}`);
+            const data = await res.json();
+            if (res.ok && typeof data.available === 'boolean') {
+              newAvailabilityMap[room.id] = data.available;
+            } else {
+              newAvailabilityMap[room.id] = false;
+            }
+          }));
+          setAvailabilityMap(newAvailabilityMap);
+          // Auto-deselect unavailable rooms
+          setSelectedRoomIds(prev => prev.filter(id => newAvailabilityMap[id]));
         } catch (e) {
-          setIsAvailable(null);
+          setAvailabilityMap({});
         } finally {
           setIsCheckingAvailability(false);
         }
       };
       checkAvailability();
     } else {
-      setIsAvailable(null);
+      setAvailabilityMap({});
     }
-  }, [roomId, checkIn, checkOut]);
+  }, [checkIn, checkOut, rooms]);
 
-  const selectedRoom = rooms.find(r => r.id === roomId);
+  const toggleRoom = (id: string) => {
+    setSelectedRoomIds(prev => 
+      prev.includes(id) ? prev.filter(rId => rId !== id) : [...prev, id]
+    );
+  };
+
+  const selectedRooms = rooms.filter(r => selectedRoomIds.includes(r.id));
   
   let subtotal = 0;
   let tax = 0;
   let totalPrice = 0;
   let addonsTotal = 0;
-  if (selectedRoom && checkIn && checkOut) {
+  const numRooms = selectedRooms.length;
+
+  if (numRooms > 0 && checkIn && checkOut) {
     const days = Math.ceil((new Date(checkOut).getTime() - new Date(checkIn).getTime()) / (1000 * 3600 * 24));
     if (days > 0) {
-      subtotal = days * selectedRoom.basePrice;
-      if (earlyCheckIn) addonsTotal += 500;
-      if (lateCheckOut) addonsTotal += 500;
+      subtotal = selectedRooms.reduce((acc, r) => acc + (days * r.basePrice), 0);
+      if (earlyCheckIn) addonsTotal += 500 * numRooms;
+      if (lateCheckOut) addonsTotal += 500 * numRooms;
       tax = (subtotal + addonsTotal) * 0.15;
       totalPrice = subtotal + addonsTotal + tax;
     }
@@ -79,6 +92,12 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
     setLoading(true);
     setError('');
     
+    if (selectedRoomIds.length === 0) {
+      setError(lang === 'es' ? 'Debes seleccionar al menos una habitación.' : 'You must select at least one room.');
+      setLoading(false);
+      return;
+    }
+
     try {
       const formData = new FormData(e.currentTarget);
       const name = formData.get('name') as string;
@@ -94,7 +113,7 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            roomId,
+            roomIds: selectedRoomIds,
             checkIn: checkInD,
             checkOut: checkOutD,
             name,
@@ -117,7 +136,11 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
         return;
       }
 
-      // Non-card payments: keep existing flow (WhatsApp + local reservation)
+      // Non-card payments
+      // Append all roomIds to formData so server action can process them
+      formData.delete('roomId');
+      selectedRoomIds.forEach(id => formData.append('roomIds', id));
+
       const resId = await createReservation(formData);
 
       let whatsappMsgExtra = '';
@@ -131,14 +154,15 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
 
       let addonsText = '';
       if (earlyCheckIn || lateCheckOut) {
-        addonsText = `*Servicios Adicionales:* ${earlyCheckIn ? 'Early Check-in (L 500)' : ''} ${lateCheckOut ? 'Late Check-out (L 500)' : ''}\n`;
+        addonsText = `*Servicios Adicionales:* ${earlyCheckIn ? 'Early Check-in (x' + numRooms + ')' : ''} ${lateCheckOut ? 'Late Check-out (x' + numRooms + ')' : ''}\n`;
       }
 
+      const roomNames = selectedRooms.map(r => r.contentName).join(', ');
+
       const whatsappMessage = `*Nueva Solicitud de Reservación*\n\n` +
-        `*ID:* #${resId.split('-')[0]}\n` +
         `*Huésped:* ${name}\n` +
         `*Teléfono:* ${phoneInput}\n` +
-        `*Habitación:* ${selectedRoom?.contentName}\n` +
+        `*Habitaciones:* ${roomNames}\n` +
         `*Fechas:* ${checkInD} al ${checkOutD}\n` +
         addonsText +
         `*Total:* L ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(totalPrice)}\n` +
@@ -148,6 +172,7 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
       const whatsappUrl = `https://wa.me/50498316555?text=${encodeURIComponent(whatsappMessage)}`;
       window.open(whatsappUrl, '_blank');
 
+      // Use the returned ID for success page
       router.push(`/${lang}/booking/success?resId=${resId}`);
     } catch (err: any) {
       setError(err.message || 'An unexpected error occurred.');
@@ -160,14 +185,15 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
     checkIn: "Fecha de Llegada",
     checkOut: "Fecha de Salida",
     section2: "2. Selecciona Alojamiento",
-    roomType: "Tipo de Habitación",
-    selectRoom: "Selecciona una habitación...",
+    selectRoom: "Selecciona una o más habitaciones:",
     night: "noche",
+    available: "Disponible",
+    unavailable: "Ocupada",
     section3: "3. Servicios Adicionales (Opcional)",
     earlyTitle: "Early Check-in",
     earlyTime: "Ingreso: 10:00 am - 1:00 pm",
     subjectDisp: "Sujeto a disponibilidad",
-    addonCost: "Costo adicional: L.500 por habitación",
+    addonCost: "L.500 por habitación",
     lateTitle: "Late Check-out",
     lateTime: "Salida: Hasta las 2:00 pm",
     lateWarning: "DESPUÉS DE LAS 2:00 PM RECARGO DE LA NOCHE COMPLETA.",
@@ -191,20 +217,22 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
     total: "Total a Pagar:",
     rules: "Acepto las Reglas de la Casa, incluyendo la política estricta de no fumar y cancelaciones.",
     submit: "Confirmar Reservación",
-    processing: "Procesando..."
+    processing: "Procesando...",
+    selectDatesFirst: "Selecciona fechas para ver disponibilidad"
   } : {
     section1: "1. Travel Dates",
     checkIn: "Check-in Date",
     checkOut: "Check-out Date",
     section2: "2. Select Accommodation",
-    roomType: "Room Type",
-    selectRoom: "Select a room...",
+    selectRoom: "Select one or more rooms:",
     night: "night",
+    available: "Available",
+    unavailable: "Unavailable",
     section3: "3. Additional Services (Optional)",
     earlyTitle: "Early Check-in",
     earlyTime: "Check-in: 10:00 AM - 1:00 PM",
     subjectDisp: "Subject to availability",
-    addonCost: "Additional cost: L.500 per room",
+    addonCost: "L.500 per room",
     lateTitle: "Late Check-out",
     lateTime: "Check-out: Until 2:00 PM",
     lateWarning: "AFTER 2:00 PM FULL NIGHT CHARGE APPLIES.",
@@ -228,17 +256,13 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
     total: "Total to Pay:",
     rules: "I agree to the House Rules, including the strict no-smoking policy, and understand the cancellation terms.",
     submit: "Confirm Reservation",
-    processing: "Processing..."
+    processing: "Processing...",
+    selectDatesFirst: "Select dates to check availability"
   };
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
       {error && <div className={styles.error}>{error}</div>}
-      {isAvailable === false && (
-        <div className={styles.error} style={{ backgroundColor: '#fee2e2', color: '#b91c1c' }}>
-          {lang === 'es' ? 'Esta habitación no está disponible en las fechas seleccionadas.' : 'This room is not available for the selected dates.'}
-        </div>
-      )}
 
       <div className={styles.sectionTitle}>{t.section1}</div>
       <div className={styles.row}>
@@ -254,15 +278,65 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
 
       <div className={styles.sectionTitle}>{t.section2}</div>
       <div className={styles.formGroup}>
-        <label>{t.roomType}</label>
-        <select name="roomId" required value={roomId} onChange={e => setRoomId(e.target.value)}>
-          <option value="">{t.selectRoom}</option>
-          {rooms.map(room => (
-            <option key={room.id} value={room.id}>
-              {room.contentName} - L {new Intl.NumberFormat('en-US').format(room.basePrice)}/{t.night}
-            </option>
-          ))}
-        </select>
+        <label>{t.selectRoom}</label>
+        
+        {!checkIn || !checkOut ? (
+          <p className={styles.helperText} style={{marginBottom: '1rem'}}>{t.selectDatesFirst}</p>
+        ) : null}
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '0.5rem' }}>
+          {rooms.map(room => {
+            const available = availabilityMap[room.id];
+            const checking = isCheckingAvailability;
+            const canSelect = !checking && available;
+
+            return (
+              <label 
+                key={room.id} 
+                style={{
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  padding: '1rem',
+                  border: '1px solid #ddd',
+                  borderRadius: '8px',
+                  backgroundColor: canSelect ? '#fff' : '#f9f9f9',
+                  opacity: canSelect || checking || (!checkIn || !checkOut) ? 1 : 0.6,
+                  cursor: canSelect ? 'pointer' : 'not-allowed'
+                }}
+              >
+                <input 
+                  type="checkbox" 
+                  value={room.id}
+                  checked={selectedRoomIds.includes(room.id)}
+                  onChange={() => toggleRoom(room.id)}
+                  disabled={!canSelect}
+                  style={{ marginRight: '1rem', width: '20px', height: '20px' }}
+                />
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontWeight: 600 }}>{room.contentName}</div>
+                  <div style={{ fontSize: '0.9rem', color: '#555' }}>
+                    L {new Intl.NumberFormat('en-US').format(room.basePrice)}/{t.night}
+                  </div>
+                </div>
+                {checkIn && checkOut && !checking && (
+                  <span style={{ 
+                    fontSize: '0.8rem', 
+                    fontWeight: 600, 
+                    color: available ? '#16a34a' : '#dc2626',
+                    backgroundColor: available ? '#dcfce7' : '#fee2e2',
+                    padding: '0.2rem 0.5rem',
+                    borderRadius: '4px'
+                  }}>
+                    {available ? t.available : t.unavailable}
+                  </span>
+                )}
+                {checking && (
+                  <span style={{ fontSize: '0.8rem', color: '#666' }}>...</span>
+                )}
+              </label>
+            );
+          })}
+        </div>
       </div>
 
       <div className={styles.sectionTitle}>{t.section3}</div>
@@ -346,28 +420,35 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
         </div>
       )}
 
-      {totalPrice > 0 && selectedRoom && checkIn && checkOut && (
+      {totalPrice > 0 && selectedRooms.length > 0 && checkIn && checkOut && (
         <div className={styles.financialSummary}>
           <div className={styles.summaryTitle}>{t.summaryTitle}</div>
           
-          <div className={styles.summaryRow}>
-            <span>{selectedRoom.contentName} (L {new Intl.NumberFormat('en-US').format(selectedRoom.basePrice)} x {Math.ceil((new Date(checkOut).getTime() - new Date(checkIn).getTime()) / (1000 * 3600 * 24))} {t.nightsLabel})</span>
-            <span>L {new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(subtotal)}</span>
-          </div>
+          {selectedRooms.map(room => (
+            <div key={room.id} className={styles.summaryRow}>
+              <span>{room.contentName} (L {new Intl.NumberFormat('en-US').format(room.basePrice)} x {Math.ceil((new Date(checkOut).getTime() - new Date(checkIn).getTime()) / (1000 * 3600 * 24))} {t.nightsLabel})</span>
+              <span>L {new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(room.basePrice * Math.ceil((new Date(checkOut).getTime() - new Date(checkIn).getTime()) / (1000 * 3600 * 24)))}</span>
+            </div>
+          ))}
 
           {earlyCheckIn && (
             <div className={styles.summaryRow}>
-              <span>{t.earlyTitle} (10:00 AM - 1:00 PM)</span>
-              <span>L 500.00</span>
+              <span>{t.earlyTitle} (10:00 AM - 1:00 PM) x {numRooms}</span>
+              <span>L {new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(500 * numRooms)}</span>
             </div>
           )}
 
           {lateCheckOut && (
             <div className={styles.summaryRow}>
-              <span>{t.lateTitle} (Hasta 2:00 PM)</span>
-              <span>L 500.00</span>
+              <span>{t.lateTitle} (Hasta 2:00 PM) x {numRooms}</span>
+              <span>L {new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(500 * numRooms)}</span>
             </div>
           )}
+
+          <div className={styles.summaryRow} style={{ borderTop: '1px solid #ddd', paddingTop: '0.5rem', marginTop: '0.5rem' }}>
+            <span>{t.subtotalLabel}</span>
+            <span>L {new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(subtotal + addonsTotal)}</span>
+          </div>
 
           <div className={styles.summaryRow}>
             <span>{t.taxLabel}</span>
@@ -391,7 +472,7 @@ function BookingFormContent({ rooms, lang }: { rooms: any[], lang: string }) {
         <label htmlFor="rulesAccepted">{t.rules}</label>
       </div>
 
-      <button type="submit" className={styles.submitButton} disabled={loading || isAvailable === false || isCheckingAvailability}>
+      <button type="submit" className={styles.submitButton} disabled={loading || selectedRoomIds.length === 0 || isCheckingAvailability}>
         {loading || isCheckingAvailability ? t.processing : t.submit}
       </button>
     </form>

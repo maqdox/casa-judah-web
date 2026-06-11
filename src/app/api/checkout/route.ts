@@ -5,9 +5,9 @@ import { execTrans } from '@/lib/pagadito';
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { roomId, checkIn, checkOut, name, email, phone, paymentMethod, earlyCheckIn, lateCheckOut } = body;
+    const { roomIds, checkIn, checkOut, name, email, phone, paymentMethod, earlyCheckIn, lateCheckOut } = body;
 
-    if (!roomId || !checkIn || !checkOut || !name || !email) {
+    if (!roomIds || !Array.isArray(roomIds) || roomIds.length === 0 || !checkIn || !checkOut || !name || !email) {
       return NextResponse.json({ error: 'Faltan campos requeridos.' }, { status: 400 });
     }
 
@@ -27,18 +27,18 @@ export async function POST(req: NextRequest) {
     // Check availability
     const overlapping = await prisma.reservation.findFirst({
       where: {
-        roomId,
+        roomId: { in: roomIds },
         status: { not: 'CANCELLED' },
         OR: [{ checkInDate: { lte: checkOutDate }, checkOutDate: { gte: checkInDate } }]
       }
     });
 
     if (overlapping) {
-      return NextResponse.json({ error: 'La habitación ya está reservada en esas fechas.' }, { status: 409 });
+      return NextResponse.json({ error: 'Una o más habitaciones ya están reservadas en esas fechas.' }, { status: 409 });
     }
 
-    const room = await prisma.room.findUnique({ where: { id: roomId } });
-    if (!room) {
+    const rooms = await prisma.room.findMany({ where: { id: { in: roomIds } } });
+    if (rooms.length !== roomIds.length) {
       return NextResponse.json({ error: 'Habitación no encontrada.' }, { status: 404 });
     }
 
@@ -48,10 +48,14 @@ export async function POST(req: NextRequest) {
     }
 
     let addonsTotal = 0;
-    if (earlyCheckIn) addonsTotal += 500;
-    if (lateCheckOut) addonsTotal += 500;
+    if (earlyCheckIn) addonsTotal += 500 * rooms.length;
+    if (lateCheckOut) addonsTotal += 500 * rooms.length;
 
-    const subtotal = days * room.basePrice;
+    let subtotal = 0;
+    for (const r of rooms) {
+      subtotal += days * r.basePrice;
+    }
+
     const tax = (subtotal + addonsTotal) * 0.15;
     const totalPrice = subtotal + addonsTotal + tax;
 
@@ -60,24 +64,23 @@ export async function POST(req: NextRequest) {
 
     // Encode booking data in ERN so callback can create the reservation after payment
     const bookingData = {
-      roomId, checkIn, checkOut, name, email, phone, paymentMethod,
+      roomIds, checkIn, checkOut, name, email, phone, paymentMethod,
       totalPrice, paymentAmount, days, earlyCheckIn, lateCheckOut
     };
     const ern = Buffer.from(JSON.stringify(bookingData)).toString('base64url');
 
     // Call Pagadito to get the payment URL (NO reservation created yet)
-    const lineItems = [
-      {
-        quantity: days,
-        description: `${room.contentName} (${days} noches)`,
-        priceInHNL: room.basePrice * 1.15
-      }
-    ];
+    const lineItems = rooms.map(r => ({
+      quantity: days,
+      description: `${r.contentName} (${days} noches)`,
+      priceInHNL: r.basePrice * 1.15
+    }));
+    
     if (earlyCheckIn) {
-      lineItems.push({ quantity: 1, description: 'Early Check-in (10:00 AM - 1:00 PM)', priceInHNL: 500 * 1.15 });
+      lineItems.push({ quantity: rooms.length, description: 'Early Check-in (10:00 AM - 1:00 PM)', priceInHNL: 500 * 1.15 });
     }
     if (lateCheckOut) {
-      lineItems.push({ quantity: 1, description: 'Late Check-out (Hasta 2:00 PM)', priceInHNL: 500 * 1.15 });
+      lineItems.push({ quantity: rooms.length, description: 'Late Check-out (Hasta 2:00 PM)', priceInHNL: 500 * 1.15 });
     }
 
     const redirectUrl = await execTrans(ern, lineItems);
