@@ -66,7 +66,7 @@ export default async function AdminDashboard() {
             <tbody>
               {upcomingCheckins.map(res => (
                 <tr key={res.id}>
-                  <td>{res.checkInDate.toLocaleDateString('es-HN')}</td>
+                  <td>{res.checkInDate.toLocaleDateString('es-HN', { timeZone: 'UTC' })}</td>
                   <td>{res.guest.name} <br/><small>{res.guest.phone}</small></td>
                   <td>{res.room.contentName}</td>
                   <td><span className={`${styles.badge} ${styles[res.status.toLowerCase()]}`}>{res.status}</span></td>

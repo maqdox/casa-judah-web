@@ -41,8 +41,8 @@ export async function updateReservationStatus(id: string, status: string) {
               
               <div style="background-color: #F8F9FA; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #4E583E;">
                 <p style="margin: 5px 0;"><strong>Alojamiento:</strong> ${reservation.room.contentName}</p>
-                <p style="margin: 5px 0;"><strong>Check-in:</strong> ${reservation.checkInDate.toLocaleDateString('es-HN')}</p>
-                <p style="margin: 5px 0;"><strong>Check-out:</strong> ${reservation.checkOutDate.toLocaleDateString('es-HN')}</p>
+                <p style="margin: 5px 0;"><strong>Check-in:</strong> ${reservation.checkInDate.toLocaleDateString('es-HN', { timeZone: 'UTC' })}</p>
+                <p style="margin: 5px 0;"><strong>Check-out:</strong> ${reservation.checkOutDate.toLocaleDateString('es-HN', { timeZone: 'UTC' })}</p>
                 <p style="margin: 5px 0;"><strong>Total Pagado:</strong> L ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(reservation.totalPrice)}</p>
               </div>
 
@@ -262,7 +262,7 @@ export async function updateAmenityReservationStatus(id: string, status: string)
               
               <div style="background-color: #F8F9FA; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #4E583E;">
                 <p style="margin: 5px 0;"><strong>Amenidad:</strong> ${reservation.amenity.title_es}</p>
-                <p style="margin: 5px 0;"><strong>Fecha:</strong> ${reservation.date.toLocaleDateString('es-HN')}</p>
+                <p style="margin: 5px 0;"><strong>Fecha:</strong> ${reservation.date.toLocaleDateString('es-HN', { timeZone: 'UTC' })}</p>
                 <p style="margin: 5px 0;"><strong>Horario:</strong> ${reservation.timeSlot}</p>
                 <p style="margin: 5px 0;"><strong>Invitados:</strong> ${reservation.guests}</p>
                 <p style="margin: 5px 0;"><strong>Total Pagado:</strong> L ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2 }).format(reservation.totalPrice)}</p>

@@ -219,8 +219,8 @@ export default function ReservationFilters({ data, amenities }: { data: UnifiedR
                   </td>
                   <td>{r.itemName}</td>
                   <td>
-                    {new Date(r.dateStart).toLocaleDateString('es-HN')}
-                    {r.dateEnd && <><br/><span className={styles.mutedText}>a {new Date(r.dateEnd).toLocaleDateString('es-HN')}</span></>}
+                    {new Date(r.dateStart).toLocaleDateString('es-HN', { timeZone: 'UTC' })}
+                    {r.dateEnd && <><br/><span className={styles.mutedText}>a {new Date(r.dateEnd).toLocaleDateString('es-HN', { timeZone: 'UTC' })}</span></>}
                     {r.timeSlot && <><br/><span className={styles.mutedText}>{r.timeSlot}</span></>}
                   </td>
                   <td>
