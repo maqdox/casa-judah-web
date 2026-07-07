@@ -36,7 +36,7 @@ export default async function PaquetesPage({ params }: { params: Promise<{ lang:
       id: 'cafe-entre-ovejas',
       title: isEs ? 'Café entre Ovejas' : 'Coffee with Sheep',
       subtitle: '',
-      image: '/CafeOvejas.jpeg',
+      image: '/cafe-ovejas/1.jpg',
       badge: isEs ? 'Experiencia Especial · Paquete' : 'Special Experience · Package',
       includes: [
         { text: isEs ? 'Café artesanal o Té (incluido)' : 'Artisan coffee or Tea (included)' },
