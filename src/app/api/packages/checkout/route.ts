@@ -9,7 +9,7 @@ const PACKAGE_CONFIGS: Record<string, { title_es: string; title_en: string; desc
     desc_es: 'Una tarde para detener el tiempo, entre lana suave y café recién hecho.',
     desc_en: 'An afternoon to pause time, surrounded by soft wool and fresh coffee.',
     imageUrl: '/CafeOvejas.jpeg',
-    price: 450,
+    price: 1170,
     maxCapacity: 10,
   },
   'noche-de-fogata': {
@@ -18,7 +18,7 @@ const PACKAGE_CONFIGS: Record<string, { title_es: string; title_en: string; desc
     desc_es: 'Una noche mágica bajo las estrellas con fogata, malvaviscos y bebidas calientes.',
     desc_en: 'A magical night under the stars with bonfire, marshmallows and hot beverages.',
     imageUrl: '/fogata.jpeg',
-    price: 650,
+    price: 1240,
     maxCapacity: 20,
   },
   // TEST — Remove after Pagadito testing
