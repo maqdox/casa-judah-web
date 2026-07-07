@@ -45,8 +45,8 @@ export default async function ExperiencesPage({ params }: { params: Promise<{ la
     { src: '/experiencia-granja/3.jpg', objectFit: 'cover' },
     { src: '/experiencia-granja/4.jpg', objectFit: 'cover' },
     { src: '/experiencia-granja/5.jpg', objectFit: 'cover' },
-    { src: '/experiencia-granja/6.jpg', objectFit: 'cover' },
     { src: '/experiencia-granja/7.jpg', objectFit: 'cover' },
+    { src: '/experiencia-granja/8.jpg', objectFit: 'cover' },
     { src: '/experiencia-granja/9.jpg', objectFit: 'cover' },
   ];
 
