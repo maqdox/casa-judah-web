@@ -172,7 +172,7 @@ export default function EncuestaPage() {
       <div className={styles.wrapper}>
         <div className={styles.card}>
           <div className={styles.logoWrap}>
-            <Image src="/logo_dark_final.png" alt="Casa Judah" width={80} height={80} className={styles.logo} />
+            <Image src="/logo_dark_final.png" alt="Casa Judah" width={240} height={60} className={styles.logo} />
           </div>
 
           <h1 className={styles.title}>{t.title}</h1>
