@@ -5,6 +5,30 @@ import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import styles from './page.module.css';
 
+const IconCleanliness = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+    <circle cx="12" cy="12" r="3" />
+  </svg>
+);
+
+const IconService = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M18 20H6" />
+    <path d="M12 4C8 4 4 7.58 4 12h16c0-4.42-4-8-8-8z" />
+    <path d="M12 2v2" />
+    <path d="M2 20h20" />
+  </svg>
+);
+
+const IconFood = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2" />
+    <path d="M7 2v20" />
+    <path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7" />
+  </svg>
+);
+
 export default function EncuestaPage() {
   const { lang } = useParams() as { lang: string };
   const isEs = lang === 'es';
@@ -76,13 +100,13 @@ export default function EncuestaPage() {
     onChange, 
     label, 
     description,
-    emoji 
+    icon 
   }: { 
     value: number; 
     onChange: (val: number) => void; 
     label: string;
     description: string;
-    emoji: string;
+    icon: React.ReactNode;
   }) => {
     const getColor = (score: number) => {
       if (score <= 3) return '#e74c3c';
@@ -94,7 +118,7 @@ export default function EncuestaPage() {
     return (
       <div className={styles.ratingSection}>
         <div className={styles.ratingHeader}>
-          <span className={styles.ratingEmoji}>{emoji}</span>
+          <span className={styles.ratingIcon}>{icon}</span>
           <div>
             <h3 className={styles.ratingTitle}>{label}</h3>
             <p className={styles.ratingDesc}>{description}</p>
@@ -160,9 +184,9 @@ export default function EncuestaPage() {
           {error && <div className={styles.error}>{error}</div>}
 
           <form onSubmit={handleSubmit} className={styles.form}>
-            <RatingRow value={cleanliness} onChange={setCleanliness} label={t.cleanliness} description={t.cleanlinessDesc} emoji="✨" />
-            <RatingRow value={service} onChange={setService} label={t.service} description={t.serviceDesc} emoji="🤝" />
-            <RatingRow value={food} onChange={setFood} label={t.food} description={t.foodDesc} emoji="🍽️" />
+            <RatingRow value={cleanliness} onChange={setCleanliness} label={t.cleanliness} description={t.cleanlinessDesc} icon={<IconCleanliness />} />
+            <RatingRow value={service} onChange={setService} label={t.service} description={t.serviceDesc} icon={<IconService />} />
+            <RatingRow value={food} onChange={setFood} label={t.food} description={t.foodDesc} icon={<IconFood />} />
 
             <div className={styles.divider} />
 

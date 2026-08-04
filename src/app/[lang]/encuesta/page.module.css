@@ -80,16 +80,17 @@
   gap: 0.75rem;
 }
 
-.ratingEmoji {
-  font-size: 1.5rem;
-  width: 40px;
-  height: 40px;
+.ratingIcon {
+  width: 42px;
+  height: 42px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #faf8f5;
-  border-radius: 10px;
+  background: linear-gradient(135deg, #f5f0e8, #ede6da);
+  border-radius: 12px;
   flex-shrink: 0;
+  color: #4E583E;
+  border: 1px solid rgba(201, 169, 110, 0.2);
 }
 
 .ratingTitle {
