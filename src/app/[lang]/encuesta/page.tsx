@@ -108,21 +108,20 @@ export default function EncuestaPage() {
     description: string;
     icon: React.ReactNode;
   }) => {
-    const getColor = (score: number) => {
-      if (score <= 3) return '#e74c3c';
-      if (score <= 5) return '#f39c12';
-      if (score <= 7) return '#c9a96e';
-      return '#4E583E';
+    const getDotColor = (dotNumber: number) => {
+      if (dotNumber <= 3) return '#dc3545';
+      if (dotNumber <= 6) return '#f5a623';
+      return '#2e7d32';
     };
 
     return (
       <div className={styles.ratingSection}>
         <div className={styles.ratingHeader}>
-          <span className={styles.ratingIcon}>{icon}</span>
-          <div>
-            <h3 className={styles.ratingTitle}>{label}</h3>
-            <p className={styles.ratingDesc}>{description}</p>
-          </div>
+          <h3 className={styles.ratingTitle}>
+            <span className={styles.ratingIcon}>{icon}</span>
+            {label}
+          </h3>
+          <p className={styles.ratingDesc}>{description}</p>
         </div>
         <div className={styles.dotsRow}>
           {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
@@ -130,7 +129,7 @@ export default function EncuestaPage() {
               key={n}
               type="button"
               className={`${styles.dot} ${value >= n ? styles.dotActive : ''}`}
-              style={value >= n ? { backgroundColor: getColor(value), borderColor: getColor(value) } : {}}
+              style={value >= n ? { backgroundColor: getDotColor(n), borderColor: getDotColor(n) } : {}}
               onClick={() => onChange(n)}
               aria-label={`${label}: ${n}`}
             >
@@ -139,7 +138,7 @@ export default function EncuestaPage() {
           ))}
         </div>
         {value > 0 && (
-          <div className={styles.scoreDisplay} style={{ color: getColor(value) }}>
+          <div className={styles.scoreDisplay} style={{ color: getDotColor(value) }}>
             {value}/10
           </div>
         )}
