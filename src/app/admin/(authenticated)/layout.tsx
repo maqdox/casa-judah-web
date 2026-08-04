@@ -12,7 +12,8 @@ import {
   Image as ImageIcon, 
   Settings, 
   LogOut, 
-  Globe 
+  Globe,
+  Star
 } from 'lucide-react';
 const THEME_MAP: Record<string, { primary: string, accent: string }> = {
   'verde_olivo': { primary: '#4E583E', accent: '#D6BE9B' },
@@ -51,6 +52,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           <Link href="/admin/amenities" className={styles.navLink}><Waves size={18} /> Amenidades</Link>
           <Link href="/admin/content" className={styles.navLink}><FileText size={18} /> Contenido</Link>
           <Link href="/admin/media" className={styles.navLink}><ImageIcon size={18} /> Media</Link>
+          <Link href="/admin/reviews" className={styles.navLink}><Star size={18} /> Reseñas</Link>
           <Link href="/admin/settings" className={styles.navLink}><Settings size={18} /> Ajustes & Tema</Link>
         </nav>
         
