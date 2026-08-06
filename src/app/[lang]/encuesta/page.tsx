@@ -223,7 +223,7 @@ export default function EncuestaPage() {
           </form>
         </div>
 
-        <p className={styles.footer}>Casa Judah Farm Hotel · Copán Ruinas, Honduras</p>
+        <p className={styles.footer}>Casa Judah Farm Hotel</p>
       </div>
     </main>
   );
